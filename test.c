@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:26:15 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/05 17:24:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:16:27 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	test_single_cmd(char *cmd, char **envp)
 {
-	t_exec	exec;
+	t_cmd	exec;
 
 	exec.bin = cmd;
 	exec.args = malloc(sizeof(char *) * 2);
