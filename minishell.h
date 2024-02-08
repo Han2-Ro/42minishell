@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/06 17:54:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/08 15:25:16 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,22 @@
 # define SUCCESS 0
 # define FAILURE -1
 
-typedef enum e_node_type
+typedef struct s_list
 {
-	CMD,
-	PIPE
-}				t_node_type;
-
-typedef struct s_node
-{
-	t_node_type	type;
-	union
-	{
-		t_cmd	cmd;
-		t_pipe	pipe;
-	};
-}				t_node;
+	t_cmd			*cmd;
+	struct s_list	*next;
+}					t_list;
 
 typedef struct s_cmd
 {
-	char		*bin;
-	char		**args;
-	char		**envp;
-}				t_cmd;
+	char			*bin;
+	char			**args;
+	char			**envp;
+	int				fd_in;
+	int				fd_out;
+}					t_cmd;
 
-typedef struct s_pipe
-{
-	t_node		*child1;
-	t_node		*child2;
-}				t_pipe;
-
-int				exec_cmd(const t_cmd exec, int fd_in, int fd_out);
-int				exec_pipe(const t_pipe pipe, int fd_in, int fd_out);
+int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out);
+int					exec_cmd_line(const t_list cmd_list, int fd_in, int fd_out);
 
 #endif

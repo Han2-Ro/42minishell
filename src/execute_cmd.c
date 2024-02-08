@@ -6,23 +6,14 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/06 19:12:13 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/08 15:23:45 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-int	exec_node(t_node *node, int fd_in, int fd_out)
-{
-	if (node->type == CMD)
-		return (exec_cmd(node->cmd, fd_in, fd_out));
-	else if (node->type == PIPE)
-		return (exec_pipe(node->pipe, fd_in, fd_out));
-	return (-1);
-}
-
-int	exec_pipe(const t_pipe pipe_node, int fd_in, int fd_out)
+int	exec_cmd_line(const t_pipe pipe_node, int fd_in, int fd_out)
 {
 	int	pipe_fds[2];
 	int	pids[2];
@@ -35,7 +26,7 @@ int	exec_pipe(const t_pipe pipe_node, int fd_in, int fd_out)
 	waitpid(pids[1], NULL, 0);
 }
 
-int	exec_cmd(const t_cmd exec, int fd_in, int fd_out)
+int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out)
 {
 	int	pid;
 

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:26:15 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/06 17:16:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/08 15:23:09 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	test_single_cmd(char *cmd, char **envp)
 	exec.fd_in = STDIN_FILENO;   // open("in", O_RDONLY);
 	exec.fd_out = STDOUT_FILENO; // open("out", O_WRONLY);
 	printf("in: %d, out: %d\n", exec.fd_in, exec.fd_out);
-	return (exec_cmd(exec));
+	return (exec_single_cmd(exec));
 }
 
 int	main(int argc, char **argv, char **envp)
