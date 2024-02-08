@@ -11,7 +11,7 @@ LIB = minishell.a
 
 TEST_DIR = tests
 TESTS = $(wildcard $(TEST_DIR)/*.c)
-TESTBINS = $(patsubst $(TEST_DIR)/%.c, $(TEST)/bin/%, $(TESTS))
+TESTBINS = $(patsubst $(TEST_DIR)/%.c, $(TEST_DIR)/bin/%, $(TESTS))
 
 $(LIB): $(OBJS)
 	ar rcs $@ $^
