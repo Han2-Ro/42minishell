@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:26:15 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/08 15:23:09 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/08 16:23:40 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -31,6 +31,8 @@ int	test_single_cmd(char *cmd, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	int res = test_single_cmd("/bin/ls", envp);
 	printf("res: %d\n", res);
 	if (res < 0)
