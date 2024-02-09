@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/08 16:18:02 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/09 23:02:04 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_cmd
 	char			*bin;
 	char			**args;
 	char			**envp;
+	int				pid;
 }					t_cmd;
 
 typedef struct s_list
@@ -36,7 +37,12 @@ typedef struct s_list
 }					t_list;
 
 int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out);
-int					exec_cmd_line(const t_list *cmd_list, int fd_in,
-						int fd_out);
+int					exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out);
+
+t_list				*ft_lstnew(t_cmd *cmd);
+t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
+
+void				print_cmd(t_cmd *cmd);
+void				print_list(t_list *lst);
 
 #endif
