@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/09 23:55:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/10 16:04:31 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ int	exec_cmd_line_rec(const t_list *cmd_list, int fd_in, int fd_out)
 		if (pipe(pipe_fds) != 0)
 			return (FAILURE);
 		exec_cmd_line_rec(cmd_list->next, pipe_fds[0], fd_out);
+		cmd_list->cmd->pid = exec_single_cmd(*cmd_list->cmd, fd_in, pipe_fds[1],
+				pipe_fds[0]);
 	}
-	cmd_list->cmd->pid = exec_single_cmd(*cmd_list->cmd, fd_in, pipe_fds[1]);
+	else
+		cmd_list->cmd->pid = exec_single_cmd(*cmd_list->cmd, fd_in, fd_out, 0);
 	return (SUCCESS);
 }
 
@@ -44,7 +47,7 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 	return (SUCCESS);
 }
 
-int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out)
+int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out, int to_close)
 {
 	int	pid;
 
@@ -53,6 +56,7 @@ int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out)
 		return (pid);
 	if (pid == 0)
 	{
+		printf("executing %s, fd_in:%d, fd_out:%d \n", exec.bin, fd_in, fd_out);
 		if (fd_in != STDIN_FILENO)
 		{
 			dup2(fd_in, STDIN_FILENO);
@@ -63,10 +67,13 @@ int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out)
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
+		close(to_close);
 		if (access(exec.bin, X_OK) == 0)
 			execve(exec.bin, exec.args, exec.envp);
 		perror(exec.bin);
 		return (FAILURE);
 	}
+	close(fd_in);
+	close(fd_out);
 	return (pid);
 }

@@ -10,7 +10,7 @@ int	test_stdin_out(char **envp)
 		.args = (char *[]){"ls", "-l", NULL},
 		.envp = envp,
 	};
-	pid = exec_single_cmd(cmd, STDIN_FILENO, STDOUT_FILENO);
+	pid = exec_single_cmd(cmd, STDIN_FILENO, STDOUT_FILENO, 0);
 	waitpid(pid, NULL, 0);
 	return (SUCCESS);
 }
@@ -28,7 +28,7 @@ int	test_filein_out(char **envp)
 	};
 	fd_in = open("in", O_RDONLY);
 	fd_out = open("out", O_WRONLY);
-	pid = exec_single_cmd(cmd, fd_in, fd_out);
+	pid = exec_single_cmd(cmd, fd_in, fd_out, 0);
 	close(fd_in);
 	close(fd_out);
 	waitpid(pid, NULL, 0);

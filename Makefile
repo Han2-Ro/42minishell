@@ -23,10 +23,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(TEST_DIR)/bin:
 	mkdir $@
 
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c
+$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< $(OBJS) -o $@
 
-test: $(LIB) $(TEST_DIR)/bin $(TESTBINS)
+test: $(TESTBINS)
 	for test in $(TESTBINS); do \
 		$$test; \
 	done 
