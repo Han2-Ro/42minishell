@@ -3,31 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/10 16:04:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/11 13:11:20 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-int	exec_cmd_line_rec(const t_list *cmd_list, int fd_in, int fd_out)
+int	exec(const t_cmd cmd)
+{
+}
+
+int	setup_pipe(void)
 {
 	int	pipe_fds[2];
+	int	pid;
 
-	if (cmd_list->next != NULL)
+	if (pipe(pipe_fds) != 0)
+		return (FAILURE);
+	pid = fork();
+	if (pid < 0)
+		return (FAILURE);
+	if (pid == 0)
 	{
-		if (pipe(pipe_fds) != 0)
-			return (FAILURE);
-		exec_cmd_line_rec(cmd_list->next, pipe_fds[0], fd_out);
-		cmd_list->cmd->pid = exec_single_cmd(*cmd_list->cmd, fd_in, pipe_fds[1],
-				pipe_fds[0]);
+		close(pipe_fds[0]);
+		dup2(pipe_fds[1], STDOUT_FILENO);
 	}
 	else
-		cmd_list->cmd->pid = exec_single_cmd(*cmd_list->cmd, fd_in, fd_out, 0);
-	return (SUCCESS);
+	{
+		close(pipe_fds[1]);
+		dup2(pipe_fds[0], STDIN_FILENO);
+	}
+	return (pid);
+}
+
+int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
+{
+	t_list	*tmp;
+	int		pid;
+
+	(void)fd_in;
+	(void)fd_out;
+	tmp = cmd_list;
+	while (tmp != NULL && tmp->next != NULL)
+	{
+		tmp->cmd.pid = setup_pipe();
+		if (tmp->cmd.pid < 0)
+			return (FAILURE);
+		if (tmp->cmd.pid == 0)
+			exec(cmd_list->cmd);
+		tmp = tmp->next;
+	}
+	tmp->cmd.pid = fork();
+	if (tmp->cmd.pid < 0)
+		return (FAILURE);
+	if (tmp->cmd.pid == 0)
+		exec(tmp->cmd);
 }
 
 int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
