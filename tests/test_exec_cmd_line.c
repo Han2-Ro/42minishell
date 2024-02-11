@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_exec_cmd_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/10 16:16:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/11 15:43:47 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	test_2cmds(char **envp)
 		.envp = envp,
 	};
 	t_cmd cmd2 = {
-		.bin = "/bin/cat",
-		.args = (char *[]){"cat", NULL},
+		.bin = "/bin/grep",
+		.args = (char *[]){"grep", "d", NULL},
 		.envp = envp,
 	};
 	cmd_list = ft_lstadd(&cmd_list, &cmd1);
@@ -40,6 +40,7 @@ int	test_3cmds(char **envp)
 {
 	t_list	*cmd_list;
 
+	cmd_list = NULL;
 	t_cmd cmd1 = {
 		.bin = "/bin/ls",
 		.args = (char *[]){"ls", "-l", NULL},

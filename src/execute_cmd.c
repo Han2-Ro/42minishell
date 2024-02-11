@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/11 13:11:20 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:38:37 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 int	exec(const t_cmd cmd)
 {
+	if (access(cmd.bin, X_OK) == 0)
+		execve(cmd.bin, cmd.args, cmd.envp);
+	perror(cmd.bin);
+	return (FAILURE);
 }
 
 int	setup_pipe(void)
@@ -40,37 +44,10 @@ int	setup_pipe(void)
 	return (pid);
 }
 
-int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
-{
-	t_list	*tmp;
-	int		pid;
-
-	(void)fd_in;
-	(void)fd_out;
-	tmp = cmd_list;
-	while (tmp != NULL && tmp->next != NULL)
-	{
-		tmp->cmd.pid = setup_pipe();
-		if (tmp->cmd.pid < 0)
-			return (FAILURE);
-		if (tmp->cmd.pid == 0)
-			exec(cmd_list->cmd);
-		tmp = tmp->next;
-	}
-	tmp->cmd.pid = fork();
-	if (tmp->cmd.pid < 0)
-		return (FAILURE);
-	if (tmp->cmd.pid == 0)
-		exec(tmp->cmd);
-}
-
-int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
+int	wait_pids(t_list *cmd_list)
 {
 	t_list	*tmp;
 
-	if (exec_cmd_line_rec(cmd_list, fd_in, fd_out) != SUCCESS)
-		return (FAILURE);
-	print_list(cmd_list);
 	tmp = cmd_list;
 	while (tmp != NULL)
 	{
@@ -78,6 +55,31 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 		waitpid(tmp->cmd->pid, NULL, 0);
 		tmp = tmp->next;
 	}
+	return (SUCCESS);
+}
+
+int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
+{
+	t_list	*tmp;
+
+	(void)fd_in;
+	(void)fd_out;
+	tmp = cmd_list;
+	while (tmp != NULL && tmp->next != NULL)
+	{
+		tmp->cmd->pid = setup_pipe();
+		if (tmp->cmd->pid < 0)
+			return (FAILURE);
+		if (tmp->cmd->pid == 0)
+			exec(*tmp->cmd);
+		tmp = tmp->next;
+	}
+	tmp->cmd->pid = fork();
+	if (tmp->cmd->pid < 0)
+		return (FAILURE);
+	if (tmp->cmd->pid == 0)
+		exec(*tmp->cmd);
+	wait_pids(cmd_list);
 	return (SUCCESS);
 }
 
