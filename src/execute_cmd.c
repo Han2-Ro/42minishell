@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/11 15:38:37 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:04:07 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ int	setup_pipe(void)
 	{
 		close(pipe_fds[0]);
 		dup2(pipe_fds[1], STDOUT_FILENO);
+		close(pipe_fds[1]);
 	}
 	else
 	{
 		close(pipe_fds[1]);
 		dup2(pipe_fds[0], STDIN_FILENO);
+		close(pipe_fds[0]);
 	}
 	return (pid);
 }
