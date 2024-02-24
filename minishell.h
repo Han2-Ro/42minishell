@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/10 16:02:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/24 21:35:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+# define RED "\x1b[31m"
+# define GREEN "\x1b[32m"
+# define RESET_COLOR "\x1b[0m"
 
 # define SUCCESS 0
 # define FAILURE -1
