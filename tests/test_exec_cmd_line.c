@@ -6,12 +6,12 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 14:30:12 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/25 15:03:39 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
+#include "run_test.c"
 
 int	test_1cmd(char **envp)
 {
@@ -80,19 +80,6 @@ int	test_3cmds(char **envp)
 	print_list(cmd_list);
 	result = exec_cmd_line(cmd_list, STDIN_FILENO, STDOUT_FILENO);
 	destroy_list(cmd_list);
-	return (result);
-}
-
-int	run_test(char *name, int (*test)(char **), char **envp)
-{
-	int	result;
-
-	printf("\n%s\n", name);
-	result = test(envp);
-	if (result == SUCCESS)
-		printf(GREEN "SUCCESS\n" RESET_COLOR);
-	else
-		printf(RED "FAILURE\n" RESET_COLOR);
 	return (result);
 }
 
