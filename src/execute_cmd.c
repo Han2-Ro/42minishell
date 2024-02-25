@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/11 16:04:07 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/25 13:50:39 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	setup_pipe(void)
 
 	if (pipe(pipe_fds) != 0)
 		return (FAILURE);
+	fprintf(stderr, "pipe_fds[0]: %d, pipe_fds[1]: %d\n", pipe_fds[0],
+		pipe_fds[1]);
 	pid = fork();
 	if (pid < 0)
 		return (FAILURE);
@@ -66,6 +68,7 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 
 	(void)fd_in;
 	(void)fd_out;
+	printf("fd_in: %d, fd_out: %d\n", fd_in, fd_out);
 	tmp = cmd_list;
 	while (tmp != NULL && tmp->next != NULL)
 	{
