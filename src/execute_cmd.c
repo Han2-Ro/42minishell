@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 13:50:39 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/25 23:52:37 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,45 @@ int	wait_pids(t_list *cmd_list)
 	tmp = cmd_list;
 	while (tmp != NULL)
 	{
-		printf("waiting for pid: %d\n", tmp->cmd->pid);
+		fprintf(stderr, "waiting for pid: %d\n", tmp->cmd->pid);
 		waitpid(tmp->cmd->pid, NULL, 0);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
 
+int	setup_io(int fd_in, int fd_out)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+		return (FAILURE);
+	if (pid > 0)
+	{
+		waitpid(pid, NULL, 0);
+		return (pid);
+	}
+	if (fd_in != STDIN_FILENO)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (fd_out != STDOUT_FILENO)
+	{
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+	return (pid);
+}
+
 int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 {
 	t_list	*tmp;
 
-	(void)fd_in;
-	(void)fd_out;
 	printf("fd_in: %d, fd_out: %d\n", fd_in, fd_out);
+	if (setup_io(fd_in, fd_out) > 0)
+		return (SUCCESS);
 	tmp = cmd_list;
 	while (tmp != NULL && tmp->next != NULL)
 	{
@@ -85,6 +110,7 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 	if (tmp->cmd->pid == 0)
 		exec(*tmp->cmd);
 	wait_pids(cmd_list);
+	exit(0);
 	return (SUCCESS);
 }
 
