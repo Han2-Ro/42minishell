@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 15:03:39 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/25 23:27:09 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,30 @@ int	test_3cmds(char **envp)
 	return (result);
 }
 
+int	test_rw_file(char **envp)
+{
+	t_list	*cmd_list;
+	int		result;
+	int		in;
+	int		out;
+
+	cmd_list = NULL;
+	t_cmd cmd1 = {
+		.bin = "/bin/grep",
+		.args = (char *[]){"grep", "test", NULL},
+		.envp = envp,
+	};
+	cmd_list = ft_lstadd(&cmd_list, &cmd1);
+	print_list(cmd_list);
+	in = open("in", O_RDONLY);
+	out = open("out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	result = exec_cmd_line(cmd_list, in, out);
+	close(in);
+	close(out);
+	destroy_list(cmd_list);
+	return (result);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -91,5 +115,6 @@ int	main(int argc, char **argv, char **envp)
 	run_test("test_1cmd", test_1cmd, envp);
 	run_test("test_2cmds", test_2cmds, envp);
 	run_test("test_3cmds", test_3cmds, envp);
+	run_test("test_rw_file", test_rw_file, envp);
 	printf("------------ done ------------\n");
 }
