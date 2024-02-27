@@ -1,18 +1,19 @@
 CC=cc
 CFLAGS = -Wall -Wextra -Werror -g
+RM = rm -rf
+
 SRC_DIR = src
 OBJ_DIR = obj
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-NAME = minishell
-RM = rm -rf
 
+NAME = minishell
 LIB = minishell.a
 
 TEST_DIR = tests
 TESTS = $(wildcard $(TEST_DIR)/*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
-TEST_UTILS = $(TEST_DIR)/run_test.c #$(wildcard $(TEST_DIR)/utils/*.c)
+TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
 all: $(LIB)
 
@@ -26,11 +27,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(TEST_DIR)/bin:
 	mkdir $@
 
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
+$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(OBJS) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< $(OBJS) -o $@
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
-test: re $(TESTBINS)
+test: fclean $(TESTBINS)
 	for test in $(TESTBINS); do \
 		$$test; \
 	done 
