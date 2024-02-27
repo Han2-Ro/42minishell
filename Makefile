@@ -14,6 +14,8 @@ TESTS = $(wildcard $(TEST_DIR)/*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
 TEST_UTILS = $(TEST_DIR)/run_test.c #$(wildcard $(TEST_DIR)/utils/*.c)
 
+all: $(LIB)
+
 $(LIB): $(OBJS)
 	ar rcs $@ $^
 
@@ -27,7 +29,8 @@ $(TEST_DIR)/bin:
 $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< $(OBJS) -o $@
 
-test: $(TESTBINS)
+test: CFLAGS += -DLOG_LEVEL=DEBUG
+test: re $(TESTBINS)
 	for test in $(TESTBINS); do \
 		$$test; \
 	done 

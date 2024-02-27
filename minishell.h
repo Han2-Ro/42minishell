@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/27 22:50:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/27 23:29:23 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # define SUCCESS 0
 # define FAILURE -1
 
-# define LOG_LEVEL DEBUG
+# ifndef LOG_LEVEL
+#  define LOG_LEVEL INFO
+# endif
 
 typedef enum log_level
 {
