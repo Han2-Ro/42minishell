@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 23:52:37 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/27 23:00:38 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	exec(const t_cmd cmd)
 {
+	log_msg(INFO, "executing %s", cmd.bin);
 	if (access(cmd.bin, X_OK) == 0)
 		execve(cmd.bin, cmd.args, cmd.envp);
 	perror(cmd.bin);
@@ -28,7 +29,7 @@ int	setup_pipe(void)
 
 	if (pipe(pipe_fds) != 0)
 		return (FAILURE);
-	fprintf(stderr, "pipe_fds[0]: %d, pipe_fds[1]: %d\n", pipe_fds[0],
+	log_msg(DEBUG, "pipe_fds[0]: %d, pipe_fds[1]: %d", pipe_fds[0],
 		pipe_fds[1]);
 	pid = fork();
 	if (pid < 0)
@@ -55,7 +56,7 @@ int	wait_pids(t_list *cmd_list)
 	tmp = cmd_list;
 	while (tmp != NULL)
 	{
-		fprintf(stderr, "waiting for pid: %d\n", tmp->cmd->pid);
+		log_msg(DEBUG, "waiting for pid: %d", tmp->cmd->pid);
 		waitpid(tmp->cmd->pid, NULL, 0);
 		tmp = tmp->next;
 	}
@@ -91,7 +92,7 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 {
 	t_list	*tmp;
 
-	printf("fd_in: %d, fd_out: %d\n", fd_in, fd_out);
+	log_msg(DEBUG, "fd_in: %d, fd_out: %d", fd_in, fd_out);
 	if (setup_io(fd_in, fd_out) > 0)
 		return (SUCCESS);
 	tmp = cmd_list;
@@ -123,7 +124,8 @@ int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out, int to_close)
 		return (pid);
 	if (pid == 0)
 	{
-		printf("executing %s, fd_in:%d, fd_out:%d \n", exec.bin, fd_in, fd_out);
+		log_msg(DEBUG, "executing %s, fd_in:%d, fd_out:%d", exec.bin, fd_in,
+			fd_out);
 		if (fd_in != STDIN_FILENO)
 		{
 			dup2(fd_in, STDIN_FILENO);
