@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 15:14:42 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:17:10 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	setup_io(int fd_in, int fd_out)
 
 int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 {
+	t_list	*tmp;
+
 	log_msg(DEBUG, "fd_in: %d, fd_out: %d", fd_in, fd_out);
 	if (setup_io(fd_in, fd_out) > 0)
 		return (SUCCESS);

@@ -32,9 +32,11 @@ $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(OBJS) $(TEST_DIR)/bin
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
 test: fclean $(TESTBINS)
+	exit_code=0; \
 	for test in $(TESTBINS); do \
-		$$test; \
-	done 
+		$$test || exit_code=1; \
+	done; \
+	exit $$exit_code
 
 clean:
 	$(RM) $(OBJ_DIR)
