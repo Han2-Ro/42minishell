@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 14:57:06 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/27 23:29:23 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include <errno.h>
 # include <fcntl.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -26,6 +27,18 @@
 
 # define SUCCESS 0
 # define FAILURE -1
+
+# ifndef LOG_LEVEL
+#  define LOG_LEVEL INFO
+# endif
+
+typedef enum log_level
+{
+	ERROR,
+	WARNING,
+	INFO,
+	DEBUG,
+}					t_log_level;
 
 typedef struct s_cmd
 {
@@ -51,5 +64,7 @@ void				destroy_list(t_list *lst);
 
 void				print_cmd(t_cmd *cmd);
 void				print_list(t_list *lst);
+
+int					log_msg(t_log_level level, char *msg, ...);
 
 #endif

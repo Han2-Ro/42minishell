@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_test.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/02/25 14:56:24 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/27 23:48:27 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	run_test(char *name, int (*test)(char **), char **envp)
 {

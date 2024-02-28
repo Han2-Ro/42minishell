@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   test_exec_cmd_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/25 23:27:09 by hannes           ###   ########.fr       */
+/*   Updated: 2024/02/27 23:48:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "run_test.c"
+#include "utils/run_test.c"
 
 int	test_1cmd(char **envp)
 {

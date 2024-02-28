@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:59:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/10 15:58:24 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/27 22:58:35 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	destroy_list(t_list *lst)
 {
 	t_list	*tmp;
 
-	printf("destroying list\n");
+	log_msg(DEBUG, "destroying list");
 	while (lst != NULL)
 	{
 		tmp = lst;
