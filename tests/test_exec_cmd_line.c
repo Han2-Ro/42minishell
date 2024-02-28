@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 17:26:49 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 19:08:03 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	test_1cmd(char **envp)
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
 				NULL}, envp));
 	print_list(cmd_list);
-	exec_cmd_line(cmd_list, STDIN_FILENO, STDOUT_FILENO);
+	exec_cmd_list(cmd_list, STDIN_FILENO, STDOUT_FILENO);
 	destroy_list(cmd_list);
 	return (SUCCESS);
 }
@@ -36,7 +36,7 @@ int	test_2cmds(char **envp)
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep", "d",
 				NULL}, envp));
 	print_list(cmd_list);
-	exec_cmd_line(cmd_list, STDIN_FILENO, STDOUT_FILENO);
+	exec_cmd_list(cmd_list, STDIN_FILENO, STDOUT_FILENO);
 	destroy_list(cmd_list);
 	return (SUCCESS);
 }
@@ -54,7 +54,7 @@ int	test_3cmds(char **envp)
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/wc", (char *[]){"wc", "-l",
 				NULL}, envp));
 	print_list(cmd_list);
-	result = exec_cmd_line(cmd_list, STDIN_FILENO, STDOUT_FILENO);
+	result = exec_cmd_list(cmd_list, STDIN_FILENO, STDOUT_FILENO);
 	destroy_list(cmd_list);
 	return (result);
 }
@@ -72,7 +72,7 @@ int	test_rw_file(char **envp)
 	print_list(cmd_list);
 	in = open("in", O_RDONLY);
 	out = open("out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	result = exec_cmd_line(cmd_list, in, out);
+	result = exec_cmd_list(cmd_list, in, out);
 	close(in);
 	close(out);
 	destroy_list(cmd_list);
