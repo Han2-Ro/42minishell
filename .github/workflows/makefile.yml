@@ -1,0 +1,22 @@
+name: Makefile CI
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: compile
+      run: make
+
+    - name: test
+      run: make test
