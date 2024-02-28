@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/27 23:29:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:18:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_cmd
 
 typedef struct s_list
 {
-	t_cmd			*cmd;
+	t_cmd *cmd; // consider not using a pointer, so we don't have to malloc
 	struct s_list	*next;
 }					t_list;
 
@@ -66,5 +66,6 @@ void				print_cmd(t_cmd *cmd);
 void				print_list(t_list *lst);
 
 int					log_msg(t_log_level level, char *msg, ...);
+t_cmd				*new_cmd(char *bin, char **args, char **envp);
 
 #endif
