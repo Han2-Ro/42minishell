@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 17:15:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 20:43:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	setup_io(int fd_in, int fd_out)
 	return (pid);
 }
 
-int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
+int	exec_cmd_list(t_list *cmd_list, int fd_in, int fd_out)
 {
 	t_list	*tmp;
 	t_cmd	cmd;
@@ -123,6 +123,42 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 	destroy_list(cmd_list);
 	exit(0);
 	return (FAILURE);
+}
+
+int	exec_cmd_line(t_list *cmd_list, const char *in_file, const char *out_file)
+{
+	int	fd_in;
+	int	fd_out;
+
+	if (in_file != NULL)
+	{
+		fd_in = open(in_file, O_RDONLY);
+		if (fd_in < 0)
+		{
+			log_msg(ERROR, "%s: %s", strerror(errno), in_file);
+			return (FAILURE);
+		}
+	}
+	else
+		fd_in = STDIN_FILENO;
+	if (out_file != NULL)
+	{
+		fd_out = open(out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd_out < 0)
+		{
+			close(fd_in);
+			log_msg(ERROR, "%s: %s", strerror(errno), out_file);
+			return (FAILURE);
+		}
+	}
+	else
+		fd_out = STDOUT_FILENO;
+	exec_cmd_list(cmd_list, fd_in, fd_out);
+	if (fd_in != STDIN_FILENO)
+		close(fd_in);
+	if (fd_out != STDOUT_FILENO)
+		close(fd_out);
+	return (SUCCESS);
 }
 
 int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out, int to_close)
