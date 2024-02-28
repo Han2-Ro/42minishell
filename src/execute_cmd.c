@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 19:26:07 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 20:43:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	exec_cmd_line(t_list *cmd_list, const char *in_file, const char *out_file)
 		fd_in = open(in_file, O_RDONLY);
 		if (fd_in < 0)
 		{
-			log_msg(ERROR, "%s: %s", strerror(errno), out_file);
+			log_msg(ERROR, "%s: %s", strerror(errno), in_file);
 			return (FAILURE);
 		}
 	}
