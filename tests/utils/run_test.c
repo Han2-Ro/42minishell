@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/02/27 23:48:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 15:21:57 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ int	run_test(char *name, int (*test)(char **), char **envp)
 	}
 	waitpid(pid, &result, 0);
 	if (WIFEXITED(result) && WEXITSTATUS(result) == 0)
+	{
 		printf(GREEN "SUCCESS\n" RESET_COLOR);
+		return (SUCCESS);
+	}
 	else
+	{
 		printf(RED "FAILURE\n" RESET_COLOR);
-	return (result);
+		return (FAILURE);
+	}
 }

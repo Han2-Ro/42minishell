@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/27 23:48:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 16:09:49 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	test_3cmds(char **envp)
 	cmd_list = ft_lstadd(&cmd_list, &cmd3);
 	print_list(cmd_list);
 	result = exec_cmd_line(cmd_list, STDIN_FILENO, STDOUT_FILENO);
-	destroy_list(cmd_list);
+	// destroy_list(cmd_list);
 	return (result);
 }
 
@@ -103,18 +103,22 @@ int	test_rw_file(char **envp)
 	result = exec_cmd_line(cmd_list, in, out);
 	close(in);
 	close(out);
-	destroy_list(cmd_list);
+	// destroy_list(cmd_list);
 	return (result);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
+	int result = SUCCESS;
 	(void)argc;
 	(void)argv;
+
 	printf("\n-------- %s --------\n", argv[0]);
-	run_test("test_1cmd", test_1cmd, envp);
-	run_test("test_2cmds", test_2cmds, envp);
-	run_test("test_3cmds", test_3cmds, envp);
-	run_test("test_rw_file", test_rw_file, envp);
+	result |= run_test("test_1cmd", test_1cmd, envp);
+	result |= run_test("test_2cmds", test_2cmds, envp);
+	result |= run_test("test_3cmds", test_3cmds, envp);
+	result |= run_test("test_rw_file", test_rw_file, envp);
+	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
+	return (result != SUCCESS);
 }
