@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:29:23 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 21:10:44 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 21:29:03 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	test_no_perm_outfile(char **envp)
 			"tests/files/no_perm");
 	destroy_list(cmd_list);
 	// return (return_value != FAILURE);
+	(void)return_value;
 	return (SUCCESS); // bypass the test, because it doesn't work on gh actions
 }
 
