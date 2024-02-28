@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 15:17:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/02/28 17:15:14 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	setup_io(int fd_in, int fd_out)
 int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 {
 	t_list	*tmp;
+	t_cmd	cmd;
 
 	log_msg(DEBUG, "fd_in: %d, fd_out: %d", fd_in, fd_out);
 	if (setup_io(fd_in, fd_out) > 0)
@@ -102,17 +103,26 @@ int	exec_cmd_line(t_list *cmd_list, int fd_in, int fd_out)
 		if (tmp->cmd->pid < 0)
 			return (FAILURE);
 		if (tmp->cmd->pid == 0)
-			exec(*tmp->cmd);
+		{
+			cmd = *tmp->cmd;
+			destroy_list(cmd_list);
+			exec(cmd);
+		}
 		tmp = tmp->next;
 	}
 	tmp->cmd->pid = fork();
 	if (tmp->cmd->pid < 0)
 		return (FAILURE);
 	if (tmp->cmd->pid == 0)
-		exec(*tmp->cmd);
+	{
+		cmd = *tmp->cmd;
+		destroy_list(cmd_list);
+		exec(cmd);
+	}
 	wait_pids(cmd_list);
+	destroy_list(cmd_list);
 	exit(0);
-	return (SUCCESS);
+	return (FAILURE);
 }
 
 int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out, int to_close)
