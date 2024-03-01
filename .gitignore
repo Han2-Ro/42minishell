@@ -2,3 +2,4 @@
 *.a
 obj
 /tests/bin
+*.o
