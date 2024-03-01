@@ -15,7 +15,11 @@ TESTS = $(wildcard $(TEST_DIR)/*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
 TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
-all: $(LIB)
+all: $(LIB) $(NAME)
+
+$(NAME):
+	make -C ./libft
+	$(CC) $(CFLAGS) $(SRCS) -L./libft -lft -o $(NAME)
 
 $(LIB): $(OBJS)
 	make -C ./libft
