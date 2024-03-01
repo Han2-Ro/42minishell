@@ -6,12 +6,14 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 19:27:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/01 14:01:40 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdarg.h>

@@ -8,7 +8,7 @@ SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 NAME = minishell
-LIB = minishell.a
+LIB = libminishell.a
 
 TEST_DIR = tests
 TESTS = $(wildcard $(TEST_DIR)/*.c)
@@ -18,6 +18,7 @@ TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 all: $(LIB)
 
 $(LIB): $(OBJS)
+	make -C ./libft
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
@@ -27,8 +28,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(TEST_DIR)/bin:
 	mkdir $@
 
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(OBJS) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< $(OBJS) -o $@
+$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
+	$(CC) $(CFLAGS) $< $(OBJS) -o $@ -L. -lminishell  -L./libft -lft
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
 test: fclean $(TESTBINS)
@@ -39,9 +40,11 @@ test: fclean $(TESTBINS)
 	exit $$exit_code
 
 clean:
+	make clean -C ./libft
 	$(RM) $(OBJ_DIR)
 
 fclean: clean
+	make fclean -C ./libft
 	$(RM) $(NAME)
 
 re: fclean all

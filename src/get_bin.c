@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/01 13:46:29 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/01 14:04:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ char	*path_to_bin(char **folders, char *cmd)
 		free(path);
 		folders++;
 	}
-	ft_printf("%s: command not found\n", cmd);
+	log_msg(ERROR, "%s: command not found\n", cmd);
 	return (NULL);
 }
