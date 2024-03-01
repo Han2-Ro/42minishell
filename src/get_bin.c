@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/01 15:12:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:36:36 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**getpath(char **envp)
+char	**get_paths(char **envp)
 {
 	while (*envp != NULL)
 	{

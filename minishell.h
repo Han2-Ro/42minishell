@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/01 15:29:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/01 15:51:57 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define FAILURE -1
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL INFO
+#  define LOG_LEVEL WARNING
 # endif
 
 typedef enum log_level
@@ -64,7 +64,7 @@ int					exec_cmd_line(t_list *cmd_list, const char *in_file,
 
 int					run_cmd(const char *cmd, char *envp[]);
 
-char				**getpath(char **envp);
+char				**get_paths(char **envp);
 char				*path_to_bin(char **folders, char *cmd);
 
 t_list				*ft_lstnew(t_cmd *cmd);

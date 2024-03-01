@@ -17,7 +17,7 @@ TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
 all: $(LIB) $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 	make -C ./libft
 	$(CC) $(CFLAGS) $(SRCS) -L./libft -lft -o $(NAME)
 
