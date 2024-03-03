@@ -1,3 +1,4 @@
+mkdir -p tests/files
 echo "test
 This is a tet file
 abcdefg
