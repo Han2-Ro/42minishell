@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 17:25:07 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:12:53 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define FAILURE -1
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL WARNING
+#  define LOG_LEVEL DEBUG
 # endif
 
 typedef enum log_level
