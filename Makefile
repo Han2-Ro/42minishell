@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -g #-Wall -Wextra -Werror -g
 RM = rm -rf
 
 SRC_DIR = src
@@ -15,11 +15,11 @@ TESTS = $(wildcard $(TEST_DIR)/*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
 TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
-all: $(LIB) $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C ./libft
-	$(CC) $(CFLAGS) $(SRCS) -L./libft -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L. -L./libft -lft -lreadline -o $(NAME)
 
 $(LIB): $(OBJS)
 	make -C ./libft
