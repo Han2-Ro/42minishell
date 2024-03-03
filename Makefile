@@ -37,10 +37,12 @@ $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
 test: fclean $(TESTBINS)
+	./$(TEST_DIR)/setup.sh; \
 	exit_code=0; \
 	for test in $(TESTBINS); do \
 		$$test || exit_code=1; \
 	done; \
+	./$(TEST_DIR)/teardown.sh; \
 	exit $$exit_code
 
 clean:
