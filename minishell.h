@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/01 15:51:57 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/03 16:28:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 
 # define RED "\x1b[31m"
+# define YELLOW "\x1b[33m"
 # define GREEN "\x1b[32m"
 # define RESET_COLOR "\x1b[0m"
 
