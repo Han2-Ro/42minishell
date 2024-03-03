@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:29:23 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 16:46:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:21:26 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,7 @@ int	test_no_perm_outfile(char **envp)
 	return_value = exec_cmd_line(cmd_list, "tests/files/in",
 			"tests/files/no_perm");
 	destroy_list(cmd_list);
-#ifndef GITHUB_ACTIONS
 	return (return_value == SUCCESS);
-#else
-	(void)return_value;
-	printf(YELLOW "WARNING: this test is bypassed\n" RESET_COLOR);
-	return (SUCCESS); // bypass the test, because it doesn't work on gh actions
-#endif
 }
 
 int	main(int argc, char **argv, char **envp)
