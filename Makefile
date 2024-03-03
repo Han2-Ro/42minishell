@@ -33,7 +33,7 @@ $(TEST_DIR)/bin:
 	mkdir $@
 
 $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< $(OBJS) -o $@ -L. -lminishell  -L./libft -lft
+	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell  -L./libft -lft
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
 test: fclean $(TESTBINS)
