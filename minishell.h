@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 16:23:13 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/03 17:25:07 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,15 @@ t_list				*ft_lstnew(t_cmd *cmd);
 t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
 void				destroy_list(t_list *lst);
 
+// print_structs.c
 void				print_cmd(t_cmd *cmd);
 void				print_list(t_list *lst);
 
+// log.c
 int					log_msg(t_log_level level, char *msg, ...);
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
+
+// loop.c
+int					shell_loop(char *envp[]);
 
 #endif
