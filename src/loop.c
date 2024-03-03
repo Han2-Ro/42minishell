@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 17:28:26 by aprevrha         ###   ########.fr       */
+/*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
+/*   Updated: 2024/03/03 17:27:42 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	main(int argc, char const *argv[], char *envp[])
+int	shell_loop(char *envp[])
 {
-	(void)argc;
-	shell_loop(envp);
-	return (0);
+	char *line;
+	char *prompt;
+
+	prompt = "ms>";
+
+	while (1)
+	{
+		line = readline(prompt);
+		log_msg(DEBUG, "Inputed line: %s\n", line);
+		run_cmd(line, envp);
+	}
 }
