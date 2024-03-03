@@ -2,5 +2,6 @@
 *.a
 obj
 /tests/bin
+/tests/files
 *.o
 minishell
