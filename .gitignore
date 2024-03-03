@@ -3,3 +3,4 @@
 obj
 /tests/bin
 *.o
+minishell
