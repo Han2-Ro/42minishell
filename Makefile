@@ -15,7 +15,11 @@ TESTS = $(wildcard $(TEST_DIR)/*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
 TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
-all: $(LIB)
+all: $(LIB) $(NAME)
+
+$(NAME): $(OBJS)
+	make -C ./libft
+	$(CC) $(CFLAGS) $(SRCS) -L./libft -lft -o $(NAME)
 
 loop: $(NAME)
 
@@ -35,7 +39,7 @@ $(TEST_DIR)/bin:
 	mkdir $@
 
 $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< $(OBJS) -o $@ -L. -lminishell  -L./libft -lft
+	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell  -L./libft -lft
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
 test: fclean $(TESTBINS)
