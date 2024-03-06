@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/02/28 15:21:57 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:57:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	run_test(char *name, int (*test)(char **), char **envp)
 	int	result;
 	int	pid;
 
-	printf("\n%s\n", name);
+	printf("\n------%s------\n", name);
 	pid = fork();
 	if (pid == 0)
 	{
