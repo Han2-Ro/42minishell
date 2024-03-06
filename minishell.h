@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 19:12:53 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:44:16 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int					exec_cmd_line(t_list *cmd_list, const char *in_file,
 int					run_cmd(const char *cmd, char *envp[]);
 
 char				**get_paths(char **envp);
-char				*path_to_bin(char **folders, char *cmd);
+char				*path_to_bin(char *cmd);
 
 t_list				*ft_lstnew(t_cmd *cmd);
 t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
