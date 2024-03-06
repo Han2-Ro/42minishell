@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/28 20:43:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/04 13:49:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec(const t_cmd cmd)
 {
 	log_msg(INFO, "executing %s", cmd.bin);
 	if (access(cmd.bin, X_OK) == 0)
-		execve(cmd.bin, cmd.args, cmd.envp);
+		execve(cmd.bin, cmd.args, __environ);
 	perror(cmd.bin);
 	return (FAILURE);
 }
@@ -159,36 +159,4 @@ int	exec_cmd_line(t_list *cmd_list, const char *in_file, const char *out_file)
 	if (fd_out != STDOUT_FILENO)
 		close(fd_out);
 	return (SUCCESS);
-}
-
-int	exec_single_cmd(const t_cmd exec, int fd_in, int fd_out, int to_close)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid < 0)
-		return (pid);
-	if (pid == 0)
-	{
-		log_msg(DEBUG, "executing %s, fd_in:%d, fd_out:%d", exec.bin, fd_in,
-			fd_out);
-		if (fd_in != STDIN_FILENO)
-		{
-			dup2(fd_in, STDIN_FILENO);
-			close(fd_in);
-		}
-		if (fd_out != STDOUT_FILENO)
-		{
-			dup2(fd_out, STDOUT_FILENO);
-			close(fd_out);
-		}
-		close(to_close);
-		if (access(exec.bin, X_OK) == 0)
-			execve(exec.bin, exec.args, exec.envp);
-		perror(exec.bin);
-		return (FAILURE);
-	}
-	close(fd_in);
-	close(fd_out);
-	return (pid);
 }
