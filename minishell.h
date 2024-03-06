@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 17:08:20 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 17:37:20 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
+
+void				free_env(void *content);
+void				print_env(void *content);
+t_list				*envp_to_list(char **envp);
 
 // print_structs.c
 void				print_cmd(t_cmd *cmd);
