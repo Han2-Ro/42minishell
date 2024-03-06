@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/04 13:44:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 17:37:20 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,29 @@ typedef enum log_level
 	DEBUG,
 }					t_log_level;
 
+typedef struct s_env
+{
+	char			*value;
+}					t_env;
+
+typedef struct s_redirects
+{
+	char			*filename;
+}					t_redirects;
+
 typedef struct s_cmd
 {
 	char			*bin;
 	char			**args;
 	char			**envp;
+	t_redirects		*in;
+	t_redirects		*out;
 	int				pid;
 }					t_cmd;
 
 typedef struct s_list
 {
-	t_cmd *cmd; // consider not using a pointer, so we don't have to malloc
+	void			*content;
 	struct s_list	*next;
 }					t_list;
 
@@ -70,9 +82,23 @@ int					run_cmd(const char *cmd, char *envp[]);
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
 
-t_list				*ft_lstnew(t_cmd *cmd);
+t_list				*ft_lstnew_old(t_cmd *cmd);
 t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
 void				destroy_list(t_list *lst);
+void				ft_lstadd_back(t_list **lst, t_list *new);
+void				ft_lstadd_front(t_list **lst, t_list *new);
+void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstdelone(t_list *lst, void (*del)(void *));
+void				ft_lstiter(t_list *lst, void (*f)(void *));
+t_list				*ft_lstlast(t_list *lst);
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
+t_list				*ft_lstnew(void *content);
+int					ft_lstsize(t_list *lst);
+
+void				free_env(void *content);
+void				print_env(void *content);
+t_list				*envp_to_list(char **envp);
 
 // print_structs.c
 void				print_cmd(t_cmd *cmd);

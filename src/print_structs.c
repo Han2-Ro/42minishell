@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/02/09 23:09:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 17:09:38 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_list(t_list *lst)
 {
 	while (lst != NULL)
 	{
-		print_cmd(lst->cmd);
+		print_cmd((t_cmd *)lst->content);
 		lst = lst->next;
 	}
 }

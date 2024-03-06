@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/04 13:49:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 17:02:26 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	wait_pids(t_list *cmd_list)
 	tmp = cmd_list;
 	while (tmp != NULL)
 	{
-		log_msg(DEBUG, "waiting for pid: %d", tmp->cmd->pid);
-		waitpid(tmp->cmd->pid, NULL, 0);
+		log_msg(DEBUG, "waiting for pid: %d", ((t_cmd *)tmp->content)->pid);
+		waitpid(((t_cmd *)tmp->content)->pid, NULL, 0);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
@@ -99,23 +99,23 @@ int	exec_cmd_list(t_list *cmd_list, int fd_in, int fd_out)
 	tmp = cmd_list;
 	while (tmp != NULL && tmp->next != NULL)
 	{
-		tmp->cmd->pid = setup_pipe();
-		if (tmp->cmd->pid < 0)
+		((t_cmd *)tmp->content)->pid = setup_pipe();
+		if (((t_cmd *)tmp->content)->pid < 0)
 			return (FAILURE);
-		if (tmp->cmd->pid == 0)
+		if (((t_cmd *)tmp->content)->pid == 0)
 		{
-			cmd = *tmp->cmd;
+			cmd = *((t_cmd *)tmp->content);
 			destroy_list(cmd_list);
 			exec(cmd);
 		}
 		tmp = tmp->next;
 	}
-	tmp->cmd->pid = fork();
-	if (tmp->cmd->pid < 0)
+	((t_cmd *)tmp->content)->pid = fork();
+	if (((t_cmd *)tmp->content)->pid < 0)
 		return (FAILURE);
-	if (tmp->cmd->pid == 0)
+	if (((t_cmd *)tmp->content)->pid == 0)
 	{
-		cmd = *tmp->cmd;
+		cmd = *((t_cmd *)tmp->content);
 		destroy_list(cmd_list);
 		exec(cmd);
 	}
