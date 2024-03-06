@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:40:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 19:46:25 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:50:43 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	test_pwd(char **envp)
 {
 	t_cmd	cmd;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd.bin = "pwd";
 	cmd.args = (char *[]){"pwd", NULL};
 	cmd.envp = envp;
