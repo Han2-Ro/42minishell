@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 17:53:40 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:49:14 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,27 @@ t_list	*envp_to_list(char **envp)
 		i++;
 	}
 	return (lst);
+}
+
+char	**envlst_to_envp(t_list *envlst)
+{
+	int		i;
+	char	**envp;
+	int		listlen;
+
+	listlen = ft_lstsize(envlst);
+	envp = (char **)malloc(sizeof(char *) * (listlen + 1));
+	if (envp == NULL)
+		return (NULL);
+	i = 0;
+	while (i < listlen)
+	{
+		envp[i] = ft_strdup(((t_env *)envlst->content)->value);
+		if (envp[i] == NULL)
+			return (free_str_arr(envp, i), NULL);
+		envlst = envlst->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
