@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 20:05:43 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:10:42 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int					exec_builtin(const t_cmd cmd);
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
 
+// list_utils.c
 t_list				*ft_lstnew_old(t_cmd *cmd);
 t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
 void				destroy_list(t_list *lst);
@@ -99,9 +100,11 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
 
+// environment.c
 void				free_env(void *content);
 void				print_env(void *content);
 t_list				*envp_to_list(char **envp);
+char				**envlst_to_envp(t_list *envlst);
 
 // print_structs.c
 void				print_cmd(t_cmd *cmd);
@@ -109,7 +112,10 @@ void				print_list(t_list *lst);
 
 // log.c
 int					log_msg(t_log_level level, char *msg, ...);
+
+// utils.c
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
+void				free_str_arr(char **strs, int size);
 
 // loop.c
 int					shell_loop(char *envp[]);
