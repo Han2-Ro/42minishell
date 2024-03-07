@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_test.c                                         :+:      :+:    :+:   */
+/*   exec_buitin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/03/06 19:57:54 by hrother          ###   ########.fr       */
+/*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
+/*   Updated: 2024/03/06 19:37:24 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	run_test(char *name, int (*test)(char **), char **envp)
+int	exec_builtin(const t_cmd cmd)
 {
-	int	result;
-	int	pid;
-
-	printf("\n------%s------\n", name);
-	pid = fork();
-	if (pid == 0)
-	{
-		result = test(envp);
-		exit(result);
-	}
-	waitpid(pid, &result, 0);
-	if (WIFEXITED(result) && WEXITSTATUS(result) == 0)
-	{
-		printf(GREEN "SUCCESS\n" RESET_COLOR);
-		return (SUCCESS);
-	}
-	else
-	{
-		printf(RED "FAILURE\n" RESET_COLOR);
-		return (FAILURE);
-	}
+	if (ft_strncmp(cmd.bin, "pwd", 5) == 0)
+		exit(builtin_pwd());
+	return (SUCCESS);
 }

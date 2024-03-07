@@ -79,6 +79,9 @@ int					exec_cmd_line(t_list *cmd_list, const char *in_file,
 
 int					run_cmd(const char *cmd, char *envp[]);
 
+int					builtin_pwd(void);
+int					exec_builtin(const t_cmd cmd);
+
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
 

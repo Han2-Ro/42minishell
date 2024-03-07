@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/01 13:28:03 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:52:39 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	test_1cmd(char **envp)
 {
 	t_list	*cmd_list;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
 				NULL}, envp));
@@ -30,6 +31,7 @@ int	test_2cmds(char **envp)
 {
 	t_list	*cmd_list;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
 				NULL}, envp));
@@ -46,6 +48,7 @@ int	test_3cmds(char **envp)
 	t_list	*cmd_list;
 	int		result;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
 				NULL}, envp));
@@ -66,6 +69,7 @@ int	test_rw_file(char **envp)
 	int		in;
 	int		out;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep",
 				"test", NULL}, envp));
