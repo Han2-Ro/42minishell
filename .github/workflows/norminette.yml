@@ -21,8 +21,17 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: install
+    - name: Install
       run: pip install norminette
 
-    - name: norminette
-      run: norminette
+    - name: Norminette Source
+      run: norminette src
+
+    - name: Norminette Include
+      run: norminette minishell.h 
+
+    - name: Norminette Libft
+      run: norminette libft
+
+    - name: Norminette Tests
+      run: norminette tests
