@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 13:29:46 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 16:25:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 
 typedef enum token_type
 {
-	CMD,
+	CMD = 1,
 	ARG,
 	R_IN,
 	R_OUT,
@@ -56,6 +56,12 @@ typedef enum log_level
 	DEBUG,
 }					t_log_level;
 
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -67,26 +73,29 @@ typedef struct s_env
 	char			*value;
 }					t_env;
 
-typedef struct s_redirects
+typedef struct s_redirect
 {
 	char			*filename;
-}					t_redirects;
+}					t_redirect;
 
+/**
+ * @brief A command to be executed
+ * @param bin the actual command
+ * @param args A list of strings
+ * @param envp
+ * @param in A list of input redirections
+ * @param out A list of output redirections
+ * @param pid The process id of the command
+ */
 typedef struct s_cmd
 {
 	char			*bin;
 	char			**args;
 	char			**envp;
-	t_redirects		*in;
-	t_redirects		*out;
+	t_list			*in;
+	t_list			*out;
 	int				pid;
 }					t_cmd;
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
 
 int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out,
 						int to_close);
@@ -129,7 +138,11 @@ int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
+void				free_cmd(void *content);
+t_redirect			*new_redir(char *filename);
+void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
+void				free_nullterm_str_arr(char **strs);
 
 // loop.c
 int					shell_loop(char *envp[]);
