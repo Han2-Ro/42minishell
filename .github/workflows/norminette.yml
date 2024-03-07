@@ -24,11 +24,11 @@ jobs:
     - name: Install
       run: pip install norminette
 
-    - name: Norminette Source
-      run: norminette src
-
     - name: Norminette Include
       run: norminette minishell.h 
+
+    - name: Norminette Source
+      run: norminette src
 
     - name: Norminette Libft
       run: norminette libft
