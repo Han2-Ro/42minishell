@@ -6,17 +6,19 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 16:27:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 16:40:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-void	print_cmd(t_cmd *cmd)
+void	print_cmd(void *command)
 {
-	int	i;
+	t_cmd	*cmd;
+	int		i;
 
+	cmd = (t_cmd *)command;
 	printf("cmd: %s\n", cmd->bin);
 	printf("pid: %d\n", cmd->pid);
 	printf("args:\n");

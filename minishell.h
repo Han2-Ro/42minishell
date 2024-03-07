@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 16:25:53 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 16:43:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // print_structs.c
-void				print_cmd(t_cmd *cmd);
+void				print_cmd(void *command);
 void				print_list(t_list *lst);
 
 // log.c
@@ -146,5 +146,7 @@ void				free_nullterm_str_arr(char **strs);
 
 // loop.c
 int					shell_loop(char *envp[]);
+
+t_list				*parse(t_list *tokens, char **envp);
 
 #endif
