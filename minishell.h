@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 19:10:42 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:29:46 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
+typedef enum token_type
+{
+	CMD,
+	ARG,
+	R_IN,
+	R_OUT,
+	R_APPEND,
+	R_HEREDOC,
+	PIPE,
+}					t_token_type;
+
 typedef enum log_level
 {
 	ERROR,
@@ -44,6 +55,12 @@ typedef enum log_level
 	INFO,
 	DEBUG,
 }					t_log_level;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+}					t_token;
 
 typedef struct s_env
 {
