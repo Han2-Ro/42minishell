@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 16:43:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 22:13:37 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdarg.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -134,6 +134,7 @@ char				**envlst_to_envp(t_list *envlst);
 
 // print_structs.c
 void				print_cmd(void *command);
+void				print_token(void *token);
 void				print_list(t_list *lst);
 
 // log.c

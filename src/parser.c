@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 16:43:06 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 22:43:45 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	process_token(t_token token, t_cmd **cmd, int *i_args)
 {
+	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type, token.value);
 	if (token.type == CMD)
 		(*cmd)->bin = token.value;
 	else if (token.type == ARG)
@@ -30,7 +31,7 @@ int	process_token(t_token token, t_cmd **cmd, int *i_args)
 	else if (token.type == R_HEREDOC)
 		log_msg(ERROR, "R_HEREDOC not yet implemented: skipping token");
 	else if (token.type == PIPE)
-		cmd = NULL;
+		*cmd = NULL;
 	return (SUCCESS);
 }
 
@@ -64,6 +65,7 @@ t_cmd	*start_new_command(t_list **commands, int n_args, char **envp)
 {
 	t_cmd	*new_command;
 
+	log_msg(DEBUG, "Starting new command with %i args", n_args);
 	new_command = new_cmd(NULL, NULL, envp);
 	if (new_command == NULL)
 		return (NULL);
@@ -95,7 +97,7 @@ t_list	*parse(t_list *tokens, char **envp)
 	{
 		if (new_command == NULL)
 		{
-			n_args = count_tokens(tokens, ARG, PIPE);
+			n_args = count_tokens(current_token, ARG, PIPE);
 			new_command = start_new_command(&commands, n_args, envp);
 			if (new_command == NULL)
 				return (ft_lstclear(&commands, free_cmd), NULL);

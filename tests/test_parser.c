@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 17:05:44 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/07 22:42:52 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ int	test_1cmd(char **envp)
 	t_list	*tokens;
 	t_list	*cmds;
 	t_cmd	*cmd;
-	t_token	token;
+	t_token	token[3];
 
 	tokens = NULL;
-	token = (t_token){.type = CMD, .value = "echo"};
-	ft_lstadd_back(&tokens, ft_lstnew(&token));
-	token = (t_token){.type = ARG, .value = "Hello"};
-	ft_lstadd_back(&tokens, ft_lstnew(&token));
-	token = (t_token){.type = R_OUT, .value = "out.txt"};
-	ft_lstadd_back(&tokens, ft_lstnew(&token));
+	token[0] = (t_token){.type = CMD, .value = "echo"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
+	token[1] = (t_token){.type = ARG, .value = "Hello"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[1]));
+	token[2] = (t_token){.type = R_OUT, .value = "out.txt"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[2]));
+	ft_lstiter(tokens, print_token);
 	cmds = parse(tokens, envp);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
@@ -66,6 +67,88 @@ int	test_1cmd(char **envp)
 	return (SUCCESS);
 }
 
+int	test_3cmd(char **envp)
+{
+	t_list	*tokens;
+	t_list	*cmds;
+	t_cmd	*cmd;
+	t_token	token[11];
+
+	tokens = NULL;
+	token[0] = (t_token){.type = CMD, .value = "echo"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
+	token[1] = (t_token){.type = ARG, .value = "Hello"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[1]));
+	token[2] = (t_token){.type = R_IN, .value = "in.txt"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[2]));
+	token[3] = (t_token){.type = PIPE, .value = NULL};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[3]));
+	token[4] = (t_token){.type = CMD, .value = "ls"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[4]));
+	token[5] = (t_token){.type = ARG, .value = "-l"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[5]));
+	token[6] = (t_token){.type = ARG, .value = "-h"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[6]));
+	token[7] = (t_token){.type = PIPE, .value = NULL};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[7]));
+	token[8] = (t_token){.type = R_OUT, .value = "out1.txt"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[8]));
+	token[9] = (t_token){.type = CMD, .value = "cat"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[9]));
+	token[10] = (t_token){.type = R_OUT, .value = "out2.txt"};
+	ft_lstadd_back(&tokens, ft_lstnew(&token[10]));
+	ft_lstiter(tokens, print_token);
+	cmds = parse(tokens, envp);
+	ft_lstiter(cmds, print_cmd);
+	if (cmds == NULL)
+		return (FAILURE);
+	if (ft_lstsize(cmds) != 3)
+		return (FAILURE);
+	cmd = (t_cmd *)cmds->content;
+	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
+		return (FAILURE);
+	if (ft_strncmp(cmd->args[0], "Hello", 10) != 0)
+		return (FAILURE);
+	if (cmd->args[1] != NULL)
+		return (FAILURE);
+	if (ft_lstsize(cmd->in) != 1)
+		return (FAILURE);
+	if (ft_lstsize(cmd->out) != 0)
+		return (FAILURE);
+	if (ft_strncmp(((t_redirect *)cmd->in->content)->filename, "in.txt",
+			10) != 0)
+		return (FAILURE);
+	cmd = (t_cmd *)cmds->next->content;
+	if (ft_strncmp(cmd->bin, "ls", 10) != 0)
+		return (FAILURE);
+	if (ft_strncmp(cmd->args[0], "-l", 10) != 0)
+		return (FAILURE);
+	if (ft_strncmp(cmd->args[1], "-h", 10) != 0)
+		return (FAILURE);
+	if (cmd->args[2] != NULL)
+		return (FAILURE);
+	if (ft_lstsize(cmd->in) != 0)
+		return (FAILURE);
+	cmd = (t_cmd *)cmds->next->next->content;
+	if (ft_strncmp(cmd->bin, "cat", 10) != 0)
+		return (FAILURE);
+	if (cmd->args[0] != NULL)
+		return (FAILURE);
+	if (ft_lstsize(cmd->in) != 0)
+		return (FAILURE);
+	if (ft_lstsize(cmd->out) != 2)
+		return (FAILURE);
+	if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out1.txt",
+			10) != 0)
+		return (FAILURE);
+	if (ft_strncmp(((t_redirect *)cmd->out->next->content)->filename, "out2.txt",
+			10) != 0)
+		return (FAILURE);
+	// TODO: cmd->envp and cmd->pid is not checked
+	// TODO: free everything
+	return (SUCCESS);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int	result;
@@ -76,6 +159,8 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test_null", test_null, envp);
 	result |= run_test("test_1cmd", test_1cmd, envp);
+	result |= run_test("test_3cmd", test_3cmd, envp);
+	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
