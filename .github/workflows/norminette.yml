@@ -1,0 +1,37 @@
+
+name: Norminette
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install
+      run: pip install norminette
+
+    - name: Norminette Include
+      run: norminette minishell.h 
+
+    - name: Norminette Source
+      run: norminette src
+
+    - name: Norminette Libft
+      run: norminette libft
+
+    - name: Norminette Tests
+      run: norminette tests
