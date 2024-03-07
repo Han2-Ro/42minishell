@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:29:23 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 19:21:26 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 19:52:12 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	test_file_file(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"/bin/grep",
 				"test", NULL}, envp));
@@ -33,6 +34,7 @@ int	test_std_std(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/usr/sbin/ifconfig",
 				(char *[]){"/usr/sbin/ifconfig", NULL}, envp));
@@ -49,6 +51,7 @@ int	test_file_std(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/cat", (char *[]){"/bin/cat",
 				"tests/files/in", NULL}, envp));
@@ -67,6 +70,7 @@ int	test_std_file(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"/bin/ls",
 				"-l", NULL}, envp));
@@ -83,6 +87,7 @@ int	test_unexisting_infile(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/cat", (char *[]){"/bin/cat",
 				"-e", NULL}, envp));
@@ -98,6 +103,7 @@ int	test_no_perm_outfile(char **envp)
 	t_list	*cmd_list;
 	int		return_value;
 
+	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/cat", (char *[]){"/bin/cat",
 				"-e", NULL}, envp));
