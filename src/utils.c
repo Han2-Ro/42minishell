@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 18:27:47 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:52:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_redirect	*new_redir(char *filename)
 	t_redirect	*redirect;
 
 	redirect = (t_redirect *)malloc(sizeof(t_redirect));
+	if (redirect == NULL)
+		return (log_msg(ERROR, "malloc failed"), NULL);
 	redirect->filename = filename;
 	return (redirect);
 }

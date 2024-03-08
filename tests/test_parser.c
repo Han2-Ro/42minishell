@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 18:28:40 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:57:06 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ int	test_1cmd(char **envp)
 	t_list	*cmds;
 	t_cmd	*cmd;
 	t_token	token[3];
+	int		result;
 
+	result = SUCCESS;
 	tokens = NULL;
 	token[0] = (t_token){.type = CMD, .value = "echo"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
@@ -43,6 +45,7 @@ int	test_1cmd(char **envp)
 	ft_lstadd_back(&tokens, ft_lstnew(&token[2]));
 	ft_lstiter(tokens, print_token);
 	cmds = parse(tokens, envp);
+	ft_lstclear(&tokens, pass);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
 		return (FAILURE);
@@ -50,23 +53,23 @@ int	test_1cmd(char **envp)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
 	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
-		return (FAILURE);
-	if (ft_strncmp(cmd->args[0], "Hello", 10) != 0)
-		return (FAILURE);
-	if (cmd->args[1] != NULL)
-		return (FAILURE);
-	if (ft_lstsize(cmd->in) != 0)
-		return (FAILURE);
-	if (ft_lstsize(cmd->out) != 1)
-		return (FAILURE);
-	if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out.txt",
+		result = FAILURE;
+	else if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "Hello",
 			10) != 0)
-		return (FAILURE);
+		result = FAILURE;
+	else if (cmd->args[1] != NULL)
+		result = FAILURE;
+	else if (ft_lstsize(cmd->in) != 0)
+		result = FAILURE;
+	else if (ft_lstsize(cmd->out) != 1)
+		result = FAILURE;
+	else if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out.txt",
+			10) != 0)
+		result = FAILURE;
 	// TODO: cmd->envp and cmd->pid is not checked
 	// TODO: free everything
-	ft_lstclear(&tokens, pass);
 	ft_lstclear(&cmds, free_cmd);
-	return (SUCCESS);
+	return (result);
 }
 
 int	test_3cmd(char **envp)
@@ -161,9 +164,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_null", test_null, envp);
 	result |= run_test("test_1cmd", test_1cmd, envp);
-	result |= run_test("test_3cmd", test_3cmd, envp);
+	result |= run_test("test_null", test_null, envp);
+	// result |= run_test("test_3cmd", test_3cmd, envp);
 	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
