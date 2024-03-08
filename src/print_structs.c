@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 22:32:44 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:29:59 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	print_cmd(void *command)
 {
-	t_cmd	*cmd;
-	int		i;
+	t_cmd		*cmd;
+	int			i;
 	t_log_level	level;
 
 	level = INFO;
