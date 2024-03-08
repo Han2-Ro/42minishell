@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 18:51:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:20:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,58 @@ int	setup_io(int fd_in, int fd_out)
 	return (pid);
 }
 
-int	exec_cmd_list(t_list *cmd_list, int fd_in, int fd_out)
+void	log_file_error(const char *filename)
+{
+	log_msg(ERROR, "%s: %s", filename, strerror(errno));
+}
+
+int	setup_redirs(t_cmd cmd)
+{
+	t_list	*tmp;
+	int		fd;
+
+	tmp = cmd.in;
+	while (tmp->next != NULL)
+	{
+		fd = open(((t_redirect *)tmp->content)->filename, O_RDONLY);
+		if (fd < 0)
+			return (log_file_error(((t_redirect *)tmp->content)->filename),
+				FAILURE);
+		close(fd);
+		tmp = tmp->next;
+	}
+	fd = open(((t_redirect *)tmp->content)->filename, O_RDONLY);
+	if (fd < 0)
+		return (log_file_error(((t_redirect *)tmp->content)->filename),
+			FAILURE);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	tmp = cmd.out;
+	while (tmp != NULL)
+	{
+		fd = open(((t_redirect *)tmp->content)->filename,
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+			return (log_file_error(((t_redirect *)tmp->content)->filename),
+				FAILURE);
+		close(fd);
+		tmp = tmp->next;
+	}
+	fd = open(((t_redirect *)tmp->content)->filename,
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return (log_file_error(((t_redirect *)tmp->content)->filename),
+			FAILURE);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (SUCCESS);
+}
+
+int	exec_cmd_list(t_list *cmd_list)
 {
 	t_list	*tmp;
 	t_cmd	cmd;
 
-	log_msg(DEBUG, "fd_in: %d, fd_out: %d", fd_in, fd_out);
 	if (setup_io(fd_in, fd_out) > 0)
 		return (SUCCESS);
 	tmp = cmd_list;
