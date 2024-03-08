@@ -1,10 +1,11 @@
 CC=cc
-CFLAGS = -g #-Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
 SRC_DIR = src
 OBJ_DIR = obj
 SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS += $(wildcard $(SRC_DIR)/builtins/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 NAME = minishell
@@ -25,8 +26,11 @@ $(LIB): $(OBJS)
 	make -C ./libft
 	ar rcs $@ $^
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+	mkdir $(OBJ_DIR)/builtins
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TEST_DIR)/bin:

@@ -6,15 +6,17 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 17:02:26 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:51:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-int	exec(const t_cmd cmd)
+int	exec(t_cmd cmd)
 {
+	exec_builtin(cmd);
+	cmd.bin = path_to_bin(cmd.bin);
 	log_msg(INFO, "executing %s", cmd.bin);
 	if (access(cmd.bin, X_OK) == 0)
 		execve(cmd.bin, cmd.args, __environ);
