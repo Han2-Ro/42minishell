@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 17:20:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/08 17:32:08 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,27 +95,35 @@ void	log_file_error(const char *filename)
 	log_msg(ERROR, "%s: %s", filename, strerror(errno));
 }
 
+int	setup_redir_in(t_list *redirs)
+{
+	int	fd;
+
+	while (redirs->next != NULL)
+	{
+		fd = open(((t_redirect *)redirs->content)->filename, O_RDONLY);
+		if (fd < 0)
+			return (log_file_error(((t_redirect *)redirs->content)->filename),
+				FAILURE);
+		close(fd);
+		redirs = redirs->next;
+	}
+	fd = open(((t_redirect *)redirs->content)->filename, O_RDONLY);
+	if (fd < 0)
+		return (log_file_error(((t_redirect *)redirs->content)->filename),
+			FAILURE);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (SUCCESS);
+}
+
 int	setup_redirs(t_cmd cmd)
 {
 	t_list	*tmp;
 	int		fd;
 
-	tmp = cmd.in;
-	while (tmp->next != NULL)
-	{
-		fd = open(((t_redirect *)tmp->content)->filename, O_RDONLY);
-		if (fd < 0)
-			return (log_file_error(((t_redirect *)tmp->content)->filename),
-				FAILURE);
-		close(fd);
-		tmp = tmp->next;
-	}
-	fd = open(((t_redirect *)tmp->content)->filename, O_RDONLY);
-	if (fd < 0)
-		return (log_file_error(((t_redirect *)tmp->content)->filename),
-			FAILURE);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	if (setup_redir_in(cmd.in) == FAILURE)
+		return (FAILURE);
 	tmp = cmd.out;
 	while (tmp != NULL)
 	{
