@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/07 17:22:38 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:36:00 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,23 @@ t_token	*lex_pipe(const char *line, int *i)
 	return (token);
 }
 
+void	lstadvance_head(t_list *head)
+{
+	t_list	*next;
+
+	next = head->next;
+	free(head);
+	head = next;
+}
+
 // TODO: Handle error: "lex retured NULL"
 // TODO: Fix bugs
 t_list	*lexer(const char *line)
 {
-	unsigned int line_len;
-	unsigned int i;
-	bool capture_args;
-	t_list *token_lst;
+	unsigned int	line_len;
+	unsigned int	i;
+	bool			capture_args;
+	t_list			*token_lst;
 
 	line_len = ft_strlen(line);
 	i = 0;
@@ -169,5 +178,5 @@ t_list	*lexer(const char *line)
 			capture_args = true;
 		}
 	}
-	return (token_lst);
+	return (lstadvance_head(token_lst), token_lst);
 }
