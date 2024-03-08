@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 19:10:42 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/07 22:13:37 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdarg.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -37,6 +37,17 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
+typedef enum token_type
+{
+	CMD = 1,
+	ARG,
+	R_IN,
+	R_OUT,
+	R_APPEND,
+	R_HEREDOC,
+	PIPE,
+}					t_token_type;
+
 typedef enum log_level
 {
 	ERROR,
@@ -45,31 +56,46 @@ typedef enum log_level
 	DEBUG,
 }					t_log_level;
 
-typedef struct s_env
-{
-	char			*value;
-}					t_env;
-
-typedef struct s_redirects
-{
-	char			*filename;
-}					t_redirects;
-
-typedef struct s_cmd
-{
-	char			*bin;
-	char			**args;
-	char			**envp;
-	t_redirects		*in;
-	t_redirects		*out;
-	int				pid;
-}					t_cmd;
-
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+}					t_token;
+
+typedef struct s_env
+{
+	char			*value;
+}					t_env;
+
+typedef struct s_redirect
+{
+	char			*filename;
+}					t_redirect;
+
+/**
+ * @brief A command to be executed
+ * @param bin the actual command
+ * @param args A list of strings
+ * @param envp
+ * @param in A list of input redirections
+ * @param out A list of output redirections
+ * @param pid The process id of the command
+ */
+typedef struct s_cmd
+{
+	char			*bin;
+	char			**args;
+	char			**envp;
+	t_list			*in;
+	t_list			*out;
+	int				pid;
+}					t_cmd;
 
 int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out,
 						int to_close);
@@ -107,7 +133,8 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // print_structs.c
-void				print_cmd(t_cmd *cmd);
+void				print_cmd(void *command);
+void				print_token(void *token);
 void				print_list(t_list *lst);
 
 // log.c
@@ -115,9 +142,15 @@ int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
+void				free_cmd(void *content);
+t_redirect			*new_redir(char *filename);
+void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
+void				free_nullterm_str_arr(char **strs);
 
 // loop.c
 int					shell_loop(char *envp[]);
+
+t_list				*parse(t_list *tokens, char **envp);
 
 #endif

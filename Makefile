@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS = -g #-Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
 SRC_DIR = src
