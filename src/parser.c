@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 22:43:45 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/08 18:25:38 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	process_token(t_token token, t_cmd **cmd, int *i_args)
 {
-	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type, token.value);
+	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type,
+		token.value);
 	if (token.type == CMD)
 		(*cmd)->bin = token.value;
 	else if (token.type == ARG)

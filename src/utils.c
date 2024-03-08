@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 16:25:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/08 18:27:47 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ void	free_cmd(void *content)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
-	free(cmd->bin);
-	free_nullterm_str_arr(cmd->args);
-	ft_lstclear(&cmd->in, free_redir);
-	ft_lstclear(&cmd->out, free_redir);
+	free(cmd->args);
+	ft_lstclear(&cmd->in, free);
+	ft_lstclear(&cmd->out, free);
 	free(cmd);
 }
 
@@ -71,7 +70,7 @@ void	free_str_arr(char **strs, int size)
 
 void	free_nullterm_str_arr(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs[i] != NULL)
@@ -80,4 +79,12 @@ void	free_nullterm_str_arr(char **strs)
 		i++;
 	}
 	free(strs);
+}
+
+/**
+ * @brief This function does nothing: Useful for ft_lsclear
+ */
+void	pass(void *content)
+{
+	(void)content;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 22:42:52 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/08 18:28:40 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	test_1cmd(char **envp)
 		return (FAILURE);
 	// TODO: cmd->envp and cmd->pid is not checked
 	// TODO: free everything
+	ft_lstclear(&tokens, pass);
+	ft_lstclear(&cmds, free_cmd);
 	return (SUCCESS);
 }
 
@@ -141,11 +143,13 @@ int	test_3cmd(char **envp)
 	if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out1.txt",
 			10) != 0)
 		return (FAILURE);
-	if (ft_strncmp(((t_redirect *)cmd->out->next->content)->filename, "out2.txt",
-			10) != 0)
+	if (ft_strncmp(((t_redirect *)cmd->out->next->content)->filename,
+			"out2.txt", 10) != 0)
 		return (FAILURE);
 	// TODO: cmd->envp and cmd->pid is not checked
 	// TODO: free everything
+	ft_lstclear(&tokens, pass);
+	ft_lstclear(&cmds, free_cmd);
 	return (SUCCESS);
 }
 
