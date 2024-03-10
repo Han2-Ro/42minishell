@@ -1,1 +1,1 @@
-rm -fr tests/files/*
+rm -fr tests/files

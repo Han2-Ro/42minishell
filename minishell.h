@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 17:33:38 by aprevrha         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/03/10 22:47:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FAILURE -1
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL DEBUG
+#  define LOG_LEVEL INFO
 # endif
 
 typedef enum token_type
@@ -75,11 +75,6 @@ typedef struct s_env
 	char			*value;
 }					t_env;
 
-typedef struct s_redirect
-{
-	char			*filename;
-}					t_redirect;
-
 /**
  * @brief A command to be executed
  * @param bin the actual command
@@ -94,24 +89,26 @@ typedef struct s_cmd
 	char			*bin;
 	char			**args;
 	char			**envp;
-	t_list			*in;
-	t_list			*out;
+	t_list			*redirects;
+	int				fd_in;
+	int				fd_out;
 	int				pid;
 }					t_cmd;
 
 int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out,
 						int to_close);
-int					exec_cmd_list(t_list *cmd_list, int fd_in, int fd_out);
+int					exec_cmd_list(t_list *cmd_list);
 int					exec_cmd_line(t_list *cmd_list, const char *in_file,
 						const char *out_file);
-
-int					run_cmd(const char *cmd, char *envp[]);
 
 int					builtin_pwd(void);
 int					exec_builtin(const t_cmd cmd);
 
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
+
+// redirects.c
+int					redirs_to_fds(t_list *cmd_list);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -148,7 +145,6 @@ int					log_msg(t_log_level level, char *msg, ...);
 // utils.c
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
 void				free_cmd(void *content);
-t_redirect			*new_redir(char *filename);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);

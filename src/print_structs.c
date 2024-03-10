@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 17:29:59 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/10 22:29:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,8 @@ void	print_cmd(void *command)
 		log_msg(level, "  %s", cmd->args[i]);
 		i++;
 	}
-	/*
-	log_msg(level, "envp:");
-	i = 0;
-	while (cmd->envp[i] != NULL)
-	{
-		log_msg(level, "  %s", cmd->envp[i]);
-		i++;
-	}
-	*/
+	log_msg(level, "fd_in: %d, fd_out: %d", cmd->fd_in, cmd->fd_out);
+	ft_lstiter(cmd->redirects, print_token);
 }
 
 void	print_token(void *token)

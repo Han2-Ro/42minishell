@@ -12,7 +12,7 @@ NAME = minishell
 LIB = libminishell.a
 
 TEST_DIR = tests
-TESTS = $(wildcard $(TEST_DIR)/*.c)
+TESTS = $(wildcard $(TEST_DIR)/test_*.c)
 TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
 TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
