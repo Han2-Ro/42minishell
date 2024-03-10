@@ -6,10 +6,9 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/10 18:35:35 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 20:03:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,7 +20,6 @@
 # include <readline/readline.h>
 # include <stdarg.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -77,12 +75,6 @@ typedef struct s_env
 	char			*value;
 }					t_env;
 
-typedef struct s_redirect
-{
-	t_token_type	type;
-	char			*filename;
-}					t_redirect;
-
 /**
  * @brief A command to be executed
  * @param bin the actual command
@@ -98,6 +90,8 @@ typedef struct s_cmd
 	char			**args;
 	char			**envp;
 	t_list			*redirects;
+	int				fd_in;
+	int				fd_out;
 	int				pid;
 }					t_cmd;
 
