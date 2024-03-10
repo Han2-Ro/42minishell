@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:15:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:23:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	open_file(const char *filename, int flags, int *fd)
 
 int	here_doc(const char *delimiter, int *fd)
 {
+	(void)delimiter;
 	if (*fd > 3)
 		close(*fd);
 	*fd = -1;
@@ -66,4 +67,5 @@ int	redirs_to_fds(t_list *cmd_list)
 		}
 		current_cmd = current_cmd->next;
 	}
+	return (SUCCESS);
 }
