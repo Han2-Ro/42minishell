@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 17:33:38 by aprevrha         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/03/10 18:35:35 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -20,6 +21,7 @@
 # include <readline/readline.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -77,6 +79,7 @@ typedef struct s_env
 
 typedef struct s_redirect
 {
+	t_token_type	type;
 	char			*filename;
 }					t_redirect;
 
@@ -94,8 +97,7 @@ typedef struct s_cmd
 	char			*bin;
 	char			**args;
 	char			**envp;
-	t_list			*in;
-	t_list			*out;
+	t_list			*redirects;
 	int				pid;
 }					t_cmd;
 
