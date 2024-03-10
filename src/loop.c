@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/10 21:18:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:46:21 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	shell_loop(char *envp[])
 	while (1)
 	{
 		line = readline(prompt);
+		log_msg(DEBUG, "Inputed line: %s\n", line);
 		if (!line)
 			break ;
 		if (line && *line)
 			add_history(line);
-		log_msg(DEBUG, "Inputed line: %s\n", line);
 
 		token_lst = lexer(line);
 		if (!token_lst)
@@ -45,8 +45,6 @@ int	shell_loop(char *envp[])
 		if (redirs_to_fds(cmd_lst) == FAILURE)
 			continue ;
 		exec_cmd_list(cmd_lst);
-
-		// run_cmd(line, envp);
 	}
 	return (SUCCESS);
 }

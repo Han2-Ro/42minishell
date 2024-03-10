@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:18:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:56:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 int	exec(t_cmd cmd)
 {
+	if (cmd.fd_in > 3)
+		dup2(cmd.fd_in, STDIN_FILENO);
+	if (cmd.fd_out > 3)
+		dup2(cmd.fd_out, STDOUT_FILENO);
 	exec_builtin(cmd);
 	cmd.bin = path_to_bin(cmd.bin);
 	log_msg(INFO, "executing %s", cmd.bin);
@@ -70,11 +74,28 @@ void	log_file_error(const char *filename)
 	log_msg(ERROR, "%s: %s", filename, strerror(errno));
 }
 
+int	run_in_child(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+		return (FAILURE);
+	if (pid > 0)
+	{
+		waitpid(pid, NULL, 0);
+		return (pid);
+	}
+	return (pid);
+}
+
 int	exec_cmd_list(t_list *cmd_list)
 {
 	t_list	*tmp;
 	t_cmd	cmd;
 
+	if (run_in_child() > 0)
+		return (SUCCESS);
 	tmp = cmd_list;
 	while (tmp != NULL && tmp->next != NULL)
 	{
@@ -100,5 +121,6 @@ int	exec_cmd_list(t_list *cmd_list)
 	}
 	wait_pids(cmd_list);
 	destroy_list(cmd_list);
-	return (SUCCESS);
+	exit(0);
+	return (FAILURE);
 }
