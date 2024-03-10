@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:56:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:32:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 int	exec(t_cmd cmd)
 {
-	if (cmd.fd_in > 3)
+	if (cmd.fd_in > 2)
 		dup2(cmd.fd_in, STDIN_FILENO);
-	if (cmd.fd_out > 3)
+	if (cmd.fd_out > 2)
 		dup2(cmd.fd_out, STDOUT_FILENO);
 	exec_builtin(cmd);
 	cmd.bin = path_to_bin(cmd.bin);

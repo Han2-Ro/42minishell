@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:41:29 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:45:34 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	open_file(const char *filename, int flags, int *fd)
 {
-	if (*fd > 3)
+	if (*fd > 2)
 		close(*fd);
 	*fd = open(filename, flags, 0644);
 	if (*fd < 0)
@@ -25,24 +25,24 @@ int	open_file(const char *filename, int flags, int *fd)
 int	here_doc(const char *delimiter, int *fd)
 {
 	(void)delimiter;
-	if (*fd > 3)
+	if (*fd > 2)
 		close(*fd);
 	*fd = -1;
 	log_msg(ERROR, "here_doc not implemented yet");
 	return (FAILURE);
 }
 
-int	redir_to_fd(const t_token *token, int *fd)
+int	redir_to_fd(const t_token *token, t_cmd *cmd)
 {
 	if (token->type == R_IN)
-		open_file(token->value, O_RDONLY, fd);
+		open_file(token->value, O_RDONLY, &cmd->fd_in);
 	else if (token->type == R_HEREDOC)
-		*fd = here_doc(token->value, fd);
+		here_doc(token->value, &cmd->fd_in);
 	else if (token->type == R_OUT)
-		open_file(token->value, O_WRONLY | O_CREAT | O_TRUNC, fd);
+		open_file(token->value, O_WRONLY | O_CREAT | O_TRUNC, &cmd->fd_out);
 	else if (token->type == R_APPEND)
-		open_file(token->value, O_WRONLY | O_CREAT | O_APPEND, fd);
-	if (*fd < 0)
+		open_file(token->value, O_WRONLY | O_CREAT | O_APPEND, &cmd->fd_out);
+	if (cmd->fd_in < 0 || cmd->fd_out < 0)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -60,8 +60,7 @@ int	redirs_to_fds(t_list *cmd_list)
 		current_tkn = cmd->redirects;
 		while (current_tkn != NULL)
 		{
-			if (redir_to_fd((t_token *)current_tkn->content,
-					&cmd->fd_in) == FAILURE)
+			if (redir_to_fd((t_token *)current_tkn->content, cmd) == FAILURE)
 				return (FAILURE);
 			current_tkn = current_tkn->next;
 		}

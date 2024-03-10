@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 22:00:36 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:14:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 int	test_1cmd(char **envp)
 {
 	t_list	*cmd_list;
+	t_cmd	*cmd;
+	int		fd_out;
 
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
-	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
-				NULL}, envp));
+	cmd = new_cmd("/bin/ls", (char *[]){"ls", "-l", NULL}, envp);
+	fd_out = open("tests/files/out_02", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	cmd->fd_out = fd_out;
+	cmd_list = ft_lstadd(&cmd_list, cmd);
 	print_list(cmd_list);
 	exec_cmd_list(cmd_list);
 	destroy_list(cmd_list);

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/10 21:46:21 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:41:04 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	shell_loop(char *envp[])
 		}
 		if (redirs_to_fds(cmd_lst) == FAILURE)
 			continue ;
+		ft_lstiter(cmd_lst, print_cmd);
 		exec_cmd_list(cmd_lst);
 	}
 	return (SUCCESS);

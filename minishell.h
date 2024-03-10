@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/10 21:17:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 22:47:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FAILURE -1
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL DEBUG
+#  define LOG_LEVEL INFO
 # endif
 
 typedef enum token_type
