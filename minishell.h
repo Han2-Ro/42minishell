@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/10 20:03:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:17:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,18 @@ typedef struct s_cmd
 
 int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out,
 						int to_close);
-int					exec_cmd_list(t_list *cmd_list, int fd_in, int fd_out);
+int					exec_cmd_list(t_list *cmd_list);
 int					exec_cmd_line(t_list *cmd_list, const char *in_file,
 						const char *out_file);
-
-int					run_cmd(const char *cmd, char *envp[]);
 
 int					builtin_pwd(void);
 int					exec_builtin(const t_cmd cmd);
 
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
+
+// redirects.c
+int					redirs_to_fds(t_list *cmd_list);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -144,7 +145,6 @@ int					log_msg(t_log_level level, char *msg, ...);
 // utils.c
 t_cmd				*new_cmd(char *bin, char **args, char **envp);
 void				free_cmd(void *content);
-t_redirect			*new_redir(char *filename);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);

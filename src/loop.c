@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/08 19:15:44 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/10 21:18:32 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ int	shell_loop(char *envp[])
 			continue ;
 		}
 		cmd_lst = parse(token_lst, envp);
-		exec_cmd_list(cmd_lst, STDIN_FILENO, STDOUT_FILENO);
+		if (!cmd_lst)
+		{
+			log_msg(ERROR, "PARSE error");
+			continue ;
+		}
+		if (redirs_to_fds(cmd_lst) == FAILURE)
+			continue ;
+		exec_cmd_list(cmd_lst);
 
 		// run_cmd(line, envp);
 	}

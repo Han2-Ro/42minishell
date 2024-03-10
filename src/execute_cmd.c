@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 20:08:49 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:18:10 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,31 +65,6 @@ int	wait_pids(t_list *cmd_list)
 	return (SUCCESS);
 }
 
-int	setup_io(int fd_in, int fd_out)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid < 0)
-		return (FAILURE);
-	if (pid > 0)
-	{
-		waitpid(pid, NULL, 0);
-		return (pid);
-	}
-	if (fd_in != STDIN_FILENO)
-	{
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	if (fd_out != STDOUT_FILENO)
-	{
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-	}
-	return (pid);
-}
-
 void	log_file_error(const char *filename)
 {
 	log_msg(ERROR, "%s: %s", filename, strerror(errno));
@@ -100,8 +75,6 @@ int	exec_cmd_list(t_list *cmd_list)
 	t_list	*tmp;
 	t_cmd	cmd;
 
-	if (setup_io(fd_in, fd_out) > 0)
-		return (SUCCESS);
 	tmp = cmd_list;
 	while (tmp != NULL && tmp->next != NULL)
 	{
@@ -127,42 +100,5 @@ int	exec_cmd_list(t_list *cmd_list)
 	}
 	wait_pids(cmd_list);
 	destroy_list(cmd_list);
-	exit(0);
-	return (FAILURE);
-}
-
-int	exec_cmd_line(t_list *cmd_list, const char *in_file, const char *out_file)
-{
-	int	fd_in;
-	int	fd_out;
-
-	if (in_file != NULL)
-	{
-		fd_in = open(in_file, O_RDONLY);
-		if (fd_in < 0)
-		{
-			log_msg(ERROR, "%s: %s", strerror(errno), in_file);
-			return (FAILURE);
-		}
-	}
-	else
-		fd_in = STDIN_FILENO;
-	if (out_file != NULL)
-	{
-		fd_out = open(out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd_out < 0)
-		{
-			close(fd_in);
-			log_msg(ERROR, "%s: %s", strerror(errno), out_file);
-			return (FAILURE);
-		}
-	}
-	else
-		fd_out = STDOUT_FILENO;
-	exec_cmd_list(cmd_list, fd_in, fd_out);
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
 	return (SUCCESS);
 }
