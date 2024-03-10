@@ -152,6 +152,7 @@ t_redirect			*new_redir(char *filename);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
+void				pass(void *content);
 
 // loop.c
 int					shell_loop(char *envp[]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 22:43:45 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/10 18:03:15 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 int	process_token(t_token token, t_cmd **cmd, int *i_args)
 {
-	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type, token.value);
+	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type,
+		token.value);
 	if (token.type == CMD)
+	{
 		(*cmd)->bin = token.value;
+		(*cmd)->args[0] = token.value;
+	}
 	else if (token.type == ARG)
 	{
 		(*cmd)->args[*i_args] = token.value;
@@ -97,11 +101,11 @@ t_list	*parse(t_list *tokens, char **envp)
 	{
 		if (new_command == NULL)
 		{
-			n_args = count_tokens(current_token, ARG, PIPE);
+			n_args = count_tokens(current_token, ARG, PIPE) + 1;
 			new_command = start_new_command(&commands, n_args, envp);
 			if (new_command == NULL)
 				return (ft_lstclear(&commands, free_cmd), NULL);
-			i_args = 0;
+			i_args = 1;
 		}
 		process_token(*(t_token *)current_token->content, &new_command,
 			&i_args);
