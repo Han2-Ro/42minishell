@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 18:57:06 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 18:00:35 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,13 @@ int	test_1cmd(char **envp)
 	cmd = (t_cmd *)cmds->content;
 	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
 		result = FAILURE;
-	else if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "Hello",
+	else if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
 			10) != 0)
 		result = FAILURE;
-	else if (cmd->args[1] != NULL)
+	else if (!cmd->args || !cmd->args[1] || ft_strncmp(cmd->args[1], "Hello",
+			10) != 0)
+		result = FAILURE;
+	else if (cmd->args[2] != NULL)
 		result = FAILURE;
 	else if (ft_lstsize(cmd->in) != 0)
 		result = FAILURE;
@@ -112,9 +115,14 @@ int	test_3cmd(char **envp)
 	cmd = (t_cmd *)cmds->content;
 	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
 		return (FAILURE);
-	if (ft_strncmp(cmd->args[0], "Hello", 10) != 0)
-		return (FAILURE);
-	if (cmd->args[1] != NULL)
+	if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
+			10) != 0)
+		return (ft_lstclear(&tokens, pass), ft_lstclear(&cmds, free_cmd),
+			FAILURE);
+	if (!cmd->args[1] || ft_strncmp(cmd->args[1], "Hello", 10) != 0)
+		return (ft_lstclear(&tokens, pass), ft_lstclear(&cmds, free_cmd),
+			FAILURE);
+	if (cmd->args[2] != NULL)
 		return (FAILURE);
 	if (ft_lstsize(cmd->in) != 1)
 		return (FAILURE);
@@ -126,18 +134,22 @@ int	test_3cmd(char **envp)
 	cmd = (t_cmd *)cmds->next->content;
 	if (ft_strncmp(cmd->bin, "ls", 10) != 0)
 		return (FAILURE);
-	if (ft_strncmp(cmd->args[0], "-l", 10) != 0)
+	if (ft_strncmp(cmd->args[0], "ls", 10) != 0)
 		return (FAILURE);
-	if (ft_strncmp(cmd->args[1], "-h", 10) != 0)
+	if (ft_strncmp(cmd->args[1], "-l", 10) != 0)
 		return (FAILURE);
-	if (cmd->args[2] != NULL)
+	if (ft_strncmp(cmd->args[2], "-h", 10) != 0)
+		return (FAILURE);
+	if (cmd->args[3] != NULL)
 		return (FAILURE);
 	if (ft_lstsize(cmd->in) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->next->content;
 	if (ft_strncmp(cmd->bin, "cat", 10) != 0)
 		return (FAILURE);
-	if (cmd->args[0] != NULL)
+	if (ft_strncmp(cmd->args[0], "cat", 10) != 0)
+		return (FAILURE);
+	if (cmd->args[1] != NULL)
 		return (FAILURE);
 	if (ft_lstsize(cmd->in) != 0)
 		return (FAILURE);
@@ -165,8 +177,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test_1cmd", test_1cmd, envp);
+	result |= run_test("test_3cmd", test_3cmd, envp);
 	result |= run_test("test_null", test_null, envp);
-	// result |= run_test("test_3cmd", test_3cmd, envp);
 	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
