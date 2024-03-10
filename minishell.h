@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/07 22:13:37 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:33:38 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdarg.h>
+# include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -39,7 +40,8 @@
 
 typedef enum token_type
 {
-	CMD = 1,
+	NOTDEF,
+	CMD,
 	ARG,
 	R_IN,
 	R_OUT,
@@ -111,6 +113,9 @@ int					exec_builtin(const t_cmd cmd);
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);
 
+// lexer.c
+t_list				*lexer(const char *line);
+
 // list_utils.c
 t_list				*ft_lstnew_old(t_cmd *cmd);
 t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
@@ -147,6 +152,7 @@ t_redirect			*new_redir(char *filename);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
+void				pass(void *content);
 
 // loop.c
 int					shell_loop(char *envp[]);
