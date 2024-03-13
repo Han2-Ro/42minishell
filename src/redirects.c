@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 15:23:36 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:53:45 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ int	open_file(const char *filename, int flags, int *fd)
 	if (*fd < 0)
 		return (log_msg(ERROR, "%s: %s", filename, strerror(errno)), FAILURE);
 	return (SUCCESS);
-}
-
-int	here_doc(const char *delimiter, int *fd)
-{
-	(void)delimiter;
-	if (*fd > 2)
-		close(*fd);
-	*fd = -1;
-	log_msg(ERROR, "here_doc not implemented yet");
-	return (FAILURE);
 }
 
 int	redir_to_fd(const t_token *token, t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/10 22:41:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 18:06:18 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	shell_loop(char *envp[])
 			log_msg(ERROR, "LEX error");
 			continue ;
 		}
+		free(line);
 		cmd_lst = parse(token_lst, envp);
 		if (!cmd_lst)
 		{
