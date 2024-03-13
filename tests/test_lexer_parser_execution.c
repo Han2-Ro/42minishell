@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:39:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 16:19:29 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:07:39 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	test1(char **envp)
 
 int	test2(char **envp)
 {
-	return (test_general("<tests/files/in_01 cat< tests/files/in_02 -e", 4, 1,
+	return (test_general("<tests/files/in_01 cat < tests/files/in_02 -e", 4, 1,
 			envp));
 }
 
@@ -53,6 +53,8 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test1", test1, envp);
 	result |= run_test("test2", test2, envp);
+	// TODO: Add more tests
+	// TODO: Test error cases
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

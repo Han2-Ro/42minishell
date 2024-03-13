@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:34:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:16:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	test_1cmd(char **envp)
 			10) != 0)
 		result = FAILURE;
 	// TODO: cmd->envp and cmd->pid is not checked
-	// TODO: free everything
 	ft_lstclear(&cmds, free_cmd);
 	return (result);
 }
@@ -158,7 +157,6 @@ int	test_3cmd(char **envp)
 			"out2.txt", 10) != 0)
 		return (FAILURE);
 	// TODO: cmd->envp and cmd->pid is not checked
-	// TODO: free everything
 	ft_lstclear(&tokens, pass);
 	ft_lstclear(&cmds, free_cmd);
 	return (SUCCESS);
