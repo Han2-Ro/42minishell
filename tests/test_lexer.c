@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
 /*   Updated: 2024/03/13 17:31:36 by aprevrha         ###   ########.fr       */
@@ -28,6 +28,23 @@ int	test_lexer(char **envp)
 	return (SUCCESS);
 }
 
+int	test_lexer2(char **envp)
+{
+	t_list	*token_lst;
+	char	*line;
+
+	log_msg(WARNING, "This test needs manual inspection of the output");
+	(void)envp;
+	line = "ls>out";
+	token_lst = lexer(line);
+	ft_lstiter(token_lst, print_token_new);
+	if (ft_lstsize(token_lst) != 2)
+	{
+		log_msg(ERROR, "Wrong number of tokens");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
 int	main(int argc, char **argv, char **envp)
 {
 	int result = SUCCESS;
@@ -36,6 +53,8 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test lexer", test_lexer, envp);
+	log_msg(WARNING, "test_lexer2 is currently disabled");
+	run_test("test lexer2", test_lexer2, envp); // TODO: add to result
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

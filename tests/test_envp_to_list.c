@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 17:36:25 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:28:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	test_real(char **envp)
 	lst = envp_to_list(envp);
 	if (lst == NULL)
 		return (FAILURE);
-	ft_lstiter(lst, print_env);
+	// ft_lstiter(lst, print_env);
 	ft_lstclear(&lst, free_env);
 	return (SUCCESS);
 }

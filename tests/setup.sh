@@ -6,5 +6,8 @@ abcdefg
 test123d
 äü" > tests/files/in
 
+echo "this is in_01" > tests/files/in_01
+echo "this is in_02" > tests/files/in_02
+
 echo "no permissions" > tests/files/no_perm
 chmod 000 tests/files/no_perm
