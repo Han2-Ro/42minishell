@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/13 17:05:54 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:51:18 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	expand(void *token)
 	char			*str;
 	int				quote;
 
+	if (((t_token *)token)->type == PIPE)
+		return ;
 	str = ((t_token *)token)->value;
 	quote = 0;
 	i = 0;

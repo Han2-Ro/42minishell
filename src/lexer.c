@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/10 22:05:11 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:54:01 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*lex_cmd(const char *line, unsigned int *i)
 	if (!token)
 		return (NULL);
 	lex_len = 0;
-	skip_until(&line[*i], &lex_len, " ", true);
+	skip_until(&line[*i], &lex_len, " |<>", true);
 	token->type = CMD;
 	token->value = ft_substr(line, *i, lex_len);
 	if (!(token->value))
