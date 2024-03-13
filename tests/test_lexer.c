@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 17:13:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:31:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	test_lexer(char **envp)
 
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	(void)envp;
-	line = "echo";
+	line = "'ec''ho'|cat -e";
 	token_lst = lexer(line);
 	ft_lstiter(token_lst, print_token_new);
 	return (SUCCESS);
