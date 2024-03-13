@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/10 22:47:53 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 16:24:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define FAILURE -1
 
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL INFO
+#  define LOG_LEVEL DEBUG
 # endif
 
 typedef enum token_type
@@ -95,11 +95,7 @@ typedef struct s_cmd
 	int				pid;
 }					t_cmd;
 
-int					exec_single_cmd(const t_cmd exec, int fd_in, int fd_out,
-						int to_close);
 int					exec_cmd_list(t_list *cmd_list);
-int					exec_cmd_line(t_list *cmd_list, const char *in_file,
-						const char *out_file);
 
 int					builtin_pwd(void);
 int					exec_builtin(const t_cmd cmd);

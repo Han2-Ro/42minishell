@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 22:45:34 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 15:23:36 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int	redirs_to_fds(t_list *cmd_list)
 		while (current_tkn != NULL)
 		{
 			if (redir_to_fd((t_token *)current_tkn->content, cmd) == FAILURE)
-				return (FAILURE);
+			{
+				break ;
+			}
 			current_tkn = current_tkn->next;
 		}
 		current_cmd = current_cmd->next;
