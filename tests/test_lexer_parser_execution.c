@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:39:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 17:33:25 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:36:27 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	test_general(char *line, int token_count, int cmd_count, char **envp)
 
 int	test1(char **envp)
 {
+	printf("test1\n");
 	return (test_general("ls -l|grep d > tests/files/out_01|wc -l", 9, 3,
 			envp));
 }
