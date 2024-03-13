@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/08 18:56:55 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/10 22:05:11 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,29 @@ t_token	*lex_cmd(const char *line, unsigned int *i)
 static unsigned int	arg_len(const char *arg)
 {
 	unsigned int	len;
+	unsigned int	add;
 
 	len = 0;
-	if (arg[0] == '\'')
+	add = 0;
+	while (true)
 	{
-		skip_until(&arg[1], &len, "\'", true);
-		len += 2;
+		if (arg[len] == '\'')
+		{
+			len++;
+			skip_until(arg, &len, "\'", true);
+			len++;
+		}
+		else if (arg[len] == '\"')
+		{
+			len++;
+			skip_until(arg, &len, "\"", true);
+			len++;
+		}
+		else if (!ft_strchr(" <>|", arg[len]))
+			skip_until(arg, &len, "\"\' <>|", true);
+		else
+			return (len);
 	}
-	else if (arg[0] == '\"')
-	{
-		skip_until(&arg[1], &len, "\"", true);
-		len += 2;
-	}
-	else
-	{
-		skip_until(&arg[0], &len, " <>|", true);
-	}
-	return (len);
 }
 
 t_token	*lex_arg(const char *line, unsigned int *i)
@@ -171,5 +177,6 @@ t_list	*lexer(const char *line)
 			capture_args = true;
 		}
 	}
+	ft_lstiter(token_lst, expand);
 	return (token_lst);
 }
