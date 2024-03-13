@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 22:32:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/13 15:32:34 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int	exec(t_cmd cmd)
 {
+	if (cmd.fd_in < 0 || cmd.fd_out < 0)
+		exit(1);
 	if (cmd.fd_in > 2)
 		dup2(cmd.fd_in, STDIN_FILENO);
 	if (cmd.fd_out > 2)
@@ -24,7 +26,8 @@ int	exec(t_cmd cmd)
 	log_msg(INFO, "executing %s", cmd.bin);
 	if (access(cmd.bin, X_OK) == 0)
 		execve(cmd.bin, cmd.args, __environ);
-	perror(cmd.bin);
+	log_msg(ERROR, "%s: %s", cmd.bin, strerror(errno));
+	exit(1);
 	return (FAILURE);
 }
 
