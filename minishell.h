@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/10 22:47:53 by hrother          ###   ########.fr       */
+/*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
+/*   Updated: 2024/03/10 22:10:25 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,14 @@ void				print_env(void *content);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
+// expand.c
+void				expand(void *token);
+
 // print_structs.c
 void				print_cmd(void *command);
 void				print_token(void *token);
 void				print_list(t_list *lst);
+void				print_token_new(void *p_tkn);
 
 // log.c
 int					log_msg(t_log_level level, char *msg, ...);
