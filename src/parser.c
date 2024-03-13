@@ -6,35 +6,30 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 18:03:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:21:30 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	process_token(t_token token, t_cmd **cmd, int *i_args)
+int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 {
-	log_msg(DEBUG, "Processing token: type:%i value:%s", token.type,
-		token.value);
-	if (token.type == CMD)
+	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
+		token->value);
+	if (token->type == CMD)
 	{
-		(*cmd)->bin = token.value;
-		(*cmd)->args[0] = token.value;
+		(*cmd)->bin = token->value;
+		(*cmd)->args[0] = token->value;
 	}
-	else if (token.type == ARG)
+	else if (token->type == ARG)
 	{
-		(*cmd)->args[*i_args] = token.value;
+		(*cmd)->args[*i_args] = token->value;
 		(*i_args)++;
 	}
-	else if (token.type == R_IN)
-		ft_lstadd_back(&(*cmd)->in, ft_lstnew(new_redir(token.value)));
-	else if (token.type == R_OUT)
-		ft_lstadd_back(&(*cmd)->out, ft_lstnew(new_redir(token.value)));
-	else if (token.type == R_APPEND)
-		log_msg(ERROR, "R_APPEND not yet implemented: skipping token");
-	else if (token.type == R_HEREDOC)
-		log_msg(ERROR, "R_HEREDOC not yet implemented: skipping token");
-	else if (token.type == PIPE)
+	else if (token->type == R_IN || token->type == R_OUT
+		|| token->type == R_APPEND || token->type == R_HEREDOC)
+		ft_lstadd_back(&(*cmd)->redirects, ft_lstnew(token));
+	else if (token->type == PIPE)
 		*cmd = NULL;
 	return (SUCCESS);
 }
@@ -84,7 +79,7 @@ t_cmd	*start_new_command(t_list **commands, int n_args, char **envp)
 /**
  * @brief Parse the tokens into a list of commands
  * @param tokens The list of tokens to parse
- * @return A list of commands that can be executed or NULL on error
+ * @return A list of commands or NULL on error
  */
 t_list	*parse(t_list *tokens, char **envp)
 {
@@ -107,8 +102,7 @@ t_list	*parse(t_list *tokens, char **envp)
 				return (ft_lstclear(&commands, free_cmd), NULL);
 			i_args = 1;
 		}
-		process_token(*(t_token *)current_token->content, &new_command,
-			&i_args);
+		process_token((t_token *)current_token->content, &new_command, &i_args);
 		current_token = current_token->next;
 	}
 	return (commands);

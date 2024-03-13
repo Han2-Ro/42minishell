@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/08 18:52:48 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 20:31:18 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ t_cmd	*new_cmd(char *bin, char **args, char **envp)
 	cmd->bin = bin;
 	cmd->args = args;
 	cmd->envp = envp;
-	cmd->in = NULL;
-	cmd->out = NULL;
+	cmd->redirects = NULL;
+	cmd->fd_in = STDIN_FILENO;
+	cmd->fd_out = STDOUT_FILENO;
 	cmd->pid = -1;
 	return (cmd);
 }
@@ -35,29 +36,8 @@ void	free_cmd(void *content)
 
 	cmd = (t_cmd *)content;
 	free(cmd->args);
-	ft_lstclear(&cmd->in, free);
-	ft_lstclear(&cmd->out, free);
+	ft_lstclear(&cmd->redirects, pass);
 	free(cmd);
-}
-
-t_redirect	*new_redir(char *filename)
-{
-	t_redirect	*redirect;
-
-	redirect = (t_redirect *)malloc(sizeof(t_redirect));
-	if (redirect == NULL)
-		return (log_msg(ERROR, "malloc failed"), NULL);
-	redirect->filename = filename;
-	return (redirect);
-}
-
-void	free_redir(void *content)
-{
-	t_redirect	*redir;
-
-	redir = (t_redirect *)content;
-	free(redir->filename);
-	free(redir);
 }
 
 void	free_str_arr(char **strs, int size)

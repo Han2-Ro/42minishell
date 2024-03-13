@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 18:00:35 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:34:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int	test_1cmd(char **envp)
 		result = FAILURE;
 	else if (cmd->args[2] != NULL)
 		result = FAILURE;
-	else if (ft_lstsize(cmd->in) != 0)
+	else if (ft_lstsize(cmd->redirects) != 1)
 		result = FAILURE;
-	else if (ft_lstsize(cmd->out) != 1)
+	else if (((t_token *)cmd->redirects->content)->type != R_OUT)
 		result = FAILURE;
-	else if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out.txt",
+	else if (ft_strncmp(((t_token *)cmd->redirects->content)->value, "out.txt",
 			10) != 0)
 		result = FAILURE;
 	// TODO: cmd->envp and cmd->pid is not checked
@@ -124,11 +124,9 @@ int	test_3cmd(char **envp)
 			FAILURE);
 	if (cmd->args[2] != NULL)
 		return (FAILURE);
-	if (ft_lstsize(cmd->in) != 1)
+	if (ft_lstsize(cmd->redirects) != 1)
 		return (FAILURE);
-	if (ft_lstsize(cmd->out) != 0)
-		return (FAILURE);
-	if (ft_strncmp(((t_redirect *)cmd->in->content)->filename, "in.txt",
+	if (ft_strncmp(((t_token *)cmd->redirects->content)->value, "in.txt",
 			10) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->content;
@@ -142,7 +140,7 @@ int	test_3cmd(char **envp)
 		return (FAILURE);
 	if (cmd->args[3] != NULL)
 		return (FAILURE);
-	if (ft_lstsize(cmd->in) != 0)
+	if (ft_lstsize(cmd->redirects) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->next->content;
 	if (ft_strncmp(cmd->bin, "cat", 10) != 0)
@@ -151,14 +149,12 @@ int	test_3cmd(char **envp)
 		return (FAILURE);
 	if (cmd->args[1] != NULL)
 		return (FAILURE);
-	if (ft_lstsize(cmd->in) != 0)
+	if (ft_lstsize(cmd->redirects) != 2)
 		return (FAILURE);
-	if (ft_lstsize(cmd->out) != 2)
-		return (FAILURE);
-	if (ft_strncmp(((t_redirect *)cmd->out->content)->filename, "out1.txt",
+	if (ft_strncmp(((t_token *)cmd->redirects->content)->value, "out1.txt",
 			10) != 0)
 		return (FAILURE);
-	if (ft_strncmp(((t_redirect *)cmd->out->next->content)->filename,
+	if (ft_strncmp(((t_token *)cmd->redirects->next->content)->value,
 			"out2.txt", 10) != 0)
 		return (FAILURE);
 	// TODO: cmd->envp and cmd->pid is not checked
