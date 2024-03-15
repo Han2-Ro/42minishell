@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/10 22:41:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:21:12 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int	shell_loop(char *envp[])
 {
-	char *line;
-	char *prompt;
-	t_list *token_lst;
-	t_list *cmd_lst;
+	char	*line;
+	char	*prompt;
+	t_list	*token_lst;
+	t_list	*cmd_lst;
 
 	prompt = "ms>";
-
 	while (1)
 	{
 		line = readline(prompt);
@@ -29,7 +28,6 @@ int	shell_loop(char *envp[])
 			break ;
 		if (line && *line)
 			add_history(line);
-
 		token_lst = lexer(line);
 		if (!token_lst)
 		{
