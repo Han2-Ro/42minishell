@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:59:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/06 17:08:20 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/15 16:08:02 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	while (lst)
 	{
 		content = f(lst->content);
-		node = ft_lstnew_old(content);
+		node = ft_lstnew(content);
 		if (!node)
 		{
 			free(node);
