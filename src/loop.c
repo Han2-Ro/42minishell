@@ -44,6 +44,8 @@ int	shell_loop(char *envp[])
 			continue ;
 		ft_lstiter(cmd_lst, print_cmd);
 		exec_cmd_list(cmd_lst);
+		free(line);
+		ft_lstclear(&cmd_lst, free_cmd);
 	}
 	return (SUCCESS);
 }
