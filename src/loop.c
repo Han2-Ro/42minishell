@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/13 18:28:43 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:49:01 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	shell_loop(char *envp[])
+int	shell_loop(t_list *envp)
 {
 	char	*line;
 	char	*prompt;
@@ -34,7 +34,7 @@ int	shell_loop(char *envp[])
 			log_msg(ERROR, "LEX error");
 			continue ;
 		}
-		cmd_lst = parse(token_lst, envp);
+		cmd_lst = parse(token_lst);
 		if (!cmd_lst)
 		{
 			log_msg(ERROR, "PARSE error");
@@ -43,7 +43,7 @@ int	shell_loop(char *envp[])
 		if (redirs_to_fds(cmd_lst) == FAILURE)
 			continue ;
 		ft_lstiter(cmd_lst, print_cmd);
-		exec_cmd_list(cmd_lst);
+		exec_cmd_list(cmd_lst, &envp);
 		free(line);
 		ft_lstclear(&cmd_lst, free_cmd);
 	}
