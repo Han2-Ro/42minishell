@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 22:10:25 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/13 17:54:28 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char				*path_to_bin(char *cmd);
 
 // redirects.c
 int					redirs_to_fds(t_list *cmd_list);
+
+int					here_doc(const char *delimiter, int *fd);
 
 // lexer.c
 t_list				*lexer(const char *line);
