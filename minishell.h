@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/15 16:30:34 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/16 17:02:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
 t_cmd				*new_cmd(char *bin, char **args);
+void				free_token(void *content);
 void				free_cmd(void *content);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
