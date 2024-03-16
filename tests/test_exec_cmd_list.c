@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 22:14:05 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/16 16:16:07 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	test_1cmd(char **envp)
 
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
-	cmd = new_cmd("/bin/ls", (char *[]){"ls", "-l", NULL}, envp);
+	cmd = new_cmd("/bin/ls", (char *[]){"ls", "-l", NULL});
 	fd_out = open("tests/files/out_02", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	cmd->fd_out = fd_out;
 	cmd_list = ft_lstadd(&cmd_list, cmd);
 	print_list(cmd_list);
-	exec_cmd_list(cmd_list);
+	exec_cmd_list(cmd_list, envp_to_list(envp));
 	destroy_list(cmd_list);
 	return (SUCCESS);
 }
@@ -38,11 +38,11 @@ int	test_2cmds(char **envp)
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
-				NULL}, envp));
+				NULL}));
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep", "d",
-				NULL}, envp));
+				NULL}));
 	print_list(cmd_list);
-	exec_cmd_list(cmd_list);
+	exec_cmd_list(cmd_list, envp_to_list(envp));
 	destroy_list(cmd_list);
 	return (SUCCESS);
 }
@@ -55,13 +55,13 @@ int	test_3cmds(char **envp)
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", (char *[]){"ls", "-l",
-				NULL}, envp));
+				NULL}));
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep", "d",
-				NULL}, envp));
+				NULL}));
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/wc", (char *[]){"wc", "-l",
-				NULL}, envp));
+				NULL}));
 	print_list(cmd_list);
-	result = exec_cmd_list(cmd_list);
+	result = exec_cmd_list(cmd_list, envp_to_list(envp));
 	destroy_list(cmd_list);
 	return (result);
 }
