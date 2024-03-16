@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 17:16:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/16 16:25:49 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	test_null(char **envp)
 	t_list	*tokens;
 	t_list	*cmds;
 
+	(void)envp;
 	tokens = NULL;
-	cmds = parse(tokens, envp);
+	cmds = parse(tokens);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
 		return (SUCCESS);
@@ -35,6 +36,7 @@ int	test_1cmd(char **envp)
 	t_token	token[3];
 	int		result;
 
+	(void)envp;
 	result = SUCCESS;
 	tokens = NULL;
 	token[0] = (t_token){.type = CMD, .value = "echo"};
@@ -44,7 +46,7 @@ int	test_1cmd(char **envp)
 	token[2] = (t_token){.type = R_OUT, .value = "out.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[2]));
 	ft_lstiter(tokens, print_token);
-	cmds = parse(tokens, envp);
+	cmds = parse(tokens);
 	ft_lstclear(&tokens, pass);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
@@ -69,7 +71,7 @@ int	test_1cmd(char **envp)
 	else if (ft_strncmp(((t_token *)cmd->redirects->content)->value, "out.txt",
 			10) != 0)
 		result = FAILURE;
-	// TODO: cmd->envp and cmd->pid is not checked
+	// TODO: cmd->pid is not checked
 	ft_lstclear(&cmds, free_cmd);
 	return (result);
 }
@@ -81,6 +83,7 @@ int	test_3cmd(char **envp)
 	t_cmd	*cmd;
 	t_token	token[11];
 
+	(void)envp;
 	tokens = NULL;
 	token[0] = (t_token){.type = CMD, .value = "echo"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
@@ -105,7 +108,7 @@ int	test_3cmd(char **envp)
 	token[10] = (t_token){.type = R_OUT, .value = "out2.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[10]));
 	ft_lstiter(tokens, print_token);
-	cmds = parse(tokens, envp);
+	cmds = parse(tokens);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
 		return (FAILURE);
@@ -156,7 +159,7 @@ int	test_3cmd(char **envp)
 	if (ft_strncmp(((t_token *)cmd->redirects->next->content)->value,
 			"out2.txt", 10) != 0)
 		return (FAILURE);
-	// TODO: cmd->envp and cmd->pid is not checked
+	// TODO: cmd->pid is not checked
 	ft_lstclear(&tokens, pass);
 	ft_lstclear(&cmds, free_cmd);
 	return (SUCCESS);
