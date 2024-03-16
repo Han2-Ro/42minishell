@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 17:31:36 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:06:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test lexer", test_lexer, envp);
-	log_msg(WARNING, "test_lexer2 is currently disabled");
-	run_test("test lexer2", test_lexer2, envp); // TODO: add to result
+	result |= run_test("test lexer2", test_lexer2, envp);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
