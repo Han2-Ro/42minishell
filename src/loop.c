@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/15 15:21:12 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:49:47 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int	shell_loop(t_list *envp)
 		free(line);
 		ft_lstclear(&cmd_lst, free_cmd);
 	}
+	ft_lstclear(&envp, free_env);
 	return (SUCCESS);
 }
