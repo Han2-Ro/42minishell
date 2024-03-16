@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/15 15:51:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/16 17:02:24 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ t_cmd	*new_cmd(char *bin, char **args)
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->pid = -1;
 	return (cmd);
+}
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	free(token->value);
+	free(token);
 }
 
 void	free_cmd(void *content)
