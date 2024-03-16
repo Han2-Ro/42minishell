@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 21:21:30 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:51:02 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	count_tokens(t_list *tokens, t_token_type type, t_token_type end)
 	return (count);
 }
 
-t_cmd	*start_new_command(t_list **commands, int n_args, char **envp)
+t_cmd	*start_new_command(t_list **commands, int n_args)
 {
 	t_cmd	*new_command;
 
 	log_msg(DEBUG, "Starting new command with %i args", n_args);
-	new_command = new_cmd(NULL, NULL, envp);
+	new_command = new_cmd(NULL, NULL);
 	if (new_command == NULL)
 		return (NULL);
 	ft_lstadd_back(commands, ft_lstnew(new_command));
@@ -81,7 +81,7 @@ t_cmd	*start_new_command(t_list **commands, int n_args, char **envp)
  * @param tokens The list of tokens to parse
  * @return A list of commands or NULL on error
  */
-t_list	*parse(t_list *tokens, char **envp)
+t_list	*parse(t_list *tokens)
 {
 	t_list	*commands;
 	t_list	*current_token;
@@ -97,7 +97,7 @@ t_list	*parse(t_list *tokens, char **envp)
 		if (new_command == NULL)
 		{
 			n_args = count_tokens(current_token, ARG, PIPE) + 1;
-			new_command = start_new_command(&commands, n_args, envp);
+			new_command = start_new_command(&commands, n_args);
 			if (new_command == NULL)
 				return (ft_lstclear(&commands, free_cmd), NULL);
 			i_args = 1;

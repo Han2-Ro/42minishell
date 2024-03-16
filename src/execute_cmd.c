@@ -6,26 +6,31 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 15:32:34 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/16 15:20:18 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-int	exec(t_cmd cmd)
+int	exec(t_cmd cmd, t_list **envp)
 {
+	char	**envp_array;
+
+	envp_array = envlst_to_envp(*envp);
+	if (envp_array == NULL)
+		exit(1);
 	if (cmd.fd_in < 0 || cmd.fd_out < 0)
 		exit(1);
 	if (cmd.fd_in > 2)
 		dup2(cmd.fd_in, STDIN_FILENO);
 	if (cmd.fd_out > 2)
 		dup2(cmd.fd_out, STDOUT_FILENO);
-	exec_builtin(cmd);
+	exec_builtin(cmd, envp);
 	cmd.bin = path_to_bin(cmd.bin);
 	log_msg(INFO, "executing %s", cmd.bin);
 	if (access(cmd.bin, X_OK) == 0)
-		execve(cmd.bin, cmd.args, __environ);
+		execve(cmd.bin, cmd.args, envp_array);
 	log_msg(ERROR, "%s: %s", cmd.bin, strerror(errno));
 	exit(1);
 	return (FAILURE);
@@ -92,7 +97,7 @@ int	run_in_child(void)
 	return (pid);
 }
 
-int	exec_cmd_list(t_list *cmd_list)
+int	exec_cmd_list(t_list *cmd_list, t_list **envp)
 {
 	t_list	*tmp;
 	t_cmd	cmd;
@@ -109,7 +114,7 @@ int	exec_cmd_list(t_list *cmd_list)
 		{
 			cmd = *((t_cmd *)tmp->content);
 			destroy_list(cmd_list);
-			exec(cmd);
+			exec(cmd, envp);
 		}
 		tmp = tmp->next;
 	}
@@ -120,7 +125,7 @@ int	exec_cmd_list(t_list *cmd_list)
 	{
 		cmd = *((t_cmd *)tmp->content);
 		destroy_list(cmd_list);
-		exec(cmd);
+		exec(cmd, envp);
 	}
 	wait_pids(cmd_list);
 	destroy_list(cmd_list);

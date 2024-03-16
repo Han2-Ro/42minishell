@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	shell_loop(char *envp[])
+int	shell_loop(t_list *envp)
 {
 	char	*line;
 	char	*prompt;
@@ -34,7 +34,7 @@ int	shell_loop(char *envp[])
 			log_msg(ERROR, "LEX error");
 			continue ;
 		}
-		cmd_lst = parse(token_lst, envp);
+		cmd_lst = parse(token_lst);
 		if (!cmd_lst)
 		{
 			log_msg(ERROR, "PARSE error");
@@ -43,7 +43,7 @@ int	shell_loop(char *envp[])
 		if (redirs_to_fds(cmd_lst) == FAILURE)
 			continue ;
 		ft_lstiter(cmd_lst, print_cmd);
-		exec_cmd_list(cmd_lst);
+		exec_cmd_list(cmd_lst, &envp);
 		free(line);
 		ft_lstclear(&cmd_lst, free_cmd);
 	}

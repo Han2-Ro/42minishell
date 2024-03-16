@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/13 17:15:13 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/15 15:51:14 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*new_cmd(char *bin, char **args, char **envp)
+t_cmd	*new_cmd(char *bin, char **args)
 {
 	t_cmd	*cmd;
 
@@ -21,7 +21,6 @@ t_cmd	*new_cmd(char *bin, char **args, char **envp)
 		return (log_msg(ERROR, "malloc failed"), NULL);
 	cmd->bin = bin;
 	cmd->args = args;
-	cmd->envp = envp;
 	cmd->redirects = NULL;
 	cmd->fd_in = STDIN_FILENO;
 	cmd->fd_out = STDOUT_FILENO;
