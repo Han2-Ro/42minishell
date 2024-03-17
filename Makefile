@@ -18,19 +18,19 @@ TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
-	$(CC) $(CFLAGS) $(OBJS) -L. -L./libft -lft -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L. -L./libft -lft -lreadline
 
-$(LIB): $(OBJS)
+$(LIB): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
-	ar rcs $@ $^
+	ar rcs $@ $(OBJS)
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
-	mkdir $(OBJ_DIR)/builtins
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/builtins
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TEST_DIR)/bin:
@@ -40,7 +40,7 @@ $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
-test: fclean $(TESTBINS)
+test: $(TESTBINS)
 	./$(TEST_DIR)/setup.sh; \
 	exit_code=0; \
 	for test in $(TESTBINS); do \
@@ -58,3 +58,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re test
