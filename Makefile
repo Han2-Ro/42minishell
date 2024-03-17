@@ -24,7 +24,7 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 
 $(LIB): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
-	ar rcs $@ $^
+	ar rcs $@ $(OBJS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -40,7 +40,7 @@ $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
 
 test: CFLAGS += -DLOG_LEVEL=DEBUG
-test: fclean $(TESTBINS)
+test: $(TESTBINS)
 	./$(TEST_DIR)/setup.sh; \
 	exit_code=0; \
 	for test in $(TESTBINS); do \
