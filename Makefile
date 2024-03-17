@@ -18,19 +18,19 @@ TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
-	$(CC) $(CFLAGS) $(OBJS) -L. -L./libft -lft -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L. -L./libft -lft -lreadline
 
-$(LIB): $(OBJS)
+$(LIB): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
 	ar rcs $@ $^
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
-	mkdir $(OBJ_DIR)/builtins
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/builtins
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TEST_DIR)/bin:
