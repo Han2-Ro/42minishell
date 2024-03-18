@@ -38,10 +38,17 @@ int	shell_loop(t_list *envp)
 		if (!cmd_lst)
 		{
 			log_msg(ERROR, "PARSE error");
+			free(line);
+			ft_lstclear(&token_lst, free_token);
 			continue ;
 		}
 		if (redirs_to_fds(cmd_lst) == FAILURE)
+		{
+			free(line);
+			ft_lstclear(&token_lst, free_token);
+			ft_lstclear(&cmd_lst, free_cmd);
 			continue ;
+		}
 		ft_lstiter(cmd_lst, print_cmd);
 		exec_cmd_list(cmd_lst, &envp);
 		free(line);
