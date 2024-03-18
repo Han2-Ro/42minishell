@@ -41,5 +41,9 @@ int	run_test(char *name, int (*test)(char **), char **envp, bool run_in_child)
 			return (FAILURE);
 		}
 	}
+	if (result == SUCCESS)
+		printf(GREEN "SUCCESS\n" RESET_COLOR);
+	else
+		printf(RED "FAILURE\n" RESET_COLOR);
 	return (result);
 }
