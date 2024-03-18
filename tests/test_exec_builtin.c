@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_pwd", test_pwd, envp);
+	result |= run_test("test_pwd", test_pwd, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

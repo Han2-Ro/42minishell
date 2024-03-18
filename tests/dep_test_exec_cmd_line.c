@@ -121,12 +121,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test file in, file out", test_file_file, envp);
-	result |= run_test("test std in, std out", test_std_std, envp);
-	result |= run_test("test file in, std out", test_file_std, envp);
-	result |= run_test("test std in, file out", test_std_file, envp);
-	result |= run_test("test unexisting infile", test_unexisting_infile, envp);
-	result |= run_test("test no perm outfile", test_no_perm_outfile, envp);
+	result |= run_test("test file in, file out", test_file_file, envp , true);
+	result |= run_test("test std in, std out", test_std_std, envp , true);
+	result |= run_test("test file in, std out", test_file_std, envp , true);
+	result |= run_test("test std in, file out", test_std_file, envp , true);
+	result |= run_test("test unexisting infile", test_unexisting_infile, envp , true);
+	result |= run_test("test no perm outfile", test_no_perm_outfile, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

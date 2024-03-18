@@ -52,8 +52,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test lexer", test_lexer, envp);
-	result |= run_test("test lexer2", test_lexer2, envp);
+	result |= run_test("test lexer", test_lexer, envp , true);
+	result |= run_test("test lexer2", test_lexer2, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

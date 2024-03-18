@@ -57,10 +57,10 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 #ifndef GITHUB_ACTIONS
-	result |= run_test("test1", test1, envp);
+	result |= run_test("test1", test1, envp , true);
 #endif
 
-	result |= run_test("test2", test2, envp);
+	result |= run_test("test2", test2, envp , true);
 	// TODO: Add more tests
 	// TODO: Test error cases
 	printf("result: %d\n", result != SUCCESS);

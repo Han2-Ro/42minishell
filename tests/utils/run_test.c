@@ -12,27 +12,34 @@
 
 #include "../../minishell.h"
 
-int	run_test(char *name, int (*test)(char **), char **envp)
+int	run_test(char *name, int (*test)(char **), char **envp, bool run_in_child)
 {
 	int	result;
 	int	pid;
 
 	printf("\n------%s------\n", name);
-	pid = fork();
+	pid = 0;
+	if (run_in_child)
+		pid = fork();
 	if (pid == 0)
 	{
 		result = test(envp);
-		exit(result);
+		if (run_in_child)
+			exit(result);
 	}
-	waitpid(pid, &result, 0);
-	if (WIFEXITED(result) && WEXITSTATUS(result) == 0)
+	if (run_in_child)
 	{
-		printf(GREEN "SUCCESS\n" RESET_COLOR);
-		return (SUCCESS);
+		waitpid(pid, &result, 0);
+		if (WIFEXITED(result) && WEXITSTATUS(result) == 0)
+		{
+			printf(GREEN "SUCCESS\n" RESET_COLOR);
+			return (SUCCESS);
+		}
+		else
+		{
+			printf(RED "FAILURE\n" RESET_COLOR);
+			return (FAILURE);
+		}
 	}
-	else
-	{
-		printf(RED "FAILURE\n" RESET_COLOR);
-		return (FAILURE);
-	}
+	return (result);
 }

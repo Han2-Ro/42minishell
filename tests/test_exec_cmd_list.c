@@ -102,10 +102,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_1cmd", test_1cmd, envp);
-	result |= run_test("test_2cmds", test_2cmds, envp);
-	result |= run_test("test_3cmds", test_3cmds, envp);
-	// result |= run_test("test_rw_file", test_rw_file, envp);
+	result |= run_test("test_1cmd", test_1cmd, envp , true);
+	result |= run_test("test_2cmds", test_2cmds, envp , true);
+	result |= run_test("test_3cmds", test_3cmds, envp , true);
+	// result |= run_test("test_rw_file", test_rw_file, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
