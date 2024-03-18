@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test envlst_to_envp", test_envlst_to_envp, envp);
+	result |= run_test("test envlst_to_envp", test_envlst_to_envp, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
