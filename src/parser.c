@@ -12,10 +12,27 @@
 
 #include "../minishell.h"
 
-int	process_token(t_token *token, t_cmd **cmd, int *i_args)
+int	add_redirect(t_cmd *cmd, t_token *redirect)
 {
 	t_list *new_node;
 
+	new_node = ft_lstnew(redirect);
+	if (new_node == NULL)
+		return (FAILURE);
+	ft_lstadd_back(&cmd->redirects, new_node);
+	return (SUCCESS);
+}
+
+int check_cmd(const t_cmd *cmd)
+{
+	if (cmd && cmd->bin && cmd->args && cmd->args[0])
+		return (SUCCESS);
+	log_msg(ERROR, "Syntax Error");
+	return (FAILURE);
+}
+
+int	process_token(t_token *token, t_cmd **cmd, int *i_args)
+{
 	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
 		token->value);
 	if (token->type == CMD)
@@ -30,14 +47,13 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 	}
 	else if (token->type == R_IN || token->type == R_OUT
 		|| token->type == R_APPEND || token->type == R_HEREDOC)
-	{
-		new_node = ft_lstnew(token);
-		if (new_node == NULL)
-			return (FAILURE);
-		ft_lstadd_back(&(*cmd)->redirects, new_node);
-	}
+		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
+	{
+		if (check_cmd(*cmd) == FAILURE)
+			return (FAILURE);
 		*cmd = NULL;
+	}
 	return (SUCCESS);
 }
 
@@ -117,5 +133,7 @@ t_list	*parse(t_list *tokens)
 			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}
+	if (check_cmd(new_command) == FAILURE)
+		return (ft_lstclear(&commands, free_cmd), NULL);
 	return (commands);
 }
