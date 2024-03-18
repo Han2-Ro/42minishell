@@ -12,6 +12,25 @@
 
 #include "../minishell.h"
 
+int	add_redirect(t_cmd *cmd, t_token *redirect)
+{
+	t_list *new_node;
+
+	new_node = ft_lstnew(redirect);
+	if (new_node == NULL)
+		return (FAILURE);
+	ft_lstadd_back(&cmd->redirects, new_node);
+	return (SUCCESS);
+}
+
+int check_cmd(const t_cmd *cmd)
+{
+	if (cmd && cmd->bin && cmd->args && cmd->args[0])
+		return (SUCCESS);
+	log_msg(ERROR, "Syntax Error");
+	return (FAILURE);
+}
+
 int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 {
 	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
@@ -28,9 +47,13 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 	}
 	else if (token->type == R_IN || token->type == R_OUT
 		|| token->type == R_APPEND || token->type == R_HEREDOC)
-		ft_lstadd_back(&(*cmd)->redirects, ft_lstnew(token));
+		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
+	{
+		if (check_cmd(*cmd) == FAILURE)
+			return (FAILURE);
 		*cmd = NULL;
+	}
 	return (SUCCESS);
 }
 
@@ -63,12 +86,16 @@ int	count_tokens(t_list *tokens, t_token_type type, t_token_type end)
 t_cmd	*start_new_command(t_list **commands, int n_args)
 {
 	t_cmd	*new_command;
+	t_list	*new_node;
 
 	log_msg(DEBUG, "Starting new command with %i args", n_args);
 	new_command = new_cmd(NULL, NULL);
 	if (new_command == NULL)
 		return (NULL);
-	ft_lstadd_back(commands, ft_lstnew(new_command));
+	new_node = ft_lstnew(new_command);
+	if (new_node == NULL)
+		return (free(new_command), NULL);
+	ft_lstadd_back(commands, new_node);
 	new_command->args = (char **)malloc(sizeof(char *) * (n_args + 1));
 	if (new_command->args == NULL)
 		return (log_msg(ERROR, "malloc failed"), NULL);
@@ -102,8 +129,11 @@ t_list	*parse(t_list *tokens)
 				return (ft_lstclear(&commands, free_cmd), NULL);
 			i_args = 1;
 		}
-		process_token((t_token *)current_token->content, &new_command, &i_args);
+		if (process_token((t_token *)current_token->content, &new_command, &i_args) == FAILURE)
+			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}
+	if (check_cmd(new_command) == FAILURE)
+		return (ft_lstclear(&commands, free_cmd), NULL);
 	return (commands);
 }

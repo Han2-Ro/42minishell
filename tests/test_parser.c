@@ -54,7 +54,7 @@ int	test_1cmd(char **envp)
 	if (ft_lstsize(cmds) != 1)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
-	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "echo", 10) != 0)
 		result = FAILURE;
 	else if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
 			10) != 0)
@@ -108,14 +108,16 @@ int	test_3cmd(char **envp)
 	token[10] = (t_token){.type = R_OUT, .value = "out2.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[10]));
 	ft_lstiter(tokens, print_token);
+	if (ft_lstsize(tokens) != 11)
+		return (ft_lstclear(&tokens, pass), FAILURE);
 	cmds = parse(tokens);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
-		return (FAILURE);
+		return (ft_lstclear(&tokens, pass), FAILURE);
 	if (ft_lstsize(cmds) != 3)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
-	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "echo", 10) != 0)
 		return (FAILURE);
 	if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
 			10) != 0)
@@ -132,7 +134,9 @@ int	test_3cmd(char **envp)
 			10) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->content;
-	if (ft_strncmp(cmd->bin, "ls", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "ls", 10) != 0)
+		return (FAILURE);
+	if (!cmd->args || !cmd->args[0] || !cmd->args[1] || !cmd->args[2])
 		return (FAILURE);
 	if (ft_strncmp(cmd->args[0], "ls", 10) != 0)
 		return (FAILURE);
@@ -145,7 +149,7 @@ int	test_3cmd(char **envp)
 	if (ft_lstsize(cmd->redirects) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->next->content;
-	if (ft_strncmp(cmd->bin, "cat", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "cat", 10) != 0)
 		return (FAILURE);
 	if (ft_strncmp(cmd->args[0], "cat", 10) != 0)
 		return (FAILURE);
@@ -173,9 +177,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_1cmd", test_1cmd, envp , true);
-	result |= run_test("test_3cmd", test_3cmd, envp , true);
-	result |= run_test("test_null", test_null, envp , true);
+	result |= run_test("test_1cmd", test_1cmd, envp , false);
+	result |= run_test("test_3cmd", test_3cmd, envp , false);
+	result |= run_test("test_null", test_null, envp , false);
 	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
