@@ -173,9 +173,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_1cmd", test_1cmd, envp , true);
-	result |= run_test("test_3cmd", test_3cmd, envp , true);
-	result |= run_test("test_null", test_null, envp , true);
+	result |= run_test("test_1cmd", test_1cmd, envp , false);
+	result |= run_test("test_3cmd", test_3cmd, envp , false);
+	result |= run_test("test_null", test_null, envp , false);
 	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
