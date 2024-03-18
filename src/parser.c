@@ -14,6 +14,8 @@
 
 int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 {
+	t_list *new_node;
+
 	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
 		token->value);
 	if (token->type == CMD)
@@ -28,7 +30,12 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 	}
 	else if (token->type == R_IN || token->type == R_OUT
 		|| token->type == R_APPEND || token->type == R_HEREDOC)
-		ft_lstadd_back(&(*cmd)->redirects, ft_lstnew(token));
+	{
+		new_node = ft_lstnew(token);
+		if (new_node == NULL)
+			return (FAILURE);
+		ft_lstadd_back(&(*cmd)->redirects, new_node);
+	}
 	else if (token->type == PIPE)
 		*cmd = NULL;
 	return (SUCCESS);
@@ -106,7 +113,8 @@ t_list	*parse(t_list *tokens)
 				return (ft_lstclear(&commands, free_cmd), NULL);
 			i_args = 1;
 		}
-		process_token((t_token *)current_token->content, &new_command, &i_args);
+		if (process_token((t_token *)current_token->content, &new_command, &i_args) == FAILURE)
+			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}
 	return (commands);

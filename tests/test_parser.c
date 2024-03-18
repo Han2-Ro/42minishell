@@ -108,10 +108,12 @@ int	test_3cmd(char **envp)
 	token[10] = (t_token){.type = R_OUT, .value = "out2.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[10]));
 	ft_lstiter(tokens, print_token);
+	if (ft_lstsize(tokens) != 11)
+		return (ft_lstclear(&tokens, pass), FAILURE);
 	cmds = parse(tokens);
 	ft_lstiter(cmds, print_cmd);
 	if (cmds == NULL)
-		return (FAILURE);
+		return (ft_lstclear(&tokens, pass), FAILURE);
 	if (ft_lstsize(cmds) != 3)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
