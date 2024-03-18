@@ -22,9 +22,10 @@ int	test_lexer(char **envp)
 
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	(void)envp;
-	line = "'ec''ho'|cat -e";
+	line = "echo www|cat>out>>END";
 	token_lst = lexer(line);
 	ft_lstiter(token_lst, print_token_new);
+	ft_lstclear(&token_lst, free_token);
 	return (SUCCESS);
 }
 
@@ -41,8 +42,10 @@ int	test_lexer2(char **envp)
 	if (ft_lstsize(token_lst) != 2)
 	{
 		log_msg(ERROR, "Wrong number of tokens");
+		ft_lstclear(&token_lst, free_token);
 		return (FAILURE);
 	}
+	ft_lstclear(&token_lst, free_token);
 	return (SUCCESS);
 }
 int	main(int argc, char **argv, char **envp)
