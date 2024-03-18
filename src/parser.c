@@ -63,12 +63,16 @@ int	count_tokens(t_list *tokens, t_token_type type, t_token_type end)
 t_cmd	*start_new_command(t_list **commands, int n_args)
 {
 	t_cmd	*new_command;
+	t_list	*new_node;
 
 	log_msg(DEBUG, "Starting new command with %i args", n_args);
 	new_command = new_cmd(NULL, NULL);
 	if (new_command == NULL)
 		return (NULL);
-	ft_lstadd_back(commands, ft_lstnew(new_command));
+	new_node = ft_lstnew(new_command);
+	if (new_node == NULL)
+		return (free(new_command), NULL);
+	ft_lstadd_back(commands, new_node);
 	new_command->args = (char **)malloc(sizeof(char *) * (n_args + 1));
 	if (new_command->args == NULL)
 		return (log_msg(ERROR, "malloc failed"), NULL);

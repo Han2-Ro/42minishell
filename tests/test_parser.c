@@ -54,7 +54,7 @@ int	test_1cmd(char **envp)
 	if (ft_lstsize(cmds) != 1)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
-	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "echo", 10) != 0)
 		result = FAILURE;
 	else if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
 			10) != 0)
@@ -115,7 +115,7 @@ int	test_3cmd(char **envp)
 	if (ft_lstsize(cmds) != 3)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->content;
-	if (ft_strncmp(cmd->bin, "echo", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "echo", 10) != 0)
 		return (FAILURE);
 	if (!cmd->args || !cmd->args[0] || ft_strncmp(cmd->args[0], "echo",
 			10) != 0)
@@ -132,7 +132,9 @@ int	test_3cmd(char **envp)
 			10) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->content;
-	if (ft_strncmp(cmd->bin, "ls", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "ls", 10) != 0)
+		return (FAILURE);
+	if (!cmd->args || !cmd->args[0] || !cmd->args[1] || !cmd->args[2])
 		return (FAILURE);
 	if (ft_strncmp(cmd->args[0], "ls", 10) != 0)
 		return (FAILURE);
@@ -145,7 +147,7 @@ int	test_3cmd(char **envp)
 	if (ft_lstsize(cmd->redirects) != 0)
 		return (FAILURE);
 	cmd = (t_cmd *)cmds->next->next->content;
-	if (ft_strncmp(cmd->bin, "cat", 10) != 0)
+	if (!cmd->bin || ft_strncmp(cmd->bin, "cat", 10) != 0)
 		return (FAILURE);
 	if (ft_strncmp(cmd->args[0], "cat", 10) != 0)
 		return (FAILURE);
