@@ -13,13 +13,6 @@
 #include "../minishell.h"
 #include <stdio.h>
 
-// TODO: Clear the list logic
-void	free_tokenlst(t_list *tokenlst)
-{
-	(void)tokenlst;
-	log_msg(WARNING, "lexer had to clear token list, something went wrong...");
-}
-
 static void	skip_until(const char *str, unsigned int *i, const char *charset,
 		bool val)
 {
@@ -121,7 +114,6 @@ t_token	*lex_redirect(const char *line, unsigned int *i)
 	if (redir_type == NOTDEF)
 		return (free(token), NULL);
 	token->type = redir_type;
-	// skip_until(line, i, "<>", false);
 	if (line[*i] == ' ')
 		skip_until(line, i, " ", false);
 	skip_until(&line[*i], &lex_len, " <>|", true);
@@ -146,15 +138,37 @@ t_token	*lex_pipe(const char *line, unsigned int *i)
 	return (token);
 }
 
-// TODO: Handle error: "lex retured NULL"
-// TODO: Fix bugs
+int	add_token(t_list **token_lst, const char *line, unsigned int *i, t_token *(*lex)(const char *, unsigned int *))
+{
+	t_list	*new_elm;
+	t_token	*token;
+
+	token = lex(line, i);
+	if (!token)
+	{
+		log_msg(ERROR, "Error lexing token %s:%i", __FILE__, __LINE__);
+		ft_lstclear(token_lst, free_token);
+		return (EXIT_FAILURE);
+	}
+	new_elm = ft_lstnew(token);
+	if (!new_elm)
+	{
+		log_msg(ERROR, "Malloc failed in ft_lstnew %s:%i", __FILE__, __LINE__);
+		ft_lstclear(token_lst, free_token);
+		free_token(token);
+		return (EXIT_FAILURE);
+	}
+	ft_lstadd_back(token_lst, new_elm);
+	return (EXIT_SUCCESS);
+}
+
 t_list	*lexer(const char *line)
 {
 	unsigned int	line_len;
 	unsigned int	i;
 	bool			capture_args;
 	t_list			*token_lst;
-
+	
 	token_lst = NULL;
 	line_len = ft_strlen(line);
 	i = 0;
@@ -164,16 +178,20 @@ t_list	*lexer(const char *line)
 		skip_until(line, &i, " ", false);
 		if (line[i] == '|')
 		{
-			ft_lstadd_back(&token_lst, ft_lstnew(lex_pipe(line, &i)));
+			add_token(&token_lst, line, &i, lex_pipe);
 			capture_args = false;
 		}
 		else if (ft_strchr("<>", line[i]))
-			ft_lstadd_back(&token_lst, ft_lstnew(lex_redirect(line, &i)));
+		{
+			add_token(&token_lst, line, &i, lex_redirect);
+		}
 		else if (capture_args)
-			ft_lstadd_back(&token_lst, ft_lstnew(lex_arg(line, &i)));
+		{
+			add_token(&token_lst, line, &i, lex_arg);
+		}
 		else
 		{
-			ft_lstadd_back(&token_lst, ft_lstnew(lex_cmd(line, &i)));
+			add_token(&token_lst, line, &i, lex_cmd);
 			capture_args = true;
 		}
 	}
