@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/16 17:02:42 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/24 23:35:20 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <signal.h>
 
 # define RED "\x1b[31m"
 # define YELLOW "\x1b[33m"
@@ -37,6 +38,8 @@
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL DEBUG
 # endif
+
+extern int	g_sig; //Global var for signals
 
 typedef enum token_type
 {
@@ -157,6 +160,9 @@ void				pass(void *content);
 
 // loop.c
 int					shell_loop(t_list *envp);
+
+// signals.c
+int	register_signals(void);
 
 t_list				*parse(t_list *tokens);
 
