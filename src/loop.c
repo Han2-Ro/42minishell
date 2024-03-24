@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/16 17:01:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/24 23:47:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,10 @@ int	shell_loop(t_list *envp)
 			ft_lstclear(&token_lst, free_token);
 			continue ;
 		}
-		if (redirs_to_fds(cmd_lst) == FAILURE)
-		{
-			free(line);
-			ft_lstclear(&token_lst, free_token);
-			ft_lstclear(&cmd_lst, free_cmd);
-			continue ;
-		}
 		ft_lstiter(cmd_lst, print_cmd);
 		exec_cmd_list(cmd_lst, &envp);
 		free(line);
 		ft_lstclear(&token_lst, free_token);
-		ft_lstclear(&cmd_lst, free_cmd);
 	}
 	rl_clear_history();
 	return (SUCCESS);
