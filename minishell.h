@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 00:28:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:33:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ typedef struct s_env
 
 /**
  * @brief A command to be executed
- * @param bin the actual command
- * @param args A list of strings
- * @param envp
+ * @param bin the actual command.
+ * @param args A list of strings.
  * @param in A list of input redirections
  * @param out A list of output redirections
  * @param pid The process id of the command
