@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 00:34:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:56:14 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 {
 	char	**envp_array;
 
-	envp_array = envlst_to_envp(*envp);
-	if (envp_array == NULL)
-		return (FAILURE);
 	if (cmd->fd_in < 0 || cmd->fd_out < 0)
 		return (FAILURE);
 	if (is_builtin(cmd))
@@ -81,7 +78,10 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
-	cmd->bin = path_to_bin(cmd->bin); // TODO: this mallocs, free it
+	cmd->bin = path_to_bin(cmd->bin);
+	envp_array = envlst_to_envp(*envp);
+	if (envp_array == NULL)
+		return (FAILURE);
 	ft_lstclear(envp, free_env);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(INFO, "executing %s", cmd->bin);

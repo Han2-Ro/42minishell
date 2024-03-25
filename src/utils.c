@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:34:06 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:56:04 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	free_cmd(void *content)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
-	// TODO: free cmd->bin
 	ft_lstclear(&cmd->redirects, pass);
 	free(cmd->args);
 	free(cmd);
