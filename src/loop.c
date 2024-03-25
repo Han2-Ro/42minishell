@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/24 23:47:42 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:25:43 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 int	shell_loop(t_list *envp)
 {
+	int		exit_status;
 	char	*line;
 	char	*prompt;
 	t_list	*token_lst;
 	t_list	*cmd_lst;
 
+	exit_status = 0;
 	prompt = "ms>";
 	while (1)
 	{
+		prompt = ft_strjoin(ft_itoa(exit_status), " ms>");
 		line = readline(prompt);
 		log_msg(DEBUG, "Inputed line: %s\n", line);
 		if (!line)
@@ -43,7 +46,7 @@ int	shell_loop(t_list *envp)
 			continue ;
 		}
 		ft_lstiter(cmd_lst, print_cmd);
-		exec_cmd_list(cmd_lst, &envp);
+		exit_status = exec_cmd_list(cmd_lst, &envp);
 		free(line);
 		ft_lstclear(&token_lst, free_token);
 	}

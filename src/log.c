@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:15:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/03 20:08:24 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:28:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	log_msg(t_log_level level, char *msg, ...)
 	if (level <= LOG_LEVEL)
 	{
 		if (level == ERROR)
-			fprintf(stderr, "\033[41;37m ERORR \033[0m ");
+			fprintf(stderr, "\033[41;37m ERROR \033[0m ");
 		else if (level == WARNING)
 			fprintf(stderr, "\033[45;37m WARNING \033[0m ");
 		else if (level == INFO)

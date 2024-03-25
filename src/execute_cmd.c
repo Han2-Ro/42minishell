@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:56:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 16:40:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,23 @@ int	setup_pipes(t_list *cmd_list)
 int	wait_pids(t_list *cmd_list)
 {
 	t_list	*tmp;
+	int		exit_status;
 
 	tmp = cmd_list;
 	while (tmp != NULL)
 	{
 		log_msg(DEBUG, "waiting for pid: %d", ((t_cmd *)tmp->content)->pid);
 		if (((t_cmd *)tmp->content)->pid > 0)
-			waitpid(((t_cmd *)tmp->content)->pid, NULL, 0);
+		{
+			waitpid(((t_cmd *)tmp->content)->pid, &exit_status, 0);
+			if (WIFEXITED(exit_status))
+				exit_status = WEXITSTATUS(exit_status);
+			else
+				exit_status = 1;
+		}
 		tmp = tmp->next;
 	}
-	return (SUCCESS);
+	return (exit_status);
 }
 
 void	close_fds(void *content)
@@ -95,6 +102,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 int	exec_cmd_list(t_list *cmd_list, t_list **envp)
 {
 	t_list	*current_cmd;
+	int		exit_status;
 
 	if (setup_pipes(cmd_list) != SUCCESS || redirs_to_fds(cmd_list) != SUCCESS)
 		return (ft_lstclear(&cmd_list, free_cmd), FAILURE);
@@ -105,7 +113,7 @@ int	exec_cmd_list(t_list *cmd_list, t_list **envp)
 		current_cmd = current_cmd->next;
 	}
 	ft_lstiter(cmd_list, close_fds);
-	wait_pids(cmd_list);
+	exit_status = wait_pids(cmd_list);
 	ft_lstclear(&cmd_list, free_cmd);
-	return (SUCCESS);
+	return (exit_status);
 }
