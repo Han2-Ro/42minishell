@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/16 16:04:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 00:25:14 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*get_key(char *arg)
 	return (arg);
 }
 
-int	builtin_export(t_list **envp, char **args)
+int	builtin_export(const t_cmd *cmd, t_list **envp)
 {
 	t_list	*current;
 	t_env	*env;
@@ -69,10 +69,10 @@ int	builtin_export(t_list **envp, char **args)
 	char	*value;
 
 	// TODO: variable count of args
-	value = get_value(args[1]);
+	value = get_value(cmd->args[1]);
 	if (!value)
 		return (log_msg(ERROR, "export failed"), FAILURE);
-	key = get_key(args[1]);
+	key = get_key(cmd->args[1]);
 	current = *envp;
 	while (current)
 	{
@@ -93,6 +93,6 @@ int	builtin_export(t_list **envp, char **args)
 		free(env->value);
 		env->value = combine_key_value(key, value);
 	}
-	builtin_env(*envp);
+	builtin_env(cmd, *envp);
 	return (SUCCESS);
 }

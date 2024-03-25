@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/24 23:35:20 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:14:13 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,8 @@ typedef struct s_env
 
 /**
  * @brief A command to be executed
- * @param bin the actual command
- * @param args A list of strings
- * @param envp
+ * @param bin the actual command.
+ * @param args A list of strings.
  * @param in A list of input redirections
  * @param out A list of output redirections
  * @param pid The process id of the command
@@ -100,10 +99,11 @@ typedef struct s_cmd
 int					exec_cmd_list(t_list *cmd_list, t_list **envp);
 
 // builtins
-int					builtin_export(t_list **envp, char **args);
-int					builtin_env(const t_list *envp);
-int					builtin_pwd(void);
-int					exec_builtin(const t_cmd cmd, t_list **envp);
+int					builtin_export(const t_cmd *cmd, t_list **envp);
+int					builtin_env(const t_cmd *cmd, const t_list *envp);
+int					builtin_pwd(const t_cmd *cmd, t_list **envp);
+int					is_builtin(const t_cmd *cmd);
+int					exec_builtin(t_cmd *cmd, t_list **envp);
 
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd);

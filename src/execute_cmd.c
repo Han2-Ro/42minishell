@@ -6,61 +6,33 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/17 18:19:53 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:56:14 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-int	exec(t_cmd cmd, t_list **envp)
+void	log_file_error(const char *filename)
 {
-	char	**envp_array;
-
-	envp_array = envlst_to_envp(*envp);
-	if (envp_array == NULL)
-		exit(1);
-	if (cmd.fd_in < 0 || cmd.fd_out < 0)
-		exit(1);
-	if (cmd.fd_in > 2)
-		dup2(cmd.fd_in, STDIN_FILENO);
-	if (cmd.fd_out > 2)
-		dup2(cmd.fd_out, STDOUT_FILENO);
-	exec_builtin(cmd, envp);
-	cmd.bin = path_to_bin(cmd.bin);
-	log_msg(INFO, "executing %s", cmd.bin);
-	if (access(cmd.bin, X_OK) == 0)
-		execve(cmd.bin, cmd.args, envp_array);
-	log_msg(ERROR, "%s: %s", cmd.bin, strerror(errno));
-	exit(1);
-	return (FAILURE);
+	log_msg(ERROR, "%s: %s", filename, strerror(errno));
 }
 
-int	setup_pipe(void)
+int	setup_pipes(t_list *cmd_list)
 {
-	int	pipe_fds[2];
-	int	pid;
+	t_list	*current_cmd;
+	int		pipe_fds[2];
 
-	if (pipe(pipe_fds) != 0)
-		return (FAILURE);
-	log_msg(DEBUG, "pipe_fds[0]: %d, pipe_fds[1]: %d", pipe_fds[0],
-		pipe_fds[1]);
-	pid = fork();
-	if (pid < 0)
-		return (FAILURE);
-	if (pid == 0)
+	current_cmd = cmd_list;
+	while (current_cmd != NULL && current_cmd->next != NULL)
 	{
-		close(pipe_fds[0]);
-		dup2(pipe_fds[1], STDOUT_FILENO);
-		close(pipe_fds[1]);
+		if (pipe(pipe_fds) != SUCCESS)
+			return (log_msg(ERROR, "pipe: %s", strerror(errno)), FAILURE);
+		((t_cmd *)current_cmd->content)->fd_out = pipe_fds[1];
+		((t_cmd *)current_cmd->next->content)->fd_in = pipe_fds[0];
+		current_cmd = current_cmd->next;
 	}
-	else
-	{
-		close(pipe_fds[1]);
-		dup2(pipe_fds[0], STDIN_FILENO);
-		close(pipe_fds[0]);
-	}
-	return (pid);
+	return (SUCCESS);
 }
 
 int	wait_pids(t_list *cmd_list)
@@ -71,64 +43,69 @@ int	wait_pids(t_list *cmd_list)
 	while (tmp != NULL)
 	{
 		log_msg(DEBUG, "waiting for pid: %d", ((t_cmd *)tmp->content)->pid);
-		waitpid(((t_cmd *)tmp->content)->pid, NULL, 0);
+		if (((t_cmd *)tmp->content)->pid > 0)
+			waitpid(((t_cmd *)tmp->content)->pid, NULL, 0);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
 
-void	log_file_error(const char *filename)
+void	close_fds(void *content)
 {
-	log_msg(ERROR, "%s: %s", filename, strerror(errno));
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)content;
+	if (cmd->fd_in > 2) // TODO: consider using isatty()
+		close(cmd->fd_in);
+	if (cmd->fd_out > 2)
+		close(cmd->fd_out);
 }
 
-int	run_in_child(void)
+int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 {
-	int	pid;
+	char	**envp_array;
 
-	pid = fork();
-	if (pid < 0)
+	if (cmd->fd_in < 0 || cmd->fd_out < 0)
 		return (FAILURE);
-	if (pid > 0)
-	{
-		waitpid(pid, NULL, 0);
-		return (pid);
-	}
-	return (pid);
+	if (is_builtin(cmd))
+		return (exec_builtin(cmd, envp));
+	cmd->pid = fork();
+	if (cmd->pid < 0)
+		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
+	if (cmd->pid > 0)
+		return (SUCCESS);
+	if (cmd->fd_in > 2) // TODO: consider using isatty()
+		dup2(cmd->fd_in, STDIN_FILENO);
+	if (cmd->fd_out > 2)
+		dup2(cmd->fd_out, STDOUT_FILENO);
+	cmd->bin = path_to_bin(cmd->bin);
+	envp_array = envlst_to_envp(*envp);
+	if (envp_array == NULL)
+		return (FAILURE);
+	ft_lstclear(envp, free_env);
+	ft_lstiter(cmd_list, close_fds);
+	log_msg(INFO, "executing %s", cmd->bin);
+	if (access(cmd->bin, X_OK) == 0)
+		execve(cmd->bin, cmd->args, envp_array);
+	log_msg(ERROR, "%s: %s", cmd->bin, strerror(errno));
+	exit(1);
+	return (FAILURE);
 }
 
 int	exec_cmd_list(t_list *cmd_list, t_list **envp)
 {
-	t_list	*tmp;
-	t_cmd	cmd;
+	t_list	*current_cmd;
 
-	if (run_in_child() > 0)
-		return (SUCCESS);
-	tmp = cmd_list;
-	while (tmp != NULL && tmp->next != NULL)
+	if (setup_pipes(cmd_list) != SUCCESS || redirs_to_fds(cmd_list) != SUCCESS)
+		return (ft_lstclear(&cmd_list, free_cmd), FAILURE);
+	current_cmd = cmd_list;
+	while (current_cmd != NULL)
 	{
-		((t_cmd *)tmp->content)->pid = setup_pipe();
-		if (((t_cmd *)tmp->content)->pid < 0)
-			return (FAILURE);
-		if (((t_cmd *)tmp->content)->pid == 0)
-		{
-			cmd = *((t_cmd *)tmp->content);
-			ft_lstclear(&cmd_list, free); // TODO: check if everything is freed
-			exec(cmd, envp);
-		}
-		tmp = tmp->next;
+		exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp);
+		current_cmd = current_cmd->next;
 	}
-	((t_cmd *)tmp->content)->pid = fork();
-	if (((t_cmd *)tmp->content)->pid < 0)
-		return (FAILURE);
-	if (((t_cmd *)tmp->content)->pid == 0)
-	{
-		cmd = *((t_cmd *)tmp->content);
-		ft_lstclear(&cmd_list, free); // TODO: check if everything is freed
-		exec(cmd, envp);
-	}
+	ft_lstiter(cmd_list, close_fds);
 	wait_pids(cmd_list);
 	ft_lstclear(&cmd_list, free_cmd);
-	exit(0);
-	return (FAILURE);
+	return (SUCCESS);
 }

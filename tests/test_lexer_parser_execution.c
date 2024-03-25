@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:39:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/16 16:24:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 15:09:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	test_general(char *line, int token_count, int cmd_count, char **envp)
 	cmd_lst = parse(token_lst);
 	if (ft_lstsize(cmd_lst) != cmd_count)
 		return (log_msg(ERROR, "Command list has wrong size."), FAILURE);
-	redirs_to_fds(cmd_lst);
 	ft_lstiter(cmd_lst, print_cmd);
 	exec_cmd_list(cmd_lst, &envp_list);
 	return (SUCCESS);
@@ -57,10 +56,10 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 #ifndef GITHUB_ACTIONS
-	result |= run_test("test1", test1, envp , true);
+	result |= run_test("test1", test1, envp, true);
 #endif
 
-	result |= run_test("test2", test2, envp , true);
+	result |= run_test("test2", test2, envp, true);
 	// TODO: Add more tests
 	// TODO: Test error cases
 	printf("result: %d\n", result != SUCCESS);
