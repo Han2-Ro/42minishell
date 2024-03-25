@@ -17,7 +17,6 @@ int	run_test(char *name, int (*test)(char **), char **envp, bool run_in_child)
 	int	result;
 	int	pid;
 
-	run_in_child = false;
 	printf("\n------%s------\n", name);
 	pid = 0;
 	if (run_in_child)
