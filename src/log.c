@@ -22,17 +22,17 @@ int	log_msg(t_log_level level, char *msg, ...)
 	if (level <= LOG_LEVEL)
 	{
 		if (level == ERROR)
-			fprintf(stdout, "\033[41;37m ERORR \033[0m ");
+			fprintf(stderr, "\033[41;37m ERORR \033[0m ");
 		else if (level == WARNING)
-			fprintf(stdout, "\033[45;37m WARNING \033[0m ");
+			fprintf(stderr, "\033[45;37m WARNING \033[0m ");
 		else if (level == INFO)
-			fprintf(stdout, "\033[47;90m INFO \033[0m ");
+			fprintf(stderr, "\033[47;90m INFO \033[0m ");
 		else if (level == DEBUG)
-			fprintf(stdout, "\033[103;90m DEBUG \033[0m ");
+			fprintf(stderr, "\033[103;90m DEBUG \033[0m ");
 		va_start(args, msg);
-		vfprintf(stdout, msg, args);
+		vfprintf(stderr, msg, args);
 		va_end(args);
-		fprintf(stdout, "\n");
+		fprintf(stderr, "\n");
 	}
 	return (SUCCESS);
 }
