@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 18:11:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/26 12:03:14 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -21,7 +22,6 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -103,6 +103,7 @@ int					builtin_export(const t_cmd *cmd, t_list **envp);
 int					builtin_env(const t_cmd *cmd, t_list **envp);
 int					builtin_pwd(const t_cmd *cmd, t_list **envp);
 int					builtin_exit(const t_cmd *cmd, t_list **envp);
+int					builtin_echo(const t_cmd *cmd, t_list **envp);
 int					is_builtin(const t_cmd *cmd);
 int					exec_builtin(t_cmd *cmd, t_list **envp);
 
