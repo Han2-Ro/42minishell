@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 16:14:13 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:11:23 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -25,7 +26,6 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <signal.h>
 
 # define RED "\x1b[31m"
 # define YELLOW "\x1b[33m"
@@ -39,7 +39,7 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
-extern int	g_sig; //Global var for signals
+extern int g_sig; // Global var for signals
 
 typedef enum token_type
 {
@@ -100,8 +100,9 @@ int					exec_cmd_list(t_list *cmd_list, t_list **envp);
 
 // builtins
 int					builtin_export(const t_cmd *cmd, t_list **envp);
-int					builtin_env(const t_cmd *cmd, const t_list *envp);
+int					builtin_env(const t_cmd *cmd, t_list **envp);
 int					builtin_pwd(const t_cmd *cmd, t_list **envp);
+int					builtin_exit(const t_cmd *cmd, t_list **envp);
 int					is_builtin(const t_cmd *cmd);
 int					exec_builtin(t_cmd *cmd, t_list **envp);
 
@@ -162,7 +163,7 @@ void				pass(void *content);
 int					shell_loop(t_list *envp);
 
 // signals.c
-int	register_signals(void);
+int					register_signals(void);
 
 t_list				*parse(t_list *tokens);
 

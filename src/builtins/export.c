@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 00:25:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:14:09 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,5 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 		free(env->value);
 		env->value = combine_key_value(key, value);
 	}
-	builtin_env(cmd, *envp);
 	return (SUCCESS);
 }
