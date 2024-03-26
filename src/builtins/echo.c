@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 11:47:08 by hannes            #+#    #+#             */
-/*   Updated: 2024/03/26 12:05:22 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/26 12:28:10 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	builtin_echo(const t_cmd *cmd, t_list **envp)
 	n_flag = (i > 1);
 	while (cmd->args[i])
 	{
-		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
+		ft_putstr_fd(cmd->args[i], cmd->fd_out);
 		if (cmd->args[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
+			ft_putstr_fd(cmd->args[i], cmd->fd_out);
 		i++;
 	}
 	if (!n_flag)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", cmd->fd_out);
 	return (SUCCESS);
 }
