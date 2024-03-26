@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 11:47:08 by hannes            #+#    #+#             */
-/*   Updated: 2024/03/26 12:01:06 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/26 12:05:22 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	builtin_echo(const t_cmd *cmd, t_list **envp)
 	bool	n_flag;
 	int		i;
 
+	(void)envp;
 	i = 1;
 	while (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 5) == 0)
 		i++;
@@ -30,4 +31,5 @@ int	builtin_echo(const t_cmd *cmd, t_list **envp)
 	}
 	if (!n_flag)
 		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (SUCCESS);
 }
