@@ -144,7 +144,6 @@ void				expand(void *token);
 // print_structs.c
 void				print_cmd(void *command);
 void				print_token(void *token);
-void				print_list(t_list *lst);
 void				print_token_new(void *p_tkn);
 
 // log.c

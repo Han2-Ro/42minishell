@@ -61,12 +61,3 @@ void	print_token_new(void *p_tkn)
 		log_msg(WARNING, "type = %i: Type out of range!\n", token->type);
 	log_msg(DEBUG, "%i:%s [%s]", token->type, names[token->type], token->value);
 }
-
-void	print_list(t_list *lst)
-{
-	while (lst != NULL)
-	{
-		print_cmd((t_cmd *)lst->content);
-		lst = lst->next;
-	}
-}

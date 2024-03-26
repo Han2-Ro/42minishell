@@ -41,10 +41,8 @@ t_token	*lex_cmd(const char *line, unsigned int *i)
 static unsigned int	arg_len(const char *arg)
 {
 	unsigned int	len;
-	unsigned int	add;
 
 	len = 0;
-	add = 0;
 	while (true)
 	{
 		if (arg[len] == '\'')
