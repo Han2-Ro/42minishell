@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/26 12:03:14 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/26 16:01:58 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_token
 
 typedef struct s_env
 {
+	char			*key;
 	char			*value;
 }					t_env;
 
@@ -136,6 +137,20 @@ int					ft_lstsize(t_list *lst);
 // environment.c
 void				free_env(void *content);
 void				print_env(void *content);
+char				*combine_key_value(char *key, char *value);
+t_env				*new_env(char *key, char *value);
+/**
+ * @brief Get the value from a string like "key=value"
+ * @param arg The string to extract the value from
+ * @return The value as a string, that must be freed or NULL on error
+*/
+char				*get_value(char *arg);
+/**
+ * @brief Get the key from a string like "key=value"
+ * @param arg The string to extract the key from
+ * @return The key as a string, that must be freed or NULL on error
+*/
+char				*get_key(char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
