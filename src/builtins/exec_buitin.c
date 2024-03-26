@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buitin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 18:11:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/26 12:01:51 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	is_builtin(const t_cmd *cmd)
 		return (true);
 	if (ft_strncmp(cmd->bin, "exit", 10) == 0)
 		return (true);
+	if (ft_strncmp(cmd->bin, "echo", 10) == 0)
+		return (true);
 	return (false);
 }
 
@@ -36,5 +38,7 @@ int	exec_builtin(t_cmd *cmd, t_list **envp)
 		return (builtin_export(cmd, envp));
 	if (ft_strncmp(cmd->bin, "exit", 10) == 0)
 		return (builtin_exit(cmd, envp));
+	if (ft_strncmp(cmd->bin, "echo", 10) == 0)
+		return (builtin_echo(cmd, envp));
 	return (FAILURE);
 }
