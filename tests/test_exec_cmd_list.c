@@ -33,7 +33,7 @@ int	test_1cmd(char **envp)
 	redirect.value = "tests/files/out_02";
 	ft_lstadd_back(&cmd->redirects, ft_lstnew(&redirect));
 	cmd_list = ft_lstadd(&cmd_list, cmd);
-	print_list(cmd_list);
+	ft_lstiter(cmd_list, print_cmd);
 	exec_cmd_list(cmd_list, &envp_list);
 	ft_lstclear(&envp_list, free_env);
 	return (SUCCESS);
@@ -59,7 +59,7 @@ int	test_2cmds(char **envp)
 	args2[1] = "d";
 	args2[2] = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", args2));
-	print_list(cmd_list);
+	ft_lstiter(cmd_list, print_cmd);
 	exec_cmd_list(cmd_list, &envp_list);
 	ft_lstclear(&envp_list, free_env);
 	return (SUCCESS);
@@ -92,7 +92,7 @@ int	test_3cmds(char **envp)
 	args3[1] = "-l";
 	args3[2] = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/wc", args3));
-	print_list(cmd_list);
+	ft_lstiter(cmd_list, print_cmd);
 	result = exec_cmd_list(cmd_list, &envp_list);
 	ft_lstclear(&envp_list, free_env);
 	return (result);
@@ -110,7 +110,7 @@ int	test_rw_file(char **envp)
 	cmd_list = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep",
 				"test", NULL}, envp));
-	print_list(cmd_list);
+	ft_lstiter(cmd_list, print_cmd);
 	in = open("tests/files/in", O_RDONLY);
 	out = open("tests/files/out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	result = exec_cmd_list(cmd_list, in, out);
