@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/26 16:08:02 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/31 16:21:25 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,11 @@ t_env	*new_env(char *key, char *value)
 {
 	t_env	*env;
 
-	log_msg(DEBUG, "new_env: key:%s value:%s", key, value);
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
 		return (NULL);
 	env->key = key;
-	env->key = value;
+	env->value = value;
 	return (env);
 }
 
@@ -74,7 +73,6 @@ char	*get_key(char *arg)
 	i = 0;
 	while (arg[i] && arg[i] != '=')
 		i++;
-	arg[i] = '\0';
 	return (ft_substr(arg, 0, i));
 }
 
