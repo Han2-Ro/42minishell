@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:00:29 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 18:14:42 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:55:49 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ int	builtin_env(const t_cmd *cmd, t_list **envp)
 	t_env *env;
 	t_list *current;
 
+	(void)cmd;
 	current = *envp;
 	while (current != NULL)
 	{
 		env = (t_env *)(current)->content;
-		ft_putendl_fd(env->value, cmd->fd_out);
+		ft_printf("%s=%s\n", env->key, env->value);
 		current = current->next;
 	}
 	return (SUCCESS);
