@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/31 16:21:25 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/31 16:34:19 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	**envlst_to_envp(t_list *envlst)
 	i = 0;
 	while (i < listlen)
 	{
-		envp[i] = ft_strdup(((t_env *)envlst->content)->value);
+		envp[i] = combine_key_value(((t_env *)envlst->content)->key, ((t_env *)envlst->content)->value);
 		if (envp[i] == NULL)
 			return (free_str_arr(envp, i), NULL);
 		envlst = envlst->next;
