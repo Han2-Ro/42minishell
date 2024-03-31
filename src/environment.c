@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/31 16:34:19 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/31 16:40:07 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_env(void *content)
 	t_env	*env;
 
 	env = (t_env *)content;
+	free(env->key);
 	free(env->value);
 	free(env);
 }
