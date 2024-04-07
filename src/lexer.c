@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/25 19:46:23 by hannes           ###   ########.fr       */
+/*   Updated: 2024/03/26 15:29:42 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 		return (*i += 2, R_HEREDOC);
 	else if (redir_str[0] == '<' && !ft_strchr("<>", redir_str[1]))
 		return (*i += 1, R_IN);
-	else
-		return (log_msg(ERROR, "Wrong redirect syntax!"), NOTDEF);
+	return (log_msg(ERROR, "Wrong redirect syntax!"), NOTDEF);
+	skip_until(redir_str, i, "<>", false);
 }
 
 t_token	*lex_redirect(const char *line, unsigned int *i)
@@ -166,30 +166,34 @@ t_list	*lexer(const char *line)
 	unsigned int	i;
 	bool			capture_args;
 	t_list			*token_lst;
+	int				fail;
 	
 	token_lst = NULL;
 	line_len = ft_strlen(line);
 	i = 0;
+	fail = 0;
 	capture_args = false;
-	while (i < line_len)
+	while (i < line_len && !fail)
 	{
 		skip_until(line, &i, " ", false);
+		if (!line[i])
+			break ;
 		if (line[i] == '|')
 		{
-			add_token(&token_lst, line, &i, lex_pipe);
+			fail += add_token(&token_lst, line, &i, lex_pipe);
 			capture_args = false;
 		}
 		else if (ft_strchr("<>", line[i]))
 		{
-			add_token(&token_lst, line, &i, lex_redirect);
+			fail += add_token(&token_lst, line, &i, lex_redirect);
 		}
 		else if (capture_args)
 		{
-			add_token(&token_lst, line, &i, lex_arg);
+			fail += add_token(&token_lst, line, &i, lex_arg);
 		}
 		else
 		{
-			add_token(&token_lst, line, &i, lex_cmd);
+			fail += add_token(&token_lst, line, &i, lex_cmd);
 			capture_args = true;
 		}
 	}
