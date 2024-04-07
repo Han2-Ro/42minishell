@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/04 13:43:58 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:27:06 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ char	*build_path(char *folder, char *cmd)
 	return (res);
 }
 
-char	*path_to_bin(char *cmd)
+char	*path_to_bin(char *cmd, t_list *envp)
 {
 	char *path;
 	char **folders;
 
-	folders = ft_split(getenv("PATH"), ':');
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
+	folders = ft_split(ft_getenv(envp, "PATH"), ':');
 	while (folders && *folders)
 	{
 		path = build_path(*folders, cmd);

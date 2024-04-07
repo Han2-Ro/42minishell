@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/26 16:01:58 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/07 20:28:04 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int					is_builtin(const t_cmd *cmd);
 int					exec_builtin(t_cmd *cmd, t_list **envp);
 
 char				**get_paths(char **envp);
-char				*path_to_bin(char *cmd);
+char				*path_to_bin(char *cmd, t_list *envp);
 
 // redirects.c
 int					redirs_to_fds(t_list *cmd_list);
@@ -139,6 +139,7 @@ void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
+char	*ft_getenv(t_list *envlst, char *key);
 /**
  * @brief Get the value from a string like "key=value"
  * @param arg The string to extract the value from
