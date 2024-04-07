@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/31 16:40:07 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/07 17:57:29 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,20 @@ char	*get_key(char *arg)
 	while (arg[i] && arg[i] != '=')
 		i++;
 	return (ft_substr(arg, 0, i));
+}
+
+char	*ft_getenv(t_list *envlst, char *key)
+{
+	t_env	*env;
+
+	while (envlst != NULL)
+	{
+		env = (t_env *)envlst->content;
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
+			return (env->value);
+		envlst = envlst->next;
+	}
+	return (NULL);
 }
 
 t_list	*envp_to_list(char **envp)
