@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/09 10:41:29 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:04:57 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	exec_cmd_list(t_list *cmd_list, t_list **envp, int *last_status)
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
-		exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp);
+		g_status = exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp);
 		current_cmd = current_cmd->next;
 	}
 	ft_lstiter(cmd_list, close_fds);

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:00:29 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/08 16:53:09 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/09 10:56:16 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ int	builtin_env(const t_cmd *cmd, t_list **envp)
 		ft_putendl_fd(env->value, cmd->fd_out);
 		current = current->next;
 	}
-	return (SUCCESS);
+	return (g_status = 0, SUCCESS);
 }
