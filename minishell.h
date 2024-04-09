@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/09 09:19:15 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:44:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_cmd
 	int				pid;
 }					t_cmd;
 
-int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *last_status);
+int					exec_cmd_list(t_list *cmd_list, t_list **envp);
 
 // builtins
 int					builtin_export(const t_cmd *cmd, t_list **envp);
