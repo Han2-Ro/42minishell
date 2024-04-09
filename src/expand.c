@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/13 17:51:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/09 10:30:28 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,20 @@ void	expand_var(unsigned int *i, char *str[1])
 
 	var_i = *i;
 	(*i)++;
-	skip_until(*str, i, " $\'\"", true);
-	temp = ft_substr(*str, var_i + 1, *i - var_i - 1);
-	env_val = getenv(temp);
-	if (!env_val)
-		env_val = "";
-	free(temp);
+	if ((*str)[*i] == '?')
+	{
+		env_val = ft_itoa(g_status);
+		(*i)++;
+	}
+	else 
+	{
+		skip_until(*str, i, " $\'\"", true);
+		temp = ft_substr(*str, var_i + 1, *i - var_i - 1);
+		env_val = getenv(temp);
+		if (!env_val)
+			env_val = "";
+		free(temp);
+	}
 	temp = str_insert(env_val, *str, var_i, *i);
 	free(*str);
 	*str = temp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/26 12:03:14 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/09 09:19:15 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
-extern int g_sig; // Global var for signals
+extern int g_status; // Global var exit status
 
 typedef enum token_type
 {
@@ -96,7 +96,7 @@ typedef struct s_cmd
 	int				pid;
 }					t_cmd;
 
-int					exec_cmd_list(t_list *cmd_list, t_list **envp);
+int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *last_status);
 
 // builtins
 int					builtin_export(const t_cmd *cmd, t_list **envp);
