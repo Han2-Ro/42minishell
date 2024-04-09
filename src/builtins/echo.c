@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 11:47:08 by hannes            #+#    #+#             */
-/*   Updated: 2024/04/09 10:55:16 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:07:45 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	builtin_echo(const t_cmd *cmd, t_list **envp)
 	}
 	if (!n_flag)
 		ft_putstr_fd("\n", cmd->fd_out);
-	return (g_status = 0, SUCCESS);
+	return (SUCCESS);
 }
