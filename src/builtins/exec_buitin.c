@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/26 12:01:51 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/10 16:21:27 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	is_builtin(const t_cmd *cmd)
 		return (true);
 	if (ft_strncmp(cmd->bin, "echo", 10) == 0)
 		return (true);
+	if (ft_strncmp(cmd->bin, "unset", 10) == 0)
+		return (true);
 	return (false);
 }
 
@@ -40,5 +42,7 @@ int	exec_builtin(t_cmd *cmd, t_list **envp)
 		return (builtin_exit(cmd, envp));
 	if (ft_strncmp(cmd->bin, "echo", 10) == 0)
 		return (builtin_echo(cmd, envp));
+	if (ft_strncmp(cmd->bin, "unset", 10) == 0)
+		return (builtin_unset(cmd, envp));
 	return (FAILURE);
 }
