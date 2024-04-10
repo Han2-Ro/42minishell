@@ -3,63 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 18:14:09 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/07 20:47:21 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*combine_key_value(char *key, char *value)
-{
-	char	*tmp;
-	char	*result;
-
-	tmp = ft_strjoin(key, "=");
-	result = ft_strjoin(tmp, value);
-	if (result == NULL)
-		return (free(tmp), NULL);
-	free(tmp);
-	return (result);
-}
-
-t_env	*new_env(char *key, char *value)
-{
-	t_env	*env;
-
-	env = (t_env *)malloc(sizeof(t_env));
-	if (env == NULL)
-		return (NULL);
-	env->value = combine_key_value(key, value);
-	if (env->value == NULL)
-		return (free(env), NULL);
-	return (env);
-}
-
-char	*get_value(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	if (arg[i] == '=')
-		return (arg + i + 1);
-	return (NULL);
-}
-
-char	*get_key(char *arg)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	arg[i] = '\0';
-	return (arg);
-}
 
 int	builtin_export(const t_cmd *cmd, t_list **envp)
 {
@@ -77,7 +28,7 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 	while (current)
 	{
 		env = (t_env *)current->content;
-		if (ft_strncmp(env->value, key, ft_strlen(key)) == 0)
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
 			break ;
 		current = current->next;
 	}
@@ -91,7 +42,7 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 	else
 	{
 		free(env->value);
-		env->value = combine_key_value(key, value);
+		env->value = value;
 	}
 	return (SUCCESS);
 }

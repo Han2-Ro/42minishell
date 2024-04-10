@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:00:29 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/09 11:07:48 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:28:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,15 @@ int	builtin_env(const t_cmd *cmd, t_list **envp)
 	t_env *env;
 	t_list *current;
 
+	(void)cmd;
 	current = *envp;
 	while (current != NULL)
 	{
 		env = (t_env *)(current)->content;
-		ft_putendl_fd(env->value, cmd->fd_out);
+		ft_putstr_fd(env->key, cmd->fd_out);
+		ft_putchar_fd('=', cmd->fd_out);
+		ft_putstr_fd(env->value, cmd->fd_out);
+		ft_putchar_fd('\n', cmd->fd_out);
 		current = current->next;
 	}
 	return (SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:56:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:45:51 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_cmd(void *content)
 
 void	free_str_arr(char **strs, int size)
 {
-	while (size < 0)
+	while (size > 0)
 	{
 		free(strs[size - 1]);
 		size--;
@@ -71,7 +71,7 @@ void	free_nullterm_str_arr(char **strs)
 }
 
 /**
- * @brief This function does nothing: Useful for ft_lsclear
+ * @brief This function does nothing: Useful for ft_lstclear
  */
 void	pass(void *content)
 {

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/09 14:42:15 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:30:53 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
-	cmd->bin = path_to_bin(cmd->bin);
+	cmd->bin = path_to_bin(cmd->bin, *envp);
 	envp_array = envlst_to_envp(*envp);
 	if (envp_array == NULL)
 		return (FAILURE);

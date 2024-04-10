@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/09 14:44:36 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:43:48 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
-extern int g_status; // Global var exit status
+extern int g_sig; // Global var for signals
 
 typedef enum token_type
 {
@@ -75,6 +75,7 @@ typedef struct s_token
 
 typedef struct s_env
 {
+	char			*key;
 	char			*value;
 }					t_env;
 
@@ -100,6 +101,7 @@ int					exec_cmd_list(t_list *cmd_list, t_list **envp);
 
 // builtins
 int					builtin_export(const t_cmd *cmd, t_list **envp);
+int					builtin_unset(const t_cmd *cmd, t_list **envp);
 int					builtin_env(const t_cmd *cmd, t_list **envp);
 int					builtin_pwd(const t_cmd *cmd, t_list **envp);
 int					builtin_exit(const t_cmd *cmd, t_list **envp);
@@ -108,7 +110,7 @@ int					is_builtin(const t_cmd *cmd);
 int					exec_builtin(t_cmd *cmd, t_list **envp);
 
 char				**get_paths(char **envp);
-char				*path_to_bin(char *cmd);
+char				*path_to_bin(char *cmd, t_list *envp);
 
 // redirects.c
 int					redirs_to_fds(t_list *cmd_list);
@@ -136,6 +138,21 @@ int					ft_lstsize(t_list *lst);
 // environment.c
 void				free_env(void *content);
 void				print_env(void *content);
+char				*combine_key_value(char *key, char *value);
+t_env				*new_env(char *key, char *value);
+char	*ft_getenv(t_list *envlst, char *key);
+/**
+ * @brief Get the value from a string like "key=value"
+ * @param arg The string to extract the value from
+ * @return The value as a string, that must be freed or NULL on error
+*/
+char				*get_value(char *arg);
+/**
+ * @brief Get the key from a string like "key=value"
+ * @param arg The string to extract the key from
+ * @return The key as a string, that must be freed or NULL on error
+*/
+char				*get_key(char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
