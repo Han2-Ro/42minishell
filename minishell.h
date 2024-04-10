@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/10 17:43:48 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:48:08 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,10 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				pid;
+	int				status;
 }					t_cmd;
 
-int					exec_cmd_list(t_list *cmd_list, t_list **envp);
+int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *status);
 
 // builtins
 int					builtin_export(const t_cmd *cmd, t_list **envp);
@@ -157,7 +158,7 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
-void				expand(void *token);
+void				expand_tokens(t_list *token_lst, t_list *envp, int status);
 
 // print_structs.c
 void				print_cmd(void *command);
