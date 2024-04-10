@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/10 20:01:23 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:31:51 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	shell_loop(t_list *envp)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		exec_cmd_list(cmd_lst, &envp, &status);
-		log_msg(DEBUG, "status: %i", status);	//TODO: consider not using global var and just passing
+		log_msg(DEBUG, "status: %i", status);
 		free(line);
 		ft_lstclear(&token_lst, free_token);
 	}
