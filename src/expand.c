@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/03/13 17:51:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:08:51 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
  * @brief Expands $arg and $? where arg is an environment var
  *
  */
-void	expand_var(unsigned int *i, char *str[1])
+void	expand_var(unsigned int *i, char *str[1], t_list *envp, int status)
 {
 	unsigned int	var_i;
 	char			*temp;
@@ -53,12 +53,20 @@ void	expand_var(unsigned int *i, char *str[1])
 
 	var_i = *i;
 	(*i)++;
-	skip_until(*str, i, " $\'\"", true);
-	temp = ft_substr(*str, var_i + 1, *i - var_i - 1);
-	env_val = getenv(temp);
-	if (!env_val)
-		env_val = "";
-	free(temp);
+	if ((*str)[*i] == '?')
+	{
+		env_val = ft_itoa(status);
+		(*i)++;
+	}
+	else 
+	{
+		skip_until(*str, i, " $\'\"", true);
+		temp = ft_substr(*str, var_i + 1, *i - var_i - 1);
+		env_val = ft_getenv(envp, temp);
+		if (!env_val)
+			env_val = "";
+		free(temp);
+	}
 	temp = str_insert(env_val, *str, var_i, *i);
 	free(*str);
 	*str = temp;
@@ -110,15 +118,16 @@ void	handle_quote(unsigned int *i, char *str[1], int *quote)
 	*quote = new_quote;
 }
 
-void	expand(void *token)
+void	expand(t_token *token, t_list *envp, int status)
 {
 	unsigned int	i;
 	char			*str;
 	int				quote;
 
-	if (((t_token *)token)->type == PIPE)
+	(void)envp;
+	if (token->type == PIPE)
 		return ;
-	str = ((t_token *)token)->value;
+	str = token->value;
 	quote = 0;
 	i = 0;
 	while (str[i] != '\0')
@@ -131,9 +140,18 @@ void	expand(void *token)
 		else if (str[i] == '$' && quote == 1)
 			i++;
 		else if (str[i] == '$')
-			expand_var(&i, &str);
+			expand_var(&i, &str, envp, status);
 	}
 	if (quote != 0)
 		log_msg(WARNING, "Syntax Error: Quote not correctly closed!");
 	((t_token *)token)->value = str;
+}
+
+void	expand_tokens(t_list *token_lst, t_list *envp, int status)
+{
+	while (token_lst)
+	{
+		expand((t_token *)token_lst->content, envp, status);
+		token_lst = token_lst->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_exec_cmd_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:56:47 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:32:06 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	test_1cmd(char **envp)
 {
+	int		status;
 	t_list	*cmd_list;
 	t_cmd	*cmd;
 	t_list	*envp_list;
@@ -34,13 +35,14 @@ int	test_1cmd(char **envp)
 	ft_lstadd_back(&cmd->redirects, ft_lstnew(&redirect));
 	cmd_list = ft_lstadd(&cmd_list, cmd);
 	ft_lstiter(cmd_list, print_cmd);
-	exec_cmd_list(cmd_list, &envp_list);
+	exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);
 	return (SUCCESS);
 }
 
 int	test_2cmds(char **envp)
 {
+	int		status;
 	t_list	*cmd_list;
 	t_list	*envp_list;
 	char	**args1;
@@ -60,13 +62,14 @@ int	test_2cmds(char **envp)
 	args2[2] = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", args2));
 	ft_lstiter(cmd_list, print_cmd);
-	exec_cmd_list(cmd_list, &envp_list);
+	exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);
 	return (SUCCESS);
 }
 
 int	test_3cmds(char **envp)
 {
+	int		status;
 	t_list	*cmd_list;
 	int		result;
 	t_list	*envp_list;
@@ -93,7 +96,7 @@ int	test_3cmds(char **envp)
 	args3[2] = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/wc", args3));
 	ft_lstiter(cmd_list, print_cmd);
-	result = exec_cmd_list(cmd_list, &envp_list);
+	result = exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);
 	return (result);
 }

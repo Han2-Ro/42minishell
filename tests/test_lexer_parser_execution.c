@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer_parser_execution.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:39:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:09:50 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:33:50 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	test_general(char *line, int token_count, int cmd_count, char **envp)
 {
+	int		status;
 	t_list	*token_lst;
 	t_list	*cmd_lst;
 	t_list	*envp_list;
@@ -31,7 +32,7 @@ int	test_general(char *line, int token_count, int cmd_count, char **envp)
 	if (ft_lstsize(cmd_lst) != cmd_count)
 		return (log_msg(ERROR, "Command list has wrong size."), FAILURE);
 	ft_lstiter(cmd_lst, print_cmd);
-	exec_cmd_list(cmd_lst, &envp_list);
+	exec_cmd_list(cmd_lst, &envp_list, &status);
 	return (SUCCESS);
 }
 

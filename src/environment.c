@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/07 17:57:29 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/11 16:23:51 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_list	*envp_to_list(char **envp)
 		env = new_env(get_key(envp[i]), get_value(envp[i]));
 		if (env == NULL)
 			return (ft_lstclear(&lst, free_env), NULL);
-		log_msg(DEBUG, "envp_to_list: %p key:%s value:%s", env, env->key, env->value);
+		//log_msg(DEBUG, "envp_to_list: %p key:%s value:%s", env, env->key, env->value);
 		new = ft_lstnew(env);
 		if (new == NULL)
 			return (free_env(env), ft_lstclear(&lst, free_env), NULL);
