@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/10 20:53:52 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:48:58 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_cmd(void *command)
 	int			i;
 	t_log_level	level;
 
-	level = INFO;
+	level = DEBUG;
 	cmd = (t_cmd *)command;
 	log_msg(level, "cmd: %s", cmd->bin);
 	log_msg(level, "pid: %d", cmd->pid);

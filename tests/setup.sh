@@ -1,3 +1,6 @@
+#!/bin/bash
+
+rm -fr tests/files
 mkdir -p tests/files
 echo "test
 This is a tet file
