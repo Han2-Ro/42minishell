@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
 /*   Updated: 2024/04/11 16:48:58 by hrother          ###   ########.fr       */
@@ -23,6 +23,7 @@ void	print_cmd(void *command)
 	cmd = (t_cmd *)command;
 	log_msg(level, "cmd: %s", cmd->bin);
 	log_msg(level, "pid: %d", cmd->pid);
+	log_msg(level, "status: %i", cmd->status);
 	log_msg(level, "args:");
 	i = 0;
 	while (cmd->args[i] != NULL)
