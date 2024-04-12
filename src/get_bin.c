@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/07 20:27:06 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:23:08 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ char	*path_to_bin(char *cmd, t_list *envp)
 		free(path);
 		folders++;
 	}
-	log_msg(ERROR, "%s: command not found\n", cmd);
+	log_msg(ERROR, "%s: command not found", cmd);
 	return (NULL);
 }
