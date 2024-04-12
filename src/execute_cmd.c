@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/10 19:48:59 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:44:35 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-extern int g_status;
+extern int	g_status;
 
 void	log_file_error(const char *filename)
 {
@@ -48,7 +48,8 @@ int	wait_pids(t_list *cmd_list)
 		log_msg(DEBUG, "waiting for pid: %d", ((t_cmd *)tmp->content)->pid);
 		if (((t_cmd *)tmp->content)->pid > 0)
 		{
-			waitpid(((t_cmd *)tmp->content)->pid, &((t_cmd *)tmp->content)->status, 0);
+			waitpid(((t_cmd *)tmp->content)->pid,
+				&((t_cmd *)tmp->content)->status, 0);
 			((t_cmd *)tmp->content)->status = WEXITSTATUS(((t_cmd *)tmp->content)->status);
 		}
 		tmp = tmp->next;
@@ -67,7 +68,7 @@ void	close_fds(void *content)
 		close(cmd->fd_out);
 }
 
-int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
+int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
 {
 	char	**envp_array;
 
@@ -75,7 +76,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 		return (FAILURE);
 	if (is_builtin(cmd))
 	{
-		cmd->status = exec_builtin(cmd, envp);
+		cmd->status = exec_builtin(cmd, envlst);
 		return (cmd->status);
 	}
 	cmd->pid = fork();
@@ -87,17 +88,16 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envp)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
-	cmd->bin = path_to_bin(cmd->bin, *envp);
-	envp_array = envlst_to_envp(*envp);
+	cmd->bin = path_to_bin(cmd->bin, *envlst);
+	envp_array = envlst_to_envp(*envlst);
 	if (envp_array == NULL)
 		return (FAILURE);
-	ft_lstclear(envp, free_env);
+	ft_lstclear(envlst, free_env);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(INFO, "executing %s", cmd->bin);
 	if (access(cmd->bin, X_OK) == 0)
 		execve(cmd->bin, cmd->args, envp_array);
-	log_msg(ERROR, "%s: %s", cmd->bin, strerror(errno));
-	exit(1);
+	exit(127);
 	return (FAILURE);
 }
 
@@ -115,7 +115,7 @@ int	exec_cmd_list(t_list *cmd_list, t_list **envp, int *status)
 	}
 	ft_lstiter(cmd_list, close_fds);
 	wait_pids(cmd_list);
-	*status = ((t_cmd*)ft_lstlast(cmd_list)->content)->status;
+	*status = ((t_cmd *)ft_lstlast(cmd_list)->content)->status;
 	ft_lstclear(&cmd_list, free_cmd);
 	return (SUCCESS);
 }
