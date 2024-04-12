@@ -1,2 +1,5 @@
-$@ > /tmp/bash.out
-../minishell < $@ > /tmp/minishell.out
+#!/bin/bash
+
+$@ > temp/bash.out
+echo $@ | ./minishell > temp/minishell.out
+diff temp/bash.out temp/minishell.out
