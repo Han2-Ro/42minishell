@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/12 14:28:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:05:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	shell_loop(t_list *envp)
 		cmd_lst = parse(token_lst);
 		if (!cmd_lst)
 		{
+			status = 1;
 			log_msg(ERROR, "PARSE error");
 			free(line);
 			ft_lstclear(&token_lst, free_token);
@@ -61,5 +62,5 @@ int	shell_loop(t_list *envp)
 		ft_lstclear(&token_lst, free_token);
 	}
 	rl_clear_history();
-	return (SUCCESS);
+	return (status);
 }
