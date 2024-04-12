@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/10 20:31:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:28:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,21 @@ int	shell_loop(t_list *envp)
 	while (1)
 	{
 		register_signals();
-		line = readline(prompt);
+		if (isatty(STDIN_FILENO))
+			line = readline(prompt);
+		else
+		{
+			line = get_next_line(STDIN_FILENO);
+			if (line && line[ft_strlen(line) - 1] == '\n')
+				line[ft_strlen(line) - 1] = '\0';
+		}
 		log_msg(DEBUG, "Inputed line: %s\n", line);
 		if (!line)
 			break ;
 		if (!*line)
 			continue ;
-		add_history(line);
+		if (isatty(STDIN_FILENO))
+			add_history(line);
 		token_lst = lexer(line);
 		expand_tokens(token_lst, envp, status);
 		if (!token_lst)
