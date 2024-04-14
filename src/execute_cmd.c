@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/12 15:44:35 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:51:07 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	close_fds(void *content)
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
-	if (cmd->fd_in > 2) // TODO: consider using isatty()
+	if (cmd->fd_in > 2)
 		close(cmd->fd_in);
 	if (cmd->fd_out > 2)
 		close(cmd->fd_out);
@@ -84,7 +84,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
 		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
 	if (cmd->pid > 0)
 		return (SUCCESS);
-	if (cmd->fd_in > 2) // TODO: consider using isatty()
+	if (cmd->fd_in > 2)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > 2)
 		dup2(cmd->fd_out, STDOUT_FILENO);
