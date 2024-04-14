@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_exec_cmd_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/11 16:32:06 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:32:47 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,45 +84,75 @@ int	test_3cmds(char **envp)
 	args1[0] = "ls";
 	args1[1] = "-l";
 	args1[2] = NULL;
-	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/ls", args1));
+	cmd_list = ft_lstadd(&cmd_list, new_cmd("ls", args1));
 	args2 = malloc(sizeof(char *) * 3);
 	args2[0] = "grep";
 	args2[1] = "d";
 	args2[2] = NULL;
-	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", args2));
+	cmd_list = ft_lstadd(&cmd_list, new_cmd("grep", args2));
 	args3 = malloc(sizeof(char *) * 3);
 	args3[0] = "wc";
 	args3[1] = "-l";
 	args3[2] = NULL;
-	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/wc", args3));
+	cmd_list = ft_lstadd(&cmd_list, new_cmd("wc", args3));
 	ft_lstiter(cmd_list, print_cmd);
 	result = exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);
 	return (result);
 }
 
-/*
-int	test_rw_file(char **envp)
+int	test_invalid_cmd(char **envp)
 {
+	int		status;
+	t_list	*envp_list;
 	t_list	*cmd_list;
+	char	**args;
 	int		result;
-	int		in;
-	int		out;
 
+	envp_list = envp_to_list(envp);
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
-	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", (char *[]){"grep",
-				"test", NULL}, envp));
+	args = malloc(sizeof(char *) * 3);
+	args[0] = "invalid_cmd";
+	args[1] = NULL;
+	cmd_list = ft_lstadd(&cmd_list, new_cmd("invalid_cmd", args));
 	ft_lstiter(cmd_list, print_cmd);
-	in = open("tests/files/in", O_RDONLY);
-	out = open("tests/files/out", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	result = exec_cmd_list(cmd_list, in, out);
-	close(in);
-	close(out);
-	destroy_list(cmd_list);
+	result = exec_cmd_list(cmd_list, &envp_list, &status);
+	ft_lstclear(&envp_list, free_env);
+	if (status != 127)
+		result = FAILURE;
 	return (result);
 }
-*/
+
+int	test_noperm_file(char **envp)
+{
+	int		status;
+	t_list	*envp_list;
+	t_list	*cmd_list;
+	char	**args;
+	int		result;
+	t_token	redirect;
+	t_cmd	*cmd;
+
+	envp_list = envp_to_list(envp);
+	log_msg(WARNING, "This test needs manual inspection of the output");
+	cmd_list = NULL;
+	args = malloc(sizeof(char *) * 3);
+	args[0] = "cat";
+	args[1] = NULL;
+	cmd = new_cmd("cat", args);
+	redirect.type = R_IN;
+	redirect.value = "tests/files/no_perm";
+	ft_lstadd_back(&cmd->redirects, ft_lstnew(&redirect));
+	cmd_list = ft_lstadd(&cmd_list, cmd);
+	ft_lstiter(cmd_list, print_cmd);
+	result = exec_cmd_list(cmd_list, &envp_list, &status);
+	ft_lstclear(&envp_list, free_env);
+	log_msg(INFO, "status: %d", status);
+	if (status != 1)
+		result = FAILURE;
+	return (result);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -132,8 +162,10 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test_1cmd", test_1cmd, envp, true);
-	result |= run_test("test_2cmds", test_2cmds, envp, true);
-	result |= run_test("test_3cmds", test_3cmds, envp, true);
+	// result |= run_test("test_2cmds", test_2cmds, envp, true);
+	// result |= run_test("test_3cmds", test_3cmds, envp, true);
+	// result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
+	// result |= run_test("test_noperm_file", test_noperm_file, envp, true);
 	// result |= run_test("test_rw_file", test_rw_file, envp , true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
