@@ -6,12 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 13:54:43 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/14 14:14:10 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+// consider updating the PWD env var
 int	builtin_cd(const t_cmd *cmd, t_list **envp)
 {
 	(void)envp;
@@ -25,6 +26,5 @@ int	builtin_cd(const t_cmd *cmd, t_list **envp)
 		log_msg(ERROR, "cd: %s", strerror(errno));
 		return (EXIT_FAILURE);
 	}
-	// consider updating the PWD env var
 	return (EXIT_SUCCESS);
 }
