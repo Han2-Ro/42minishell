@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/11 16:23:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/14 17:46:07 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ char	*combine_key_value(char *key, char *value)
 
 	tmp = ft_strjoin(key, "=");
 	result = ft_strjoin(tmp, value);
-	if (result == NULL)
-		return (free(tmp), NULL);
 	free(tmp);
 	return (result);
 }
