@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/24 23:19:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/14 16:41:27 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	open_file(const char *filename, int flags, int *fd)
 		close(*fd);
 	*fd = open(filename, flags, 0644);
 	if (*fd < 0)
-		return (log_msg(ERROR, "%s: %s", filename, strerror(errno)), FAILURE);
-	return (SUCCESS);
+		return (log_msg(ERROR, "%s: %s", filename, strerror(errno)),
+			EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	redir_to_fd(const t_token *token, t_cmd *cmd)
@@ -33,8 +34,8 @@ int	redir_to_fd(const t_token *token, t_cmd *cmd)
 	else if (token->type == R_APPEND)
 		open_file(token->value, O_WRONLY | O_CREAT | O_APPEND, &cmd->fd_out);
 	if (cmd->fd_in < 0 || cmd->fd_out < 0)
-		return (FAILURE);
-	return (SUCCESS);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	redirs_to_fds(t_list *cmd_list)
@@ -50,8 +51,10 @@ int	redirs_to_fds(t_list *cmd_list)
 		current_tkn = cmd->redirects;
 		while (current_tkn != NULL)
 		{
-			if (redir_to_fd((t_token *)current_tkn->content, cmd) == FAILURE)
+			if (redir_to_fd((t_token *)current_tkn->content,
+					cmd) == EXIT_FAILURE)
 			{
+				cmd->status = 1;
 				break ;
 			}
 			current_tkn = current_tkn->next;
