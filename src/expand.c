@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/16 16:27:50 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:21:32 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,22 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 //Fuck the 25 line limit :)
 char	*expand_var_2(t_expand_info *ex, char *env_val, bool pls_free)
 {
+	int val_len;
+
 	char *temp;
 	if (!env_val)
+	{
 		temp = str_insert("", ex->str, ex->var_idx, ex->i);
+		val_len = 0;
+	}
 	else
+	{
 		temp = str_insert(env_val, ex->str, ex->var_idx, ex->i);
+		val_len = ft_strlen(env_val);
+	}
 	if (pls_free)
 		free(env_val);
-	ex->i = ex->var_idx + ft_strlen(env_val);
+	ex->i = ex->var_idx + val_len;
 	return (temp);
 }
 
