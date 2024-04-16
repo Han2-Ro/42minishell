@@ -1,6 +1,7 @@
 #!/bin/bash
-RUN_DIR=temp
 FAIL_COUNT=0
+RUN_DIR=temp
+mkdir -p $RUN_DIR
 
 function test {
     echo "Test: $1"
