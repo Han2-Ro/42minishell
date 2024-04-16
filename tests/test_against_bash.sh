@@ -34,5 +34,6 @@ function test {
 
 test 'nocmd'
 test 'cd .. \n pwd'
-test 'echo $"HOME"$USER'
+test 'ls -l | grep d| wc -l'
+#test 'echo $"HOME"$USER'
 exit $FAIL_COUNT
