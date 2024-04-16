@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 15:32:56 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:18:49by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	test_2cmds(char **envp)
 	char	**args2;
 
 	envp_list = envp_to_list(envp);
+	if (envp_list == NULL)
+		return (FAILURE);
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	args1 = malloc(sizeof(char *) * 3);
@@ -71,6 +73,9 @@ int	test_2cmds(char **envp)
 	args2[1] = "d";
 	args2[2] = NULL;
 	cmd_list = ft_lstadd(&cmd_list, new_cmd("/bin/grep", args2));
+	if (!cmd_list || !cmd_list->next || !args1 || !args2)
+		return (ft_lstclear(&envp_list, free_env), ft_lstclear(&cmd_list,
+				free_cmd), FAILURE);
 	ft_lstiter(cmd_list, print_cmd);
 	exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);
@@ -172,11 +177,11 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test_1cmd", test_1cmd, envp, true);
-	// result |= run_test("test_2cmds", test_2cmds, envp, true);
-	// result |= run_test("test_3cmds", test_3cmds, envp, true);
-	// result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
-	// result |= run_test("test_noperm_file", test_noperm_file, envp, true);
-	// result |= run_test("test_rw_file", test_rw_file, envp , true);
+	result |= run_test("test_2cmds", test_2cmds, envp, true);
+	result |= run_test("test_3cmds", test_3cmds, envp, true);
+	result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
+	result |= run_test("test_noperm_file", test_noperm_file, envp, true);
+	// result |= run_test("test_rw_file", test_rw_file, envp, true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
