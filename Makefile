@@ -46,7 +46,7 @@ test: $(TESTBINS)
 	for test in $(TESTBINS); do \
 		$$test || exit_code=1; \
 	done; \
-	./$(TEST_DIR)/check.sh; \
+	./$(TEST_DIR)/test_against_bash.sh || exit_code=1;\
 	exit $$exit_code
 
 clean:
