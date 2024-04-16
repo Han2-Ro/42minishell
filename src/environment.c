@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 17:46:07 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:23:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ t_list	*envp_to_list(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		env = new_env(get_key(envp[i]), get_value(envp[i]));
+		env = malloc(sizeof(t_env));
 		if (env == NULL)
 			return (ft_lstclear(&lst, free_env), NULL);
-		//log_msg(DEBUG, "envp_to_list: %p key:%s value:%s", env, env->key, env->value);
+		env->key = get_key(envp[i]);
+		env->value = get_value(envp[i]);
 		new = ft_lstnew(env);
 		if (new == NULL)
 			return (free_env(env), ft_lstclear(&lst, free_env), NULL);
@@ -126,7 +127,8 @@ char	**envlst_to_envp(t_list *envlst)
 	i = 0;
 	while (i < listlen)
 	{
-		envp[i] = combine_key_value(((t_env *)envlst->content)->key, ((t_env *)envlst->content)->value);
+		envp[i] = combine_key_value(((t_env *)envlst->content)->key,
+				((t_env *)envlst->content)->value);
 		if (envp[i] == NULL)
 			return (free_str_arr(envp, i), NULL);
 		envlst = envlst->next;

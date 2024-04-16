@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:46:55 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 17:32:47 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:32:56 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,27 @@ int	test_1cmd(char **envp)
 	char	**args;
 
 	envp_list = envp_to_list(envp);
+	if (envp_list == NULL)
+		return (FAILURE);
 	log_msg(WARNING, "This test needs manual inspection of the output");
 	cmd_list = NULL;
 	args = malloc(sizeof(char *) * 3);
+	if (args == NULL)
+		return (ft_lstclear(&envp_list, free_env), FAILURE);
 	args[0] = "ls";
 	args[1] = "-l";
 	args[2] = NULL;
 	cmd = new_cmd("/bin/ls", args);
+	if (cmd == NULL)
+		return (ft_lstclear(&envp_list, free_env), free(args), FAILURE);
 	redirect.type = R_OUT;
 	redirect.value = "tests/files/out_02";
 	ft_lstadd_back(&cmd->redirects, ft_lstnew(&redirect));
+	if (cmd->redirects == NULL)
+		return (ft_lstclear(&envp_list, free_env), free_cmd(cmd), FAILURE);
 	cmd_list = ft_lstadd(&cmd_list, cmd);
+	if (cmd_list == NULL)
+		return (ft_lstclear(&envp_list, free_env), free_cmd(cmd), FAILURE);
 	ft_lstiter(cmd_list, print_cmd);
 	exec_cmd_list(cmd_list, &envp_list, &status);
 	ft_lstclear(&envp_list, free_env);

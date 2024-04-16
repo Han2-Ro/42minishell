@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 18:00:25 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:36:38 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
 	envp_array = envlst_to_envp(*envlst);
 	ft_lstclear(envlst, free_env);
 	ft_lstiter(cmd_list, close_fds);
-	if (envp_array == NULL)
-		(free(cmd->bin), free_cmd(cmd), exit(1));
+	if (envp_array == NULL || cmd->bin == NULL)
+		(free(cmd->bin), free_nullterm_str_arr(envp_array), free_cmd(cmd),
+			exit(1));
 	log_msg(INFO, "executing %s", cmd->bin);
 	if (access(cmd->bin, X_OK) == 0)
 		execve(cmd->bin, cmd->args, envp_array);
