@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 16:35:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:13:27 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -22,6 +21,7 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -39,7 +39,8 @@
 #  define LOG_LEVEL DEBUG
 # endif
 
-extern int g_sig; // Global var for signals
+// Global var for signals
+extern int			g_sig;
 
 typedef enum token_type
 {
@@ -114,6 +115,7 @@ int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *status);
 int					builtin_export(const t_cmd *cmd, t_list **envp);
 int					builtin_unset(const t_cmd *cmd, t_list **envp);
 int					builtin_env(const t_cmd *cmd, t_list **envp);
+int					builtin_cd(const t_cmd *cmd, t_list **envp);
 int					builtin_pwd(const t_cmd *cmd, t_list **envp);
 int					builtin_exit(const t_cmd *cmd, t_list **envp);
 int					builtin_echo(const t_cmd *cmd, t_list **envp);
@@ -151,18 +153,18 @@ void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
-char	*ft_getenv(t_list *envlst, char *key);
+char				*ft_getenv(t_list *envlst, char *key);
 /**
  * @brief Get the value from a string like "key=value"
  * @param arg The string to extract the value from
  * @return The value as a string, that must be freed or NULL on error
-*/
+ */
 char				*get_value(char *arg);
 /**
  * @brief Get the key from a string like "key=value"
  * @param arg The string to extract the key from
  * @return The key as a string, that must be freed or NULL on error
-*/
+ */
 char				*get_key(char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);

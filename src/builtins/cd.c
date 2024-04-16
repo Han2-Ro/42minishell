@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 18:17:44 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 14:09:10 by hrother          ###   ########.fr       */
+/*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
+/*   Updated: 2024/04/14 14:14:10 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// TODO: consider using own envp list instead of getcwd
-int	builtin_pwd(const t_cmd *cmd, t_list **envp)
+// consider updating the PWD env var
+int	builtin_cd(const t_cmd *cmd, t_list **envp)
 {
-	char	*cwd;
-
 	(void)envp;
-	log_msg(DEBUG, "executing builtin_pwd");
-	cwd = getcwd(NULL, 0);
-	if (cwd == NULL)
+	if (!cmd->args || !cmd->args[0] || !cmd->args[1] || cmd->args[2])
 	{
-		log_msg(ERROR, "pwd: %s", strerror(errno));
+		log_msg(ERROR, "cd: wrong usage");
 		return (EXIT_FAILURE);
 	}
-	ft_putendl_fd(cwd, cmd->fd_out);
-	free(cwd);
+	if (chdir(cmd->args[1]) != EXIT_SUCCESS)
+	{
+		log_msg(ERROR, "cd: %s", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/10 20:11:23 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/14 14:14:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+// TODO: variable count of args
 int	builtin_export(const t_cmd *cmd, t_list **envp)
 {
 	t_list	*current;
@@ -19,10 +20,9 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 	char	*key;
 	char	*value;
 
-	// TODO: variable count of args
 	value = get_value(cmd->args[1]);
 	if (!value)
-		return (log_msg(ERROR, "export failed"), FAILURE);
+		return (log_msg(ERROR, "malloc failed"), FAILURE);
 	key = get_key(cmd->args[1]);
 	current = *envp;
 	while (current)

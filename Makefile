@@ -46,7 +46,7 @@ test: $(TESTBINS)
 	for test in $(TESTBINS); do \
 		$$test || exit_code=1; \
 	done; \
-	./$(TEST_DIR)/teardown.sh; \
+	./$(TEST_DIR)/check.sh; \
 	exit $$exit_code
 
 clean:
