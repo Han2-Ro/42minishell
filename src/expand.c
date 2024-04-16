@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/10 20:08:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:27:50 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ static void	skip_until(const char *str, unsigned int *i, const char *charset,
 		*i += 1;
 }
 
+
+/**
+ * @brief Inserts a string into an existing string 
+ * @param i_str The string to be inserted
+ * @param o_str The original string
+ * @param from Index from where to start replacing the original string
+ * @param to Index to where to replace the original string
+ * @return The resulting string
+ */
 char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 		unsigned int to)
 {
@@ -28,8 +37,8 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 	unsigned int	len_i;
 	char			*result;
 
-	if (i_str == NULL)
-		return (ft_strdup(o_str));
+	if (i_str == NULL || o_str == NULL)
+        return (NULL);
 	len_i = ft_strlen(i_str);
 	len_o = ft_strlen(o_str);
 	len_total = from + len_i + len_o - to + 1;
@@ -41,36 +50,52 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 	ft_strlcat(result, o_str + to, len_total);
 	return (result);
 }
-/*
- * @brief Expands $arg and $? where arg is an environment var
- *
- */
-void	expand_var(unsigned int *i, char *str[1], t_list *envp, int status)
-{
-	unsigned int	var_i;
-	char			*temp;
-	char			*env_val;
 
-	var_i = *i;
-	(*i)++;
-	if ((*str)[*i] == '?')
+
+//Fuck the 25 line limit :)
+char	*expand_var_2(t_expand_info *ex, char *env_val, bool pls_free)
+{
+	char *temp;
+	if (!env_val)
+		temp = str_insert("", ex->str, ex->var_idx, ex->i);
+	else
+		temp = str_insert(env_val, ex->str, ex->var_idx, ex->i);
+	if (pls_free)
+		free(env_val);
+	ex->i = ex->var_idx + ft_strlen(env_val);
+	return (temp);
+}
+
+/**
+ * @brief Expands $arg and $? where arg is an environment var
+ * @brief Expects to be behind "$" at the start or a var 
+ */
+char	*expand_var(t_expand_info *ex)
+{
+	char			*env_val;
+	char			*env_key;
+	bool			pls_free;
+
+	pls_free = false;
+	ex->var_idx = ex->i;
+	(ex->i) += 1;
+	if (ex->str[ex->i] == '?')
 	{
-		env_val = ft_itoa(status);
-		(*i)++;
-	}
-	else 
-	{
-		skip_until(*str, i, " $\'\"", true);
-		temp = ft_substr(*str, var_i + 1, *i - var_i - 1);
-		env_val = ft_getenv(envp, temp);
+		env_val = ft_itoa(ex->status);
 		if (!env_val)
-			env_val = "";
-		free(temp);
+			return (NULL);
+		ex->i += 1;
+		pls_free = true;
 	}
-	temp = str_insert(env_val, *str, var_i, *i);
-	free(*str);
-	*str = temp;
-	*i = var_i + ft_strlen(env_val);
+	else
+	{
+		skip_until(ex->str, &(ex->i), " $\'\"", true);
+		env_key = ft_substr(ex->str, ex->var_idx + 1, ex->i - ex->var_idx - 1);
+		if (!env_key)
+			return (NULL);
+		env_val = ft_getenv(ex->envp, env_key);
+	}
+	return (expand_var_2(ex, env_val, pls_free));
 }
 
 int	get_quote(int quote, const char c)
@@ -99,14 +124,14 @@ int	get_quote(int quote, const char c)
 	return (-1);
 }
 
-void	handle_quote(unsigned int *i, char *str[1], int *quote)
+void	handle_quote(unsigned int *i, char **str, int *quote)
 {
 	int		new_quote;
 	char	*temp;
 
 	new_quote = get_quote(*quote, (*str)[*i]);
-	if (new_quote == -1)
-		log_msg(ERROR, "Quote Error");
+	// if (new_quote == -1)
+	// 	log_msg(ERROR, "Quote Error");
 	if (*quote != new_quote)
 	{
 		temp = *str;
@@ -118,40 +143,67 @@ void	handle_quote(unsigned int *i, char *str[1], int *quote)
 	*quote = new_quote;
 }
 
-void	expand(t_token *token, t_list *envp, int status)
+int	expand_loop(t_expand_info *ex)
 {
-	unsigned int	i;
-	char			*str;
-	int				quote;
-
-	(void)envp;
-	if (token->type == PIPE)
-		return ;
-	str = token->value;
-	quote = 0;
-	i = 0;
-	while (str[i] != '\0')
+	char *temp;
+	
+	skip_until(ex->str, &ex->i, "$\'\"", true);
+	if (ex->str[ex->i] == '\0')
+		return (EXIT_SUCCESS);
+	else if (ft_strchr("'\"", ex->str[ex->i]))
+		handle_quote(&ex->i, &ex->str, &ex->quote);
+	else if (ex->str[ex->i] == '$' && ex->quote == 1)
+		(ex->i)++;
+	else if (ex->str[ex->i] == '$')
 	{
-		skip_until(str, &i, "$'\"", true);
-		if (str[i] == '\0')
-			break ;
-		else if (ft_strchr("'\"", str[i]))
-			handle_quote(&i, &str, &quote);
-		else if (str[i] == '$' && quote == 1)
-			i++;
-		else if (str[i] == '$')
-			expand_var(&i, &str, envp, status);
+		temp = expand_var(ex);
+		free(ex->str);
+		if (!temp)
+			return (EXIT_FAILURE);
+		ex->str = temp;
 	}
-	if (quote != 0)
-		log_msg(WARNING, "Syntax Error: Quote not correctly closed!");
-	((t_token *)token)->value = str;
+	return (EXIT_SUCCESS);
 }
 
-void	expand_tokens(t_list *token_lst, t_list *envp, int status)
+char	*expand(char *string, t_list *envp, int status)
 {
+	t_expand_info	ex;
+
+	ex.str = ft_strdup(string);
+	if (!ex.str)
+		return (NULL);
+	ex.i = 0;
+	ex.quote = 0;
+	ex.envp = envp;
+	ex.status = status;
+	while (ex.str[ex.i] != '\0')
+	{
+		if (expand_loop(&ex))
+		{
+			free(ex.str);
+			return (NULL);
+		}
+	}
+	// if (ex.quote != 0)
+	// 	log_msg(WARNING, "Syntax Error: Quote not correctly closed!");
+	return (ex.str);
+}
+
+int	expand_tokens(t_list *token_lst, t_list *envp, int status)
+{
+	char	*temp;
+
 	while (token_lst)
 	{
-		expand((t_token *)token_lst->content, envp, status);
+		if (((t_token *)(token_lst->content))->type != PIPE)
+		{
+			temp = expand(((t_token *)(token_lst->content))->value, envp, status);
+			if (!temp)
+				return (EXIT_FAILURE);
+			free(((t_token *)(token_lst->content))->value);
+			((t_token *)(token_lst->content))->value = temp;
+		}
 		token_lst = token_lst->next;
 	}
+	return (EXIT_SUCCESS);
 }
