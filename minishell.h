@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/10 19:48:08 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:35:18 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 }					t_env;
+
+typedef struct s_expand_info
+{
+	char			*str;
+	unsigned int	i;
+	unsigned int	var_idx;
+	int				quote;
+	t_list			*envp;
+	int				status;
+}					t_expand_info;
 
 /**
  * @brief A command to be executed
@@ -158,7 +168,8 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
-void				expand_tokens(t_list *token_lst, t_list *envp, int status);
+int					expand_tokens(t_list *token_lst, t_list *envp, int status);
+char				*expand(char *string, t_list *envp, int status);
 
 // print_structs.c
 void				print_cmd(void *command);
