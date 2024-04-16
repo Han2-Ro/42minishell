@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 17:18:48 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:23:34 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int	test_expander(char **envp)
 {
 	t_list	*envp_lst;
 	int		status;
+	char	*expanded_str;
+
 	status = 0;
 	envp_lst = envp_to_list(envp);
 	
-	expand("Helllo", envp_lst, status);
-
+	expanded_str = expand("$ end", envp_lst, status);
+	printf("%s\n", expanded_str);
 	ft_lstclear(&envp_lst, free_env);
 	return (SUCCESS);
 
