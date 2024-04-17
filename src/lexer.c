@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/17 19:55:16 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 22:28:57 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,24 @@ static void	skip_until(const char *str, unsigned int *i, const char *charset,
 {
 	while ((ft_strchr(charset, str[*i]) != 0) != val && str[*i] != '\0')
 		*i += 1;
+}
+
+t_token	*lex_part(const char *line, unsigned int *i)
+{
+	t_token			*token;
+	unsigned int	lex_len;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	lex_len = 0;
+	skip_until(&line[*i], &lex_len, "|<>", true);
+	token->type = PART;
+	token->value = ft_substr(line, *i, lex_len);
+	if (!(token->value))
+		return (free(token), NULL);
+	*i += lex_len;
+	return (token);
 }
 
 t_token	*lex_cmd(const char *line, unsigned int *i)
@@ -164,7 +182,6 @@ t_list	*lexer(const char *line)
 {
 	unsigned int	line_len;
 	unsigned int	i;
-	bool			capture_args;
 	t_list			*token_lst;
 	int				fail;
 	
@@ -172,30 +189,17 @@ t_list	*lexer(const char *line)
 	line_len = ft_strlen(line);
 	i = 0;
 	fail = 0;
-	capture_args = false;
 	while (i < line_len && !fail)
 	{
 		skip_until(line, &i, " ", false);
 		if (!line[i])
 			break ;
 		if (line[i] == '|')
-		{
 			fail += add_token(&token_lst, line, &i, lex_pipe);
-			capture_args = false;
-		}
 		else if (ft_strchr("<>", line[i]))
-		{
 			fail += add_token(&token_lst, line, &i, lex_redirect);
-		}
-		else if (capture_args)
-		{
-			fail += add_token(&token_lst, line, &i, lex_arg);
-		}
 		else
-		{
-			fail += add_token(&token_lst, line, &i, lex_cmd);
-			capture_args = true;
-		}
+			fail += add_token(&token_lst, line, &i, lex_part);
 	}
 	return (token_lst);
 }
@@ -212,7 +216,10 @@ t_list *relex(char *str, bool cmd)
 	{
 		skip_until(str, &i, " ", false);
 		if (token_lst == NULL && cmd)
+		{
 			add_token(&token_lst, str, &i, lex_cmd);
+			cmd = false;
+		}
 		else
 			add_token(&token_lst, str, &i, lex_arg);
 	}
@@ -222,35 +229,29 @@ t_list *relex(char *str, bool cmd)
 int lex_split(t_list **token_lst)
 {
 	t_list *curr;
-	t_list *prev;
+	t_list *next;
 	t_list *new;
 	bool	cmd;
 
 	curr = *token_lst;
-	prev = NULL;
+	cmd = true;
 	while (curr)
 	{
-		cmd = false;
-		if (((t_token *)(curr->content))->type == CMD)
+		ft_lstiter(*token_lst, print_token_new);
+		
+		if (((t_token *)(curr->content))->type == PIPE)
 			cmd = true;
-		if (((t_token *)(curr->content))->type == ARG || ((t_token *)(curr->content))->type == CMD)
+		if (((t_token *)(curr->content))->type == PART)
 		{
+			next = curr->next;
 			new = relex(((t_token *)(curr->content))->value, cmd);
-			if (prev == NULL)
-				*token_lst = new;
-			else
-				prev->next = new;
-			ft_lstlast(new)->next = curr->next;
-			ft_lstdelone(curr, free_token);
-			prev = curr;
-			curr = ft_lstlast(new)->next;
+			ft_lstinsert(curr, new);
+			ft_lstrmvone(token_lst, curr, free_token);
+			cmd = false;
+			curr = next;
 		}
 		else
-		{
-			prev = curr;
 			curr = curr->next;
-		}
-		ft_lstiter(*token_lst, print_token_new);
 	}
 	return (EXIT_SUCCESS);
 }

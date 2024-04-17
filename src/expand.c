@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/16 19:21:32 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 22:43:17 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int	expand_tokens(t_list *token_lst, t_list *envp, int status)
 
 	while (token_lst)
 	{
-		if (((t_token *)(token_lst->content))->type != PIPE)
+		if (((t_token *)(token_lst->content))->type != PIPE && ((t_token *)(token_lst->content))->type != R_HEREDOC)
 		{
 			temp = expand(((t_token *)(token_lst->content))->value, envp, status);
 			if (!temp)

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/17 19:05:02 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 22:28:21 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef enum token_type
 	R_APPEND,
 	R_HEREDOC,
 	PIPE,
+	PART,
 }					t_token_type;
 
 typedef enum log_level
@@ -148,6 +149,8 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
+void				ft_lstinsert(t_list *insert_after, t_list *list);
+void				ft_lstrmvone(t_list **head, t_list *node, void (*del)(void *));
 
 // environment.c
 void				free_env(void *content);
