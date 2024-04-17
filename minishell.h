@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 17:13:27 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:40:46 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,11 @@ char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd, t_list *envp);
 
 // redirects.c
-int					redirs_to_fds(t_list *cmd_list);
+int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
+						int *status);
 
-int					here_doc(const char *delimiter, int *fd);
+int					here_doc(const char *delimiter, int *fd, t_list *env_list,
+						int status);
 
 // lexer.c
 t_list				*lexer(const char *line);
