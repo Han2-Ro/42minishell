@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/10 19:47:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:55:16 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,4 +198,59 @@ t_list	*lexer(const char *line)
 		}
 	}
 	return (token_lst);
+}
+
+t_list *relex(char *str, bool cmd)
+{
+	t_list *token_lst;
+	unsigned int i;
+
+	i = 0;
+	token_lst = NULL;
+	
+	while (str[i])
+	{
+		skip_until(str, &i, " ", false);
+		if (token_lst == NULL && cmd)
+			add_token(&token_lst, str, &i, lex_cmd);
+		else
+			add_token(&token_lst, str, &i, lex_arg);
+	}
+	return (token_lst);
+}
+
+int lex_split(t_list **token_lst)
+{
+	t_list *curr;
+	t_list *prev;
+	t_list *new;
+	bool	cmd;
+
+	curr = *token_lst;
+	prev = NULL;
+	while (curr)
+	{
+		cmd = false;
+		if (((t_token *)(curr->content))->type == CMD)
+			cmd = true;
+		if (((t_token *)(curr->content))->type == ARG || ((t_token *)(curr->content))->type == CMD)
+		{
+			new = relex(((t_token *)(curr->content))->value, cmd);
+			if (prev == NULL)
+				*token_lst = new;
+			else
+				prev->next = new;
+			ft_lstlast(new)->next = curr->next;
+			ft_lstdelone(curr, free_token);
+			prev = curr;
+			curr = ft_lstlast(new)->next;
+		}
+		else
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		ft_lstiter(*token_lst, print_token_new);
+	}
+	return (EXIT_SUCCESS);
 }

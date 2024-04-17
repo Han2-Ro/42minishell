@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 17:13:27 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:05:02 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int					here_doc(const char *delimiter, int *fd);
 
 // lexer.c
 t_list				*lexer(const char *line);
+int					lex_split(t_list **token_lst);
 
 // list_utils.c
 t_list				*ft_lstnew_old(t_cmd *cmd);
