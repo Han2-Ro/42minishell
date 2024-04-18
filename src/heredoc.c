@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/18 19:25:38 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/18 19:35:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	read_until_delimiter(int fd, const char *delimiter, t_list *env_list,
 			return (SUCCESS);
 		}
 		expanded_line = expand(line, env_list, status);
-		// TODO: What to do on malloc error in expand?
+		if (expanded_line == NULL)
+			return (free(line), FAILURE);
 		ft_putendl_fd(expanded_line, fd);
 		free(expanded_line);
 		free(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/16 19:21:32 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:41:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ static void	skip_until(const char *str, unsigned int *i, const char *charset,
 		*i += 1;
 }
 
-
 /**
- * @brief Inserts a string into an existing string 
+ * @brief Inserts a string into an existing string
  * @param i_str The string to be inserted
  * @param o_str The original string
  * @param from Index from where to start replacing the original string
@@ -38,7 +37,7 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 	char			*result;
 
 	if (i_str == NULL || o_str == NULL)
-        return (NULL);
+		return (NULL);
 	len_i = ft_strlen(i_str);
 	len_o = ft_strlen(o_str);
 	len_total = from + len_i + len_o - to + 1;
@@ -51,13 +50,12 @@ char	*str_insert(char const *i_str, char *o_str, unsigned int from,
 	return (result);
 }
 
-
-//Fuck the 25 line limit :)
+// Fuck the 25 line limit :)
 char	*expand_var_2(t_expand_info *ex, char *env_val, bool pls_free)
 {
-	int val_len;
+	int		val_len;
+	char	*temp;
 
-	char *temp;
 	if (!env_val)
 	{
 		temp = str_insert("", ex->str, ex->var_idx, ex->i);
@@ -76,13 +74,13 @@ char	*expand_var_2(t_expand_info *ex, char *env_val, bool pls_free)
 
 /**
  * @brief Expands $arg and $? where arg is an environment var
- * @brief Expects to be behind "$" at the start or a var 
+ * @brief Expects to be behind "$" at the start or a var
  */
 char	*expand_var(t_expand_info *ex)
 {
-	char			*env_val;
-	char			*env_key;
-	bool			pls_free;
+	char	*env_val;
+	char	*env_key;
+	bool	pls_free;
 
 	pls_free = false;
 	ex->var_idx = ex->i;
@@ -102,6 +100,7 @@ char	*expand_var(t_expand_info *ex)
 		if (!env_key)
 			return (NULL);
 		env_val = ft_getenv(ex->envp, env_key);
+		free(env_key);
 	}
 	return (expand_var_2(ex, env_val, pls_free));
 }
@@ -153,8 +152,8 @@ void	handle_quote(unsigned int *i, char **str, int *quote)
 
 int	expand_loop(t_expand_info *ex)
 {
-	char *temp;
-	
+	char	*temp;
+
 	skip_until(ex->str, &ex->i, "$\'\"", true);
 	if (ex->str[ex->i] == '\0')
 		return (EXIT_SUCCESS);
@@ -205,7 +204,8 @@ int	expand_tokens(t_list *token_lst, t_list *envp, int status)
 	{
 		if (((t_token *)(token_lst->content))->type != PIPE)
 		{
-			temp = expand(((t_token *)(token_lst->content))->value, envp, status);
+			temp = expand(((t_token *)(token_lst->content))->value, envp,
+					status);
 			if (!temp)
 				return (EXIT_FAILURE);
 			free(((t_token *)(token_lst->content))->value);
