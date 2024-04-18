@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 19:12:49 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:01:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*ft_getenv(t_list *envlst, char *key)
 	int		len_env_key;
 
 	len_key = ft_strlen(key);
+	log_msg(DEBUG, "search key: %s", key);
 	while (envlst != NULL)
 	{
 		env = (t_env *)envlst->content;

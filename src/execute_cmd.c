@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/16 16:27:02 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/18 19:03:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int	exec_cmd_list(t_list *cmd_list, t_list **envp, int *status)
 {
 	t_list	*current_cmd;
 
-	if (setup_pipes(cmd_list) != EXIT_SUCCESS
-		|| redirs_to_fds(cmd_list) != EXIT_SUCCESS)
+	if (setup_pipes(cmd_list) != EXIT_SUCCESS || redirs_to_fds(cmd_list, *envp,
+			status) != EXIT_SUCCESS)
 		return (ft_lstclear(&cmd_list, free_cmd), EXIT_FAILURE);
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
