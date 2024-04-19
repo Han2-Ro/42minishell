@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/17 22:43:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:08:01 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*expand_var_2(t_expand_info *ex, char *env_val, bool pls_free)
 
 /**
  * @brief Expands $arg and $? where arg is an environment var
- * @brief Expects to be behind "$" at the start or a var 
+ * @brief Expects to be at "$" at the start or a var 
  */
 char	*expand_var(t_expand_info *ex)
 {
@@ -132,7 +132,7 @@ int	get_quote(int quote, const char c)
 	return (-1);
 }
 
-void	handle_quote(unsigned int *i, char **str, int *quote)
+void	handle_quote(unsigned int *i, char **str, int *quote, bool rmquote)
 {
 	int		new_quote;
 	char	*temp;
@@ -140,7 +140,7 @@ void	handle_quote(unsigned int *i, char **str, int *quote)
 	new_quote = get_quote(*quote, (*str)[*i]);
 	// if (new_quote == -1)
 	// 	log_msg(ERROR, "Quote Error");
-	if (*quote != new_quote)
+	if (rmquote && *quote != new_quote)
 	{
 		temp = *str;
 		*str = str_insert("", (*str), *i, *i + 1);
@@ -159,8 +159,8 @@ int	expand_loop(t_expand_info *ex)
 	if (ex->str[ex->i] == '\0')
 		return (EXIT_SUCCESS);
 	else if (ft_strchr("'\"", ex->str[ex->i]))
-		handle_quote(&ex->i, &ex->str, &ex->quote);
-	else if (ex->str[ex->i] == '$' && ex->quote == 1)
+		handle_quote(&ex->i, &ex->str, &ex->quote, ex->only_rm_quotes);
+	else if (ex->only_rm_quotes || (ex->str[ex->i] == '$' && ex->quote == 1))
 		(ex->i)++;
 	else if (ex->str[ex->i] == '$')
 	{
@@ -173,13 +173,14 @@ int	expand_loop(t_expand_info *ex)
 	return (EXIT_SUCCESS);
 }
 
-char	*expand(char *string, t_list *envp, int status)
+char	*expand(char *string, t_list *envp, int status, bool only_remove_quotes)
 {
 	t_expand_info	ex;
 
 	ex.str = ft_strdup(string);
 	if (!ex.str)
 		return (NULL);
+	ex.only_rm_quotes = only_remove_quotes;
 	ex.i = 0;
 	ex.quote = 0;
 	ex.envp = envp;
@@ -197,7 +198,7 @@ char	*expand(char *string, t_list *envp, int status)
 	return (ex.str);
 }
 
-int	expand_tokens(t_list *token_lst, t_list *envp, int status)
+int	expand_tokens(t_list *token_lst, t_list *envp, int status, bool only_remove_quotes)
 {
 	char	*temp;
 
@@ -205,7 +206,7 @@ int	expand_tokens(t_list *token_lst, t_list *envp, int status)
 	{
 		if (((t_token *)(token_lst->content))->type != PIPE && ((t_token *)(token_lst->content))->type != R_HEREDOC)
 		{
-			temp = expand(((t_token *)(token_lst->content))->value, envp, status);
+			temp = expand(((t_token *)(token_lst->content))->value, envp, status, only_remove_quotes);
 			if (!temp)
 				return (EXIT_FAILURE);
 			free(((t_token *)(token_lst->content))->value);

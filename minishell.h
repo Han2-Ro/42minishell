@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/17 22:28:21 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:02:01 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef enum token_type
 	R_HEREDOC,
 	PIPE,
 	PART,
+	DQ,
+	SQ,
 }					t_token_type;
 
 typedef enum log_level
@@ -86,6 +88,7 @@ typedef struct s_expand_info
 	char			*str;
 	unsigned int	i;
 	unsigned int	var_idx;
+	bool			only_rm_quotes;
 	int				quote;
 	t_list			*envp;
 	int				status;
@@ -174,8 +177,8 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
-int					expand_tokens(t_list *token_lst, t_list *envp, int status);
-char				*expand(char *string, t_list *envp, int status);
+int					expand_tokens(t_list *token_lst, t_list *envp, int status, bool only_remove_quotes);
+char				*expand(char *string, t_list *envp, int status, bool only_remove_quotes);
 
 // print_structs.c
 void				print_cmd(void *command);

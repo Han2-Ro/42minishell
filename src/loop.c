@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/17 22:30:05 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:50:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	shell_loop(t_list *envp)
 		token_lst = lexer(line);
 		if (!token_lst)
 			log_msg(DEBUG, "Lex: token list null");
-		expand_tokens(token_lst, envp, status);
+		expand_tokens(token_lst, envp, status, false);
 		lex_split(&token_lst);
+		expand_tokens(token_lst, envp, status, true);
 		cmd_lst = parse(token_lst);
 		if (!cmd_lst)
 		{
