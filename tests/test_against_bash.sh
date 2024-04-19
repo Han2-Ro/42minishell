@@ -5,9 +5,9 @@ mkdir -p $RUN_DIR
 
 function test {
     echo "Test: $1"
-    echo -e $1 | bash > $RUN_DIR/bash.out 2> $RUN_DIR/bash.err
+    echo -e "$1" | bash > $RUN_DIR/bash.out 2> $RUN_DIR/bash.err
     exit_bash=$?
-    echo -e $1 | ./minishell > $RUN_DIR/minishell.out 2> $RUN_DIR/minishell.err
+    echo -e "$1" | ./minishell > $RUN_DIR/minishell.out 2> $RUN_DIR/minishell.err
     exit_minishell=$?
     DIFF=$(diff $RUN_DIR/bash.out $RUN_DIR/minishell.out)
     if [ "$DIFF" != "" ]; then
@@ -37,6 +37,6 @@ test 'cd .. \n pwd'
 test 'ls -l | grep d| wc -l'
 test 'cat << EOF\nhello\nEOF'
 test 'cat << EOF\n$HOME\nhello\nEOF'
-test 'cat 1234\v5\f6\r7\ 8'
+test 'cat 1\v\t2'
 #test 'echo $"HOME"$USER'
 exit $FAIL_COUNT
