@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/20 12:02:55 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/20 13:36:48 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define FAILURE -1
 
 # define WHITESPACE " \t\n\r\v\f"
+# define SPECIAL_CHARS "$<>|\'\""
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL DEBUG
