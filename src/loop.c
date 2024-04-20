@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/20 12:01:38 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/20 14:32:11 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	shell_loop(t_list *envp)
 			if (line && line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = '\0';
 		}
-		log_msg(DEBUG, "Inputed line: %s\n", line);
+		log_msg(DEBUG, "Inputed line: %s", line);
 		if (!line)
 			break ;
 		if (!*line)
