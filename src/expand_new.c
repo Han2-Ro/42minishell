@@ -3,40 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/19 16:49:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/20 12:51:23 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*handle_dollar(char *str, int i, t_list *env_list, int status)
+char	*expand_status(char *str, int i, int status)
+{
+	char	*status_str;
+	char	*new_str;
+
+	status_str = ft_itoa(status);
+	if (!status_str)
+		return (NULL);
+	new_str = str_insert(status_str, str, i, i + 2);
+	free(status_str);
+	return (new_str);
+}
+
+char	*expand_var_new(char *str, int i, t_list *env_list)
 {
 	char	*new_str;
+	char	*env_key;
 	char	*env_val;
+	int		j;
 
+	j = i + 1;
+	while (ft_strchr("\'\"", str[j]) == NULL && ft_strchr(WHITESPACE,
+			str[j]) == NULL)
+		j++;
+	env_key = ft_substr(str, i + 1, j - i - 1);
+	env_val = ft_getenv(env_list, env_key);
+	free (env_key);
+	if (!env_val)
+		env_val = ft_strdup("");
+	new_str = str_insert(env_val, str, i, j);
+	free (env_val);
+	return (new_str);
+}
+
+char	*handle_dollar(char *str, int i, t_list *env_list, int status)
+{
+	log_msg(DEBUG, "handle_dollar: %s at %i", str, i);
 	if (str[i + 1] == '?')
-	{
-		env_val = ft_itoa(status);
-		if (!env_val)
-			return (NULL);
-		new_str = str_insert(env_val, str, i, i + 1);
-	}
-    else
-    {
-        int j = i + 1;
-        while (str[j] && str[j] != ' ' )
-    }
+		return (expand_status(str, i, status));
+	else
+		return (expand_var_new(str, i, env_list));
 }
 
 int	expand_token(t_list *list, t_list *env_list, int status)
 {
-	t_token	*token;
-	int		quote;
-	int		i;
+	t_token			*token;
+	int				quote;
+	unsigned int	i;
+	char			*new_value;
 
+	print_token_new(list->content);
+	i = 0;
+	quote = 0;
 	token = (t_token *)list->content;
 	while (token->value[i] != '\0')
 	{
@@ -44,10 +72,15 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 			handle_quote(&i, &token->value, &quote);
 		else if (token->value[i] == '$' && quote != 1)
 		{
-			handle_dollar();
+			new_value = handle_dollar(token->value, i, env_list, status);
+			//split_token(list, new_value, i);
 		}
-		i++;
+		else
+			i++;
+		if (token->value == NULL)
+			return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
@@ -65,4 +98,5 @@ int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 		}
 		current = current->next;
 	}
+	return (EXIT_SUCCESS);
 }

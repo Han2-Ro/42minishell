@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/19 17:10:00 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/20 12:02:55 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -21,7 +22,6 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -34,6 +34,8 @@
 
 # define SUCCESS 0
 # define FAILURE -1
+
+# define WHITESPACE " \t\n\r\v\f"
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL DEBUG
@@ -178,6 +180,8 @@ char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
+int					expand_tokens_new(t_list *token_lst, t_list *env_list,
+						int status);
 
 // print_structs.c
 void				print_cmd(void *command);
@@ -196,6 +200,7 @@ void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
 int					is_space(char c);
 void				pass(void *content);
+int					is_space(char c);
 
 // loop.c
 int					shell_loop(t_list *envp);
