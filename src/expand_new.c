@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/20 14:40:08 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/21 09:56:28 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	split_token(t_list *list, int from, int to)
 {
 	t_token	*token;
 	int		i;
-	char 	*str;
-	t_list  *next;
+	char	*str;
+	t_list	*next;
 
 	token = (t_token *)list->content;
 	if (token->type != CMD && token->type != ARG)
@@ -122,6 +122,8 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 		if (token->value == NULL)
 			return (EXIT_FAILURE);
 	}
+	if (quote != 0)
+		return (log_msg(ERROR, "Syntax Error: Quote not closed"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -129,16 +131,18 @@ int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 {
 	t_list *current;
 	t_token *token;
+	int ret;
 
+	ret = EXIT_SUCCESS;
 	current = token_lst;
 	while (current)
 	{
 		token = (t_token *)current->content;
 		if (token->type != PIPE && token->type != R_HEREDOC)
 		{
-			expand_token(current, env_list, status);
+			ret |= expand_token(current, env_list, status);
 		}
 		current = current->next;
 	}
-	return (EXIT_SUCCESS);
+	return (ret);
 }
