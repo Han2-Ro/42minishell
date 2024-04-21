@@ -37,6 +37,7 @@ test 'cd .. \n pwd'
 test 'ls -l | grep d| wc -l'
 test 'cat << EOF\nhello\nEOF'
 test 'cat << EOF\n$HOME\nhello\nEOF'
-test 'cat 1\v\t2'
+test 'export a="echo hi"\n$a "<d"|cat -e'
+test 'cat 1\v\t2 3'
 #test 'echo $"HOME"$USER'
 exit $FAIL_COUNT

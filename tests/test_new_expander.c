@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/21 11:00:00 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/21 11:19:56 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	compare_token_list(t_list *a, t_list *b)
 		print_token_new(token_b);
 		if (token_a->type != token_b->type)
 			return (FAILURE);
-		if (ft_strncmp(token_a->value, token_b->value, ft_strlen(token_a->value)
-				+ 1))
+		if (token_a->value != token_b->value && ft_strncmp(token_a->value,
+				token_b->value, ft_strlen(token_a->value) + 1))
 			return (FAILURE);
 		a = a->next;
 		b = b->next;
@@ -44,6 +44,7 @@ int	test_expander(char *line, t_list *expected, char **envp)
 {
 	t_list	*token_lst;
 	t_list	*envp_lst;
+	t_list	*new;
 	int		status;
 	int		result;
 
@@ -58,6 +59,8 @@ int	test_expander(char *line, t_list *expected, char **envp)
 				ft_strdup("aaa\"bbb"))));
 	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("single_quote"),
 				ft_strdup("aaa\'bbb"))));
+	new = ft_lstnew(new_env(ft_strdup("ll"), ft_strdup("ls -l -a")));
+	ft_lstadd_back(&envp_lst, new);
 	token_lst = lexer(line);
 	result = expand_tokens_new(token_lst, envp_lst, status);
 	ft_lstiter(token_lst, print_token_new);
@@ -86,6 +89,35 @@ int	test1(char **envp)
 	return (result);
 }
 
+int	test2(char **envp)
+{
+	t_list	*expected;
+	t_token	token1;
+	t_token	token2;
+	t_token	token3;
+	t_token	token4;
+	t_token	token5;
+	int		result;
+
+	token1.type = CMD;
+	token1.value = "ls";
+	token2.type = ARG;
+	token2.value = "-l";
+	token3.type = ARG;
+	token3.value = "-a";
+	token4.type = PIPE;
+	token4.value = NULL;
+	token5.type = CMD;
+	token5.value = "cat";
+	expected = ft_lstnew(&token1);
+	ft_lstadd_back(&expected, ft_lstnew(&token2));
+	ft_lstadd_back(&expected, ft_lstnew(&token3));
+	ft_lstadd_back(&expected, ft_lstnew(&token4));
+	ft_lstadd_back(&expected, ft_lstnew(&token5));
+	result = test_expander("$ll|cat", expected, envp);
+	return (result);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int result = SUCCESS;
@@ -93,7 +125,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test expander", test1, envp, true);
+	result |= run_test("test1", test1, envp, true);
+	result |= run_test("test2", test2, envp, true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
