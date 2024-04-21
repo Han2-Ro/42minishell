@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/21 09:56:28 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/21 11:06:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	split_token(t_list *list, int from, int to)
 	}
 	token->value = ft_substr(str, from, to - from);
 	list->next = next;
+	free(str);
 	return (EXIT_SUCCESS);
 }
 
