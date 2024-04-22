@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 18:07:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:15:37 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void print_export(t_list **envp)
 	free(envs);
 }
 
-// TODO: variable count of args
 int	builtin_export(const t_cmd *cmd, t_list **envp)
 {
 	int		i;
