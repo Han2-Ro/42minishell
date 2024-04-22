@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/18 19:03:52 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:08:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
 		return (EXIT_SUCCESS);
 	setup_cmd(cmd, envlst, &envp_array);
 	ft_lstiter(cmd_list, close_fds);
-	log_msg(INFO, "executing %s", cmd->bin);
+	log_msg(DEBUG, "executing %s", cmd->bin);
 	if (access(cmd->bin, X_OK) == 0)
 		execve(cmd->bin, cmd->args, envp_array);
 	exit(127);

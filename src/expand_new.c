@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/21 11:06:05 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:23:12 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*expand_status(char *str, int i, int status)
+char	*expand_status(char *str, int i, int status, int *expand_len)
 {
 	char	*status_str;
 	char	*new_str;
@@ -20,6 +20,7 @@ char	*expand_status(char *str, int i, int status)
 	status_str = ft_itoa(status);
 	if (!status_str)
 		return (NULL);
+	*expand_len = ft_strlen(status_str);
 	new_str = str_insert(status_str, str, i, i + 2);
 	free(status_str);
 	return (new_str);
@@ -51,9 +52,9 @@ int	handle_dollar(char **str, int i, t_list *env_list, int status)
 	int		expand_len;
 
 	log_msg(DEBUG, "handle_dollar: '%s' at %i", *str, i);
-	expand_len = 0;
+	expand_len = 1;
 	if ((*str)[i + 1] == '?')
-		new_value = expand_status(*str, i, status);
+		new_value = expand_status(*str, i, status, &expand_len);
 	else
 		new_value = expand_var_new(*str, i, env_list, &expand_len);
 	free(*str);
@@ -75,6 +76,7 @@ int	split_token(t_list *list, int from, int to)
 		return (EXIT_SUCCESS);
 	next = list->next;
 	i = from;
+	from = 0;
 	str = token->value;
 	while (i < to)
 	{
@@ -91,7 +93,7 @@ int	split_token(t_list *list, int from, int to)
 		}
 		i++;
 	}
-	token->value = ft_substr(str, from, to - from);
+	token->value = ft_substr(str, from, ft_strlen(str) - from);
 	list->next = next;
 	free(str);
 	return (EXIT_SUCCESS);
