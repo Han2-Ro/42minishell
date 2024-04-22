@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/17 16:40:46 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:20:30 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,13 @@ char				*ft_getenv(t_list *envlst, char *key);
  * @param arg The string to extract the value from
  * @return The value as a string, that must be freed or NULL on error
  */
-char				*get_value(char *arg);
+char				*get_value(const char *arg);
 /**
  * @brief Get the key from a string like "key=value"
  * @param arg The string to extract the key from
  * @return The key as a string, that must be freed or NULL on error
  */
-char				*get_key(char *arg);
+char				*get_key(const char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
@@ -197,6 +197,9 @@ int					shell_loop(t_list *envp);
 
 // signals.c
 int					register_signals(void);
+
+//utils.c
+int					ft_strcmp(const char *s1, const char *s2);
 
 t_list				*parse(t_list *tokens);
 

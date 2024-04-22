@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 16:45:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:02:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	return(ft_strncmp(s1, s2, ft_strlen(s2) + 1));
+}
 
 t_cmd	*new_cmd(char *bin, char **args)
 {
