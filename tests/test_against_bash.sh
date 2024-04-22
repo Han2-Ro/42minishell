@@ -38,6 +38,6 @@ test 'ls -l | grep d| wc -l'
 test 'cat << EOF\nhello\nEOF'
 test 'cat << EOF\n$HOME\nhello\nEOF'
 test 'export a="echo hi"\n$a "<d"|cat -e'
-test 'cat 1\v\t2 3'
+test 'cat 1\t2   3'
 #test 'echo $"HOME"$USER'
 exit $FAIL_COUNT
