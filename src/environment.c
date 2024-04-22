@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/18 19:01:19 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:20:41 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_env	*new_env(char *key, char *value)
 	return (env);
 }
 
-char	*get_value(char *arg)
+char	*get_value(const char *arg)
 {
 	int	i;
 
@@ -65,7 +65,7 @@ char	*get_value(char *arg)
 	return (NULL);
 }
 
-char	*get_key(char *arg)
+char	*get_key(const char *arg)
 {
 	int	i;
 
