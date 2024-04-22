@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/10 19:47:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:13:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*lex_cmd(const char *line, unsigned int *i)
 	if (!token)
 		return (NULL);
 	lex_len = 0;
-	skip_until(&line[*i], &lex_len, " |<>", true);
+	skip_until(&line[*i], &lex_len, WHITESPACE "|<>", true);
 	token->type = CMD;
 	token->value = ft_substr(line, *i, lex_len);
 	if (!(token->value))
@@ -57,8 +57,8 @@ static unsigned int	arg_len(const char *arg)
 			skip_until(arg, &len, "\"", true);
 			len++;
 		}
-		else if (!ft_strchr(" <>|", arg[len]))
-			skip_until(arg, &len, "\"\' <>|", true);
+		else if (!ft_strchr(WHITESPACE "<>|", arg[len]))
+			skip_until(arg, &len, WHITESPACE "\"\'<>|", true);
 		else
 			return (len);
 	}
@@ -112,9 +112,8 @@ t_token	*lex_redirect(const char *line, unsigned int *i)
 	if (redir_type == NOTDEF)
 		return (free(token), NULL);
 	token->type = redir_type;
-	if (line[*i] == ' ')
-		skip_until(line, i, " ", false);
-	skip_until(&line[*i], &lex_len, " <>|", true);
+	skip_until(line, i, WHITESPACE, false);
+	skip_until(&line[*i], &lex_len, WHITESPACE "<>|", true);
 	token->value = ft_substr(line, *i, lex_len);
 	if (!(token->value))
 		return (free(token), NULL);
@@ -136,7 +135,8 @@ t_token	*lex_pipe(const char *line, unsigned int *i)
 	return (token);
 }
 
-int	add_token(t_list **token_lst, const char *line, unsigned int *i, t_token *(*lex)(const char *, unsigned int *))
+int	add_token(t_list **token_lst, const char *line, unsigned int *i,
+		t_token *(*lex)(const char *, unsigned int *))
 {
 	t_list	*new_elm;
 	t_token	*token;
@@ -167,7 +167,7 @@ t_list	*lexer(const char *line)
 	bool			capture_args;
 	t_list			*token_lst;
 	int				fail;
-	
+
 	token_lst = NULL;
 	line_len = ft_strlen(line);
 	i = 0;
@@ -175,7 +175,7 @@ t_list	*lexer(const char *line)
 	capture_args = false;
 	while (i < line_len && !fail)
 	{
-		skip_until(line, &i, " ", false);
+		skip_until(line, &i, WHITESPACE, false);
 		if (!line[i])
 			break ;
 		if (line[i] == '|')

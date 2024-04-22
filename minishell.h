@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 13:20:30 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:18:00 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@
 # define SUCCESS 0
 # define FAILURE -1
 
+# define WHITESPACE " \t\n\r\v\f"
+# define SPECIAL_CHARS "$<>|\'\""
+
 # ifndef LOG_LEVEL
-#  define LOG_LEVEL DEBUG
+#  define LOG_LEVEL INFO
 # endif
 
 // Global var for signals
@@ -172,8 +175,14 @@ t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
+int					get_quote(int quote, const char c);
+void				handle_quote(unsigned int *i, char **str, int *quote);
+char				*str_insert(char const *i_str, char *o_str,
+						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
+int					expand_tokens_new(t_list *token_lst, t_list *env_list,
+						int status);
 
 // print_structs.c
 void				print_cmd(void *command);
@@ -190,7 +199,9 @@ void				free_cmd(void *content);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
+int					is_space(char c);
 void				pass(void *content);
+int					is_space(char c);
 
 // loop.c
 int					shell_loop(t_list *envp);

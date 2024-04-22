@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/12 16:05:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/20 14:32:11 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	shell_loop(t_list *envp)
 			if (line && line[ft_strlen(line) - 1] == '\n')
 				line[ft_strlen(line) - 1] = '\0';
 		}
-		log_msg(DEBUG, "Inputed line: %s\n", line);
+		log_msg(DEBUG, "Inputed line: %s", line);
 		if (!line)
 			break ;
 		if (!*line)
@@ -41,7 +41,7 @@ int	shell_loop(t_list *envp)
 		if (isatty(STDIN_FILENO))
 			add_history(line);
 		token_lst = lexer(line);
-		expand_tokens(token_lst, envp, status);
+		expand_tokens_new(token_lst, envp, status);
 		if (!token_lst)
 			log_msg(DEBUG, "Lex: token list null");
 		cmd_lst = parse(token_lst);
