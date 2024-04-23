@@ -6,23 +6,23 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/21 11:19:56 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:03:08 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "utils/run_test.c"
 
-int	compare_token_list(t_list *a, t_list *b)
+int	compare_token_list(t_list *actual, t_list *expected)
 {
 	t_token	*token_a;
 	t_token	*token_b;
 
-	log_msg(INFO, "compare lists: %p, %p", a, b);
-	while (a && b)
+	log_msg(INFO, "compare lists: %p, %p", actual, expected);
+	while (actual && expected)
 	{
-		token_a = a->content;
-		token_b = b->content;
+		token_a = actual->content;
+		token_b = expected->content;
 		log_msg(INFO, "Comparing tokens:");
 		print_token_new(token_a);
 		print_token_new(token_b);
@@ -30,12 +30,16 @@ int	compare_token_list(t_list *a, t_list *b)
 			return (FAILURE);
 		if (token_a->value != token_b->value && ft_strncmp(token_a->value,
 				token_b->value, ft_strlen(token_a->value) + 1))
+		{
+			log_msg(ERROR, "expected: '%s', actual: '%s'", token_b->value,
+				token_a->value);
 			return (FAILURE);
-		a = a->next;
-		b = b->next;
+		}
+		actual = actual->next;
+		expected = expected->next;
 		log_msg(INFO, "equal");
 	}
-	if (a || b)
+	if (actual || expected)
 		return (FAILURE);
 	return (SUCCESS);
 }
@@ -48,7 +52,6 @@ int	test_expander(char *line, t_list *expected, char **envp)
 	int		status;
 	int		result;
 
-	log_msg(WARNING, "This test needs manual inspection of the output");
 	status = 0;
 	envp_lst = envp_to_list(envp);
 	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("numbers"),
@@ -118,6 +121,36 @@ int	test2(char **envp)
 	return (result);
 }
 
+int	test_quote_in_var(char **envp)
+{
+	t_list	*expected;
+	t_token	token1;
+	t_token	token2;
+	int		result;
+
+	token1.type = CMD;
+	token1.value = "echo";
+	token2.type = ARG;
+	token2.value = "aaa\'bbb";
+	expected = ft_lstnew(&token1);
+	ft_lstadd_back(&expected, ft_lstnew(&token2));
+	result = test_expander("echo $single_quote", expected, envp);
+	return (result);
+}
+
+int	test_non_existing_var(char **envp)
+{
+	t_list	*expected;
+	t_token	token1;
+	int		result;
+
+	token1.type = CMD;
+	token1.value = "aa";
+	expected = ft_lstnew(&token1);
+	result = test_expander("aa$non_existing_var", expected, envp);
+	return (result);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int result = SUCCESS;
@@ -127,6 +160,9 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test1", test1, envp, true);
 	result |= run_test("test2", test2, envp, true);
+	result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
+	result |= run_test("test_non_existing_var", test_non_existing_var, envp,
+			true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

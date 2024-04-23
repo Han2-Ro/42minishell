@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/11 16:48:58 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 13:54:32 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_token(void *token)
 	t_token	*tkn;
 
 	tkn = (t_token *)token;
-	log_msg(INFO, "type: %i value: %s", tkn->type, tkn->value);
+	log_msg(DEBUG, "type: %i value: %s", tkn->type, tkn->value);
 }
 
 void	print_token_new(void *p_tkn)
