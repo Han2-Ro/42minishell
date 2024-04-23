@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/12 15:23:08 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 13:11:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,21 @@ char	*path_to_bin(char *cmd, t_list *envp)
 {
 	char *path;
 	char **folders;
+	int i;
 
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
+	i = 0;
 	folders = ft_split(ft_getenv(envp, "PATH"), ':');
-	while (folders && *folders)
+	while (folders && folders[i])
 	{
-		path = build_path(*folders, cmd);
+		path = build_path(folders[i], cmd);
 		if (access(path, X_OK) == 0)
 			return (path);
 		free(path);
-		folders++;
+		i++;
 	}
+	free_nullterm_str_arr(folders);
 	log_msg(ERROR, "%s: command not found", cmd);
 	return (NULL);
 }
