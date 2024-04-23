@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 14:17:13 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:39:26 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	handle_dollar(char **str, int i, t_list *env_list, int status)
 
 	log_msg(DEBUG, "handle_dollar: '%s' at %i", *str, i);
 	expand_len = 1;
-	if ((*str)[i + 1] == '?')
+	if (ft_strchr(WHITESPACE, (*str)[i + 1]) != NULL)
+		return (1);
+	else if ((*str)[i + 1] == '?')
 		new_value = expand_status(*str, i, status, &expand_len);
 	else
 		new_value = expand_var_new(*str, i, env_list, &expand_len);
