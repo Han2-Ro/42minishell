@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 13:04:05 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 13:29:58 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ int	setup_cmd(t_cmd *cmd, t_list **envlst, char ***envp_array)
 	cmd->bin = path_to_bin(cmd->bin, *envlst);
 	*envp_array = envlst_to_envp(*envlst);
 	ft_lstclear(envlst, free_env);
-	if (cmd->bin == NULL || *envp_array == NULL)
-		(free(cmd->bin), free_nullterm_str_arr(*envp_array), free_cmd(cmd),
-			exit(1));
+	if (cmd->bin == NULL)
+		(free_nullterm_str_arr(*envp_array), free_cmd(cmd), exit(127));
+	if (*envp_array == NULL)
+		(free(cmd->bin), free_cmd(cmd), exit(1));
 	return (EXIT_SUCCESS);
 }
 
