@@ -43,5 +43,6 @@ test 'no_cmd\necho $?aaa'
 test 'echo $"HOME"$USER'
 test 'echo "$ x"'
 test 'echo $>temp/out_41 | cat -e temp/out_41'
+#test '>temp/out_920 | ls -l temp/\nrm temp/out_920'
 #test 'export a="aa\'bb"\necho $a'
 exit $FAIL_COUNT
