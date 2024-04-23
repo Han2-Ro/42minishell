@@ -40,5 +40,6 @@ test 'cat << EOF\n$HOME\nhello\nEOF'
 test 'export a="echo hi"\n$a "<d"|cat -e'
 test 'cat 1\t2   3'
 test 'no_cmd\necho $?aaa'
-#test 'echo $"HOME"$USER'
+test 'echo $"HOME"$USER'
+#test 'export a="aa\'bb"\necho $a'
 exit $FAIL_COUNT

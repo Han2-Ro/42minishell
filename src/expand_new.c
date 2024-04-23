@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 14:23:12 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:17:13 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
 	env_key = ft_substr(str, i + 1, j - i - 1);
 	env_val = ft_getenv(env_list, env_key);
 	free(env_key);
+	if (!env_val)
+		env_val = ft_strdup("");
 	*expand_len = ft_strlen(env_val);
 	if (!env_val)
 		env_val = ft_strdup("");
@@ -119,6 +121,7 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 			expand_len = handle_dollar(&token->value, i, env_list, status);
 			if (quote == 0)
 				split_token(list, i, i + expand_len);
+			i += expand_len;
 		}
 		else
 			i++;
