@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 14:39:26 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:55:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
 	env_val = ft_getenv(env_list, env_key);
 	free(env_key);
 	if (!env_val)
-		env_val = ft_strdup("");
+		env_val = "";
 	*expand_len = ft_strlen(env_val);
-	if (!env_val)
-		env_val = ft_strdup("");
 	new_str = str_insert(env_val, str, i, j);
 	return (new_str);
 }
@@ -62,9 +60,9 @@ int	handle_dollar(char **str, int i, t_list *env_list, int status)
 	else
 		new_value = expand_var_new(*str, i, env_list, &expand_len);
 	free(*str);
+	*str = new_value;
 	if (!new_value)
 		return (-1);
-	*str = new_value;
 	return (expand_len);
 }
 
@@ -88,6 +86,8 @@ int	split_token(t_list *list, int from, int to)
 		{
 			token->value = ft_substr(str, from, i - from);
 			token = malloc(sizeof(t_token));
+			if (!token)
+				return (EXIT_FAILURE);
 			token->type = ARG;
 			list->next = ft_lstnew(token);
 			list = list->next;
