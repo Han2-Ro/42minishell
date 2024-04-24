@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 15:34:18 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:47:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,9 @@ t_list	*envp_to_list(char **envp)
 		env->key = get_key(envp[i]);
 		env->value = get_value(envp[i]);
 		new = ft_lstnew(env);
-		if (new == NULL)
-			return (free_env(env), ft_lstclear(&lst, free_env), NULL);
+		if (new == NULL || env->key == NULL)
+			return (free_env(env), free(new), ft_lstclear(&lst, free_env),
+				NULL);
 		ft_lstadd_back(&lst, new);
 		i++;
 	}

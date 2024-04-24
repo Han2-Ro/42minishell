@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 15:31:02 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:39:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 	t_list	*env_list;
 
+	cmd_lst = NULL;
 	(void)argc;
 	(void)argv;
 	status = 0;
@@ -29,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	token_lst = lexer(line);
 	expand_tokens_new(token_lst, env_list, status);
+	ft_lstiter(token_lst, print_token);
 	if (token_lst)
 	{
 		cmd_lst = parse(token_lst);
