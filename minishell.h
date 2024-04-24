@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 18:18:00 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:11:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 # define WHITESPACE " \t\n\r\v\f"
 # define SPECIAL_CHARS "$<>|\'\""
+
+# define PROMPT "ms> "
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
@@ -204,12 +206,13 @@ void				pass(void *content);
 int					is_space(char c);
 
 // loop.c
+char				*ft_readline(char *prompt);
 int					shell_loop(t_list *envp);
 
 // signals.c
 int					register_signals(void);
 
-//utils.c
+// utils.c
 int					ft_strcmp(const char *s1, const char *s2);
 
 t_list				*parse(t_list *tokens);
