@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 15:55:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:53:07 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	{
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
 			handle_quote(&i, &token->value, &quote);
-		else if (token->value[i] == '$' && quote != 1)
+		else if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
 			expand_len = handle_dollar(&token->value, i, env_list, status);
 			if (quote == 0)
@@ -135,6 +135,25 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	return (EXIT_SUCCESS);
 }
 
+int	expand_heredoc(char *str, t_list *env_list, int status)
+{
+	unsigned int	i;
+	int				expand_len;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '$')
+		{
+			expand_len = handle_dollar(&str, i, env_list, status);
+			i += expand_len;
+		}
+		else
+			i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 {
 	t_list *current;
@@ -146,7 +165,7 @@ int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 	while (current)
 	{
 		token = (t_token *)current->content;
-		if (token->type != PIPE && token->type != R_HEREDOC)
+		if (token->type != PIPE)
 		{
 			ret |= expand_token(current, env_list, status);
 		}

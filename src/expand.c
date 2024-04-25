@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/18 19:41:00 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 16:43:28 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	handle_quote(unsigned int *i, char **str, int *quote)
 		(*i)++;
 	*quote = new_quote;
 }
-
+/* 
 int	expand_loop(t_expand_info *ex)
 {
 	char	*temp;
@@ -215,3 +215,4 @@ int	expand_tokens(t_list *token_lst, t_list *envp, int status)
 	}
 	return (EXIT_SUCCESS);
 }
+*/

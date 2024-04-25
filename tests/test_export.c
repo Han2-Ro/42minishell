@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 18:15:31 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:13:47 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	test_export(char **envp)
 
 	env_lst = envp_to_list(envp);
 	print_export(&env_lst);
+	ft_lstclear(&env_lst, free_env);
 	return (SUCCESS);
 }
 

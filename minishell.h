@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/22 18:18:00 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:55:01 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef enum token_type
 	R_APPEND,
 	R_HEREDOC,
 	PIPE,
+	R_QUOTEDOC
 }					t_token_type;
 
 typedef enum log_level
@@ -132,8 +133,8 @@ char				*path_to_bin(char *cmd, t_list *envp);
 int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
 						int *status);
 
-int					here_doc(const char *delimiter, int *fd, t_list *env_list,
-						int status);
+//int					here_doc(const char *delimiter, int *fd, t_list *env_list, int status);
+int					here_doc(const t_token *token, int *fd, t_list *env_list, int status);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -183,6 +184,7 @@ int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
 int					expand_tokens_new(t_list *token_lst, t_list *env_list,
 						int status);
+					int	expand_heredoc(char *str, t_list *env_list, int status);
 
 // print_structs.c
 void				print_cmd(void *command);
