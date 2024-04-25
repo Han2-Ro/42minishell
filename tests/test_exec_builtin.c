@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:40:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/25 15:01:51 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:56:30 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	test_pwd(char **envp)
 	cmd.bin = "pwd";
 	cmd.args = (char *[]){"pwd", NULL};
 	envp_to_list(envp);
-	exec_builtin(&cmd, &envp_list);
+	exec_builtin(&cmd, &envp_list, 0);
 	return (SUCCESS);
 }
 

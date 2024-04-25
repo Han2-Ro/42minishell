@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/24 16:11:51 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 20:56:08 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ int					builtin_unset(const t_cmd *cmd, t_list **envp);
 int					builtin_env(const t_cmd *cmd, t_list **envp);
 int					builtin_cd(const t_cmd *cmd, t_list **envp);
 int					builtin_pwd(const t_cmd *cmd, t_list **envp);
-int					builtin_exit(const t_cmd *cmd, t_list **envp);
-int					builtin_echo(const t_cmd *cmd, t_list **envp);
+int					builtin_exit(const t_cmd *cmd, int status);
+int					builtin_echo(const t_cmd *cmd);
 int					is_builtin(const t_cmd *cmd);
-int					exec_builtin(t_cmd *cmd, t_list **envp);
+int					exec_builtin(t_cmd *cmd, t_list **envp, int status);
 
 char				**get_paths(char **envp);
 char				*path_to_bin(char *cmd, t_list *envp);

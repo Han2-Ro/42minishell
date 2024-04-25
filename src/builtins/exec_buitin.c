@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 13:48:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 20:56:47 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_builtin(const t_cmd *cmd)
 	return (false);
 }
 
-int	exec_builtin(t_cmd *cmd, t_list **envp)
+int	exec_builtin(t_cmd *cmd, t_list **envp, int status)
 {
 	cmd->pid = 0;
 	if (ft_strncmp(cmd->bin, "pwd", 5) == 0)
@@ -43,9 +43,9 @@ int	exec_builtin(t_cmd *cmd, t_list **envp)
 	if (ft_strncmp(cmd->bin, "export", 10) == 0)
 		return (builtin_export(cmd, envp));
 	if (ft_strncmp(cmd->bin, "exit", 10) == 0)
-		return (builtin_exit(cmd, envp));
+		return (builtin_exit(cmd, status));
 	if (ft_strncmp(cmd->bin, "echo", 10) == 0)
-		return (builtin_echo(cmd, envp));
+		return (builtin_echo(cmd));
 	if (ft_strncmp(cmd->bin, "unset", 10) == 0)
 		return (builtin_unset(cmd, envp));
 	return (FAILURE);

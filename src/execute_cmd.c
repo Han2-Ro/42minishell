@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 13:29:58 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/24 20:55:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	setup_cmd(t_cmd *cmd, t_list **envlst, char ***envp_array)
 	return (EXIT_SUCCESS);
 }
 
-int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
+int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst, int status)
 {
 	char	**envp_array;
 
@@ -86,7 +86,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst)
 		return (EXIT_FAILURE);
 	if (is_builtin(cmd))
 	{
-		cmd->status = exec_builtin(cmd, envlst);
+		cmd->status = exec_builtin(cmd, envlst, status);
 		return (cmd->status);
 	}
 	cmd->pid = fork();
@@ -113,7 +113,7 @@ int	exec_cmd_list(t_list *cmd_list, t_list **envp, int *status)
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
-		exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp);
+		exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp, *status);
 		current_cmd = current_cmd->next;
 	}
 	ft_lstiter(cmd_list, close_fds);
