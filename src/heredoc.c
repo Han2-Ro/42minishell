@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 18:54:52 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:39:14 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,7 @@ int	read_until_delimiter(int fd, const t_token *token, t_list *env_list, int sta
 
 	while (1)
 	{
-		// TODO: extract this to a separate function (ft_readline)
-		if (isatty(STDIN_FILENO))
-			line = readline("> ");
-		else
-		{
-			line = get_next_line(STDIN_FILENO);
-			if (line && line[ft_strlen(line) - 1] == '\n')
-				line[ft_strlen(line) - 1] = '\0';
-		}
+		line = ft_readline("> ");
 		if (line == NULL)
 			return (FAILURE);
 		if (ft_strcmp(line, token->value) == 0)

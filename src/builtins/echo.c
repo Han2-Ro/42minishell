@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 11:47:08 by hannes            #+#    #+#             */
-/*   Updated: 2024/04/09 11:07:45 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:56:21 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ bool	is_nflag(const char *arg)
 	return (arg[i] == '\0');
 }
 
-int	builtin_echo(const t_cmd *cmd, t_list **envp)
+int	builtin_echo(const t_cmd *cmd)
 {
 	bool	n_flag;
 	int		i;
 
-	(void)envp;
 	i = 1;
 	while (cmd->args[i] && is_nflag(cmd->args[i]))
 		i++;
