@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/17 16:42:49 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:54:10 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	redir_to_fd(const t_token *token, t_cmd *cmd, t_list *env_list, int *status)
 {
 	if (token->type == R_IN)
 		open_file(token->value, O_RDONLY, &cmd->fd_in);
-	else if (token->type == R_HEREDOC)
-		here_doc(token->value, &cmd->fd_in, env_list, *status);
+	else if (token->type == R_HEREDOC || token->type == R_QUOTEDOC)
+		here_doc(token, &cmd->fd_in, env_list, *status);
 	else if (token->type == R_OUT)
 		open_file(token->value, O_WRONLY | O_CREAT | O_TRUNC, &cmd->fd_out);
 	else if (token->type == R_APPEND)

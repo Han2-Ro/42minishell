@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/23 13:54:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:09:15 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ void	print_token_new(void *p_tkn)
 		"R_APPEND	",
 		"R_HEREDOC	",
 		"PIPE		",
+		"R_QUOTEDOC	",
 	};
-	if (token->type < 0 || token->type > 7)
+	if (token->type < 0 || token->type > 8)
 		log_msg(WARNING, "type = %i: Type out of range!\n", token->type);
 	log_msg(DEBUG, "%i:%s [%s]", token->type, names[token->type], token->value);
 }
