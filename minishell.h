@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:38:11 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:52:56 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
 int					expand_tokens_new(t_list *token_lst, t_list *env_list,
 						int status);
-					int	expand_heredoc(char *str, t_list *env_list, int status);
+					int	expand_heredoc(char **str, t_list *env_list, int status);
 
 // print_structs.c
 void				print_cmd(void *command);

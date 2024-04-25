@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:39:14 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:52:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	read_until_delimiter(int fd, const t_token *token, t_list *env_list, int sta
 			return (SUCCESS);
 		}
 		if (token->type == R_HEREDOC)
-			expand_heredoc(line, env_list, status);
+			expand_heredoc(&line, env_list, status);
 		if (line == NULL)
 			return (FAILURE);
 		ft_putendl_fd(line, fd);

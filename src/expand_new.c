@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 18:53:07 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:55:03 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,17 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	return (EXIT_SUCCESS);
 }
 
-int	expand_heredoc(char *str, t_list *env_list, int status)
+int	expand_heredoc(char **str, t_list *env_list, int status)
 {
 	unsigned int	i;
 	int				expand_len;
 
 	i = 0;
-	while (str[i] != '\0')
+	while ((*str)[i] != '\0')
 	{
-		if (str[i] == '$')
+		if ((*str)[i] == '$')
 		{
-			expand_len = handle_dollar(&str, i, env_list, status);
+			expand_len = handle_dollar(str, i, env_list, status);
 			i += expand_len;
 		}
 		else
