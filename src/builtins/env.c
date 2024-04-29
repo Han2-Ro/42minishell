@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:00:29 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 14:10:07 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:43:31 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,13 @@ int	builtin_env(const t_cmd *cmd, t_list **envp)
 	while (current != NULL)
 	{
 		env = (t_env *)(current)->content;
-		ft_putstr_fd(env->key, cmd->fd_out);
-		ft_putchar_fd('=', cmd->fd_out);
-		ft_putstr_fd(env->value, cmd->fd_out);
-		ft_putchar_fd('\n', cmd->fd_out);
+		if (env->value != NULL)
+		{
+			ft_putstr_fd(env->key, cmd->fd_out);
+			ft_putchar_fd('=', cmd->fd_out);
+			ft_putstr_fd(env->value, cmd->fd_out);
+			ft_putchar_fd('\n', cmd->fd_out);
+		}
 		current = current->next;
 	}
 	return (SUCCESS);
