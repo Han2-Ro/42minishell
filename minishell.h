@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:52:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:12:28 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define SPECIAL_CHARS "$<>|\'\""
 
 # define PROMPT "ms> "
+
+# define STATUS_MASK 0x000000ff
+# define EXIT_MASK 0x00000100
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
@@ -135,8 +138,8 @@ char				*path_to_bin(char *cmd, t_list *envp);
 int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
 						int *status);
 
-//int					here_doc(const char *delimiter, int *fd, t_list *env_list, int status);
-int					here_doc(const t_token *token, int *fd, t_list *env_list, int status);
+int					here_doc(const t_token *token, int *fd, t_list *env_list,
+						int status);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -163,16 +166,18 @@ char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
 char				*ft_getenv(t_list *envlst, char *key);
 /**
- * @brief Get the value from a string like "key=value"
- * @param arg The string to extract the value from
- * @return The value as a string, that must be freed or NULL on error
- */
+	* @brief Get the value from a string like "key=value"
+	* @param arg The string to extract the value from
+	* @return The value as a string,
+		that must be freed or NULL on error
+	*/
 char				*get_value(const char *arg);
 /**
- * @brief Get the key from a string like "key=value"
- * @param arg The string to extract the key from
- * @return The key as a string, that must be freed or NULL on error
- */
+	* @brief Get the key from a string like "key=value"
+	* @param arg The string to extract the key from
+	* @return The key as a string,
+		that must be freed or NULL on error
+	*/
 char				*get_key(const char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
@@ -186,7 +191,7 @@ int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
 int					expand_tokens_new(t_list *token_lst, t_list *env_list,
 						int status);
-					int	expand_heredoc(char **str, t_list *env_list, int status);
+int					expand_heredoc(char **str, t_list *env_list, int status);
 
 // print_structs.c
 void				print_cmd(void *command);
