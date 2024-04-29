@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS = -Wall -Wextra -Werror -g -DLOG_LEVEL=DEBUG
+CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -rf
 
 SRC_DIR = src
