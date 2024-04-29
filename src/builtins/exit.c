@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/29 13:49:36 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/29 20:16:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	builtin_exit(const t_cmd *cmd, int status)
 	{
 		status = ft_atoi(cmd->args[1]);
 	}
-	return (-status - 1);
+	return (status | EXIT_MASK);
 }

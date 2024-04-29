@@ -6,12 +6,12 @@
 #    By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/04 12:56:10 by hrother           #+#    #+#              #
-#    Updated: 2024/04/21 10:50:40 by hrother          ###   ########.fr        #
+#    Updated: 2024/04/29 20:28:44 by hrother          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 OBJ_DIR = objs
 SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 		ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c \

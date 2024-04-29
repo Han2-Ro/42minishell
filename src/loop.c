@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/29 13:50:24 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/29 20:18:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,9 @@ int	shell_loop(t_list *env_list)
 			add_history(line);
 		status = process_line(line, status, env_list);
 		free(line);
-		if (status < 0)
-		{
-			status = -status - 1;
+		if (status & EXIT_MASK)
 			break ;
-		}
 	}
 	rl_clear_history();
-	return (status);
+	return (status & STATUS_MASK);
 }
