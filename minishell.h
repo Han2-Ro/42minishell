@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:52:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:18:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define SPECIAL_CHARS "$<>|\'\""
 
 # define PROMPT "ms> "
+# define STATUS_MASK 0x000000ff
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
@@ -135,88 +136,95 @@ char				*path_to_bin(char *cmd, t_list *envp);
 int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
 						int *status);
 
-//int					here_doc(const char *delimiter, int *fd, t_list *env_list, int status);
-int					here_doc(const t_token *token, int *fd, t_list *env_list, int status);
+// int					here_doc(const char *delimiter, int *fd,
+						t_list *env_list, int status);
+						int here_doc(const t_token *token, int *fd,
+							t_list *env_list, int status);
 
-// lexer.c
-t_list				*lexer(const char *line);
+						// lexer.c
+						t_list *lexer(const char *line);
 
-// list_utils.c
-t_list				*ft_lstnew_old(t_cmd *cmd);
-t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
-void				destroy_list(t_list *lst);
-void				ft_lstadd_back(t_list **lst, t_list *new);
-void				ft_lstadd_front(t_list **lst, t_list *new);
-void				ft_lstclear(t_list **lst, void (*del)(void *));
-void				ft_lstdelone(t_list *lst, void (*del)(void *));
-void				ft_lstiter(t_list *lst, void (*f)(void *));
-t_list				*ft_lstlast(t_list *lst);
-t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-						void (*del)(void *));
-t_list				*ft_lstnew(void *content);
-int					ft_lstsize(t_list *lst);
+						// list_utils.c
+						t_list *ft_lstnew_old(t_cmd *cmd);
+						t_list *ft_lstadd(t_list **lst, t_cmd *cmd);
+						void destroy_list(t_list *lst);
+						void ft_lstadd_back(t_list **lst, t_list *new);
+						void ft_lstadd_front(t_list **lst, t_list *new);
+						void ft_lstclear(t_list **lst, void (*del)(void *));
+						void ft_lstdelone(t_list *lst, void (*del)(void *));
+						void ft_lstiter(t_list *lst, void (*f)(void *));
+						t_list *ft_lstlast(t_list *lst);
+						t_list *ft_lstmap(t_list *lst, void *(*f)(void *),
+							void (*del)(void *));
+						t_list *ft_lstnew(void *content);
+						int ft_lstsize(t_list *lst);
 
-// environment.c
-void				free_env(void *content);
-void				print_env(void *content);
-char				*combine_key_value(char *key, char *value);
-t_env				*new_env(char *key, char *value);
-char				*ft_getenv(t_list *envlst, char *key);
-/**
- * @brief Get the value from a string like "key=value"
- * @param arg The string to extract the value from
- * @return The value as a string, that must be freed or NULL on error
- */
-char				*get_value(const char *arg);
-/**
- * @brief Get the key from a string like "key=value"
- * @param arg The string to extract the key from
- * @return The key as a string, that must be freed or NULL on error
- */
-char				*get_key(const char *arg);
-t_list				*envp_to_list(char **envp);
-char				**envlst_to_envp(t_list *envlst);
+						// environment.c
+						void free_env(void *content);
+						void print_env(void *content);
+						char *combine_key_value(char *key, char *value);
+						t_env *new_env(char *key, char *value);
+						char *ft_getenv(t_list *envlst, char *key);
+						/**
+							* @brief Get the value from a string like "key=value"
+							* @param arg The string to extract the value from
+							* @return The value as a string,
+								that must be freed or NULL on error
+							*/
+						char *get_value(const char *arg);
+						/**
+							* @brief Get the key from a string like "key=value"
+							* @param arg The string to extract the key from
+							* @return The key as a string,
+								that must be freed or NULL on error
+							*/
+						char *get_key(const char *arg);
+						t_list *envp_to_list(char **envp);
+						char **envlst_to_envp(t_list *envlst);
 
-// expand.c
-int					get_quote(int quote, const char c);
-void				handle_quote(unsigned int *i, char **str, int *quote);
-char				*str_insert(char const *i_str, char *o_str,
-						unsigned int from, unsigned int to);
-int					expand_tokens(t_list *token_lst, t_list *envp, int status);
-char				*expand(char *string, t_list *envp, int status);
-int					expand_tokens_new(t_list *token_lst, t_list *env_list,
-						int status);
-					int	expand_heredoc(char **str, t_list *env_list, int status);
+						// expand.c
+						int get_quote(int quote, const char c);
+						void handle_quote(unsigned int *i, char **str,
+							int *quote);
+						char *str_insert(char const *i_str, char *o_str,
+							unsigned int from, unsigned int to);
+						int expand_tokens(t_list *token_lst, t_list *envp,
+							int status);
+						char *expand(char *string, t_list *envp, int status);
+						int expand_tokens_new(t_list *token_lst,
+							t_list *env_list, int status);
+						int expand_heredoc(char **str, t_list *env_list,
+							int status);
 
-// print_structs.c
-void				print_cmd(void *command);
-void				print_token(void *token);
-void				print_token_new(void *p_tkn);
+						// print_structs.c
+						void print_cmd(void *command);
+						void print_token(void *token);
+						void print_token_new(void *p_tkn);
 
-// log.c
-int					log_msg(t_log_level level, char *msg, ...);
+						// log.c
+						int log_msg(t_log_level level, char *msg, ...);
 
-// utils.c
-t_cmd				*new_cmd(char *bin, char **args);
-void				free_token(void *content);
-void				free_cmd(void *content);
-void				free_redir(void *content);
-void				free_str_arr(char **strs, int size);
-void				free_nullterm_str_arr(char **strs);
-int					is_space(char c);
-void				pass(void *content);
-int					is_space(char c);
+						// utils.c
+						t_cmd *new_cmd(char *bin, char **args);
+						void free_token(void *content);
+						void free_cmd(void *content);
+						void free_redir(void *content);
+						void free_str_arr(char **strs, int size);
+						void free_nullterm_str_arr(char **strs);
+						int is_space(char c);
+						void pass(void *content);
+						int is_space(char c);
 
-// loop.c
-char				*ft_readline(char *prompt);
-int					shell_loop(t_list *envp);
+						// loop.c
+						char *ft_readline(char *prompt);
+						int shell_loop(t_list *envp);
 
-// signals.c
-int					register_signals(void);
+						// signals.c
+						int register_signals(void);
 
-// utils.c
-int					ft_strcmp(const char *s1, const char *s2);
+						// utils.c
+						int ft_strcmp(const char *s1, const char *s2);
 
-t_list				*parse(t_list *tokens);
+						t_list *parse(t_list *tokens);
 
 #endif
