@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/15 15:51:02 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:06:52 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 		(*i_args)++;
 	}
 	else if (token->type == R_IN || token->type == R_OUT
-		|| token->type == R_APPEND || token->type == R_HEREDOC)
+		|| token->type == R_APPEND || token->type == R_HEREDOC || token->type == R_QUOTEDOC)
 		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
 	{
