@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/24 13:47:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/25 20:19:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*combine_key_value(char *key, char *value)
 	char	*tmp;
 	char	*result;
 
+	if (value == NULL)
+		return (ft_strdup(key));
 	tmp = ft_strjoin(key, "=");
 	result = ft_strjoin(tmp, value);
 	free(tmp);
