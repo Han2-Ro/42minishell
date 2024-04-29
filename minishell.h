@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/29 20:12:28 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/29 21:00:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,8 +213,8 @@ void				pass(void *content);
 int					is_space(char c);
 
 // loop.c
-char				*ft_readline(char *prompt);
-int					shell_loop(t_list *envp);
+char				*ft_readline(char *prompt, int tty);
+int					shell_loop(t_list *envp, int tty);
 
 // signals.c
 int					register_signals(void);

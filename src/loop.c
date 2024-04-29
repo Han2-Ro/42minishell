@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/29 20:18:51 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/29 21:01:51 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_readline(char *prompt)
+char	*ft_readline(char *prompt, int tty)
 {
 	char	*line;
 
-	if (isatty(STDIN_FILENO))
+	if (tty)
 		line = readline(prompt);
 	else
 	{
@@ -53,7 +53,7 @@ int	process_line(char *line, int status, t_list *env_list)
 	return (status);
 }
 
-int	shell_loop(t_list *env_list)
+int	shell_loop(t_list *env_list, int tty)
 {
 	char	*line;
 	int		status;
@@ -62,12 +62,12 @@ int	shell_loop(t_list *env_list)
 	while (1)
 	{
 		register_signals();
-		line = ft_readline(PROMPT);
+		line = ft_readline(PROMPT, tty);
 		if (!line)
 			break ;
 		if (!*line)
 			continue ;
-		if (isatty(STDIN_FILENO))
+		if (tty)
 			add_history(line);
 		status = process_line(line, status, env_list);
 		free(line);
