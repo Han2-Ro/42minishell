@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_funcheck.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 19:26:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

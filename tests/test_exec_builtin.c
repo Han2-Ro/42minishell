@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test_exec_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:40:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 19:25:31 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/execution.h"
 #include "utils/run_test.c"
 
 int	test_pwd(char **envp)

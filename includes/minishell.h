@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:23:30 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 19:24:37 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,13 @@ typedef struct s_expand_info
 	int				status;
 }					t_expand_info;
 
+typedef struct s_evars
+{
+	t_list			*envp;
+	int				status;
+	int				tty;
+}					t_evars;
+
 /**
  * @brief A command to be executed
  * @param bin the actual command.
@@ -118,7 +125,7 @@ typedef struct s_cmd
 	int				status;
 }					t_cmd;
 
-int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *status);
+int					exec_cmd_list(t_list *cmd_list, t_evars *evars);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -193,8 +200,8 @@ int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
 
 // loop.c
-char				*ft_readline(char *prompt);
-int					shell_loop(t_list *envp);
+char				*ft_readline(char *prompt, int tty);
+int					shell_loop(t_list *envp, int tty);
 
 // signals.c
 int					register_signals(void);
