@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer_parser_execution.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 15:39:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/11 16:33:50 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 #include "utils/run_test.c"
 
 int	test_general(char *line, int token_count, int cmd_count, char **envp)

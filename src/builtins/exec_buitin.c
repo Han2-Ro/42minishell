@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/24 20:56:47 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:14:23 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/builtins.h"
 
 int	is_builtin(const t_cmd *cmd)
 {
