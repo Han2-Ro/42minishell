@@ -6,16 +6,16 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/03/06 19:57:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
 int	run_test(char *name, int (*test)(char **), char **envp, bool run_in_child)
 {
-	int	result;
-	int	pid;
+	int result;
+	int pid;
 
 	printf("\n------%s------\n", name);
 	pid = 0;

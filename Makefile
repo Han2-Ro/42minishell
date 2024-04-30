@@ -5,6 +5,7 @@ RM = rm -rf
 SRC_DIR = src
 OBJ_DIR = obj
 SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS += $(wildcard $(SRC_DIR)/execution/*.c)
 SRCS += $(wildcard $(SRC_DIR)/builtins/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
@@ -29,6 +30,7 @@ $(LIB): $(OBJ_DIR) $(OBJS)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 	mkdir -p $(OBJ_DIR)/builtins
+	mkdir -p $(OBJ_DIR)/execution
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@

@@ -9,7 +9,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  lint:
+  norminette:
 
     runs-on: ubuntu-latest
 
@@ -24,14 +24,11 @@ jobs:
     - name: Install
       run: pip install norminette
 
-    - name: Norminette Include
-      run: norminette minishell.h 
+    - name: Norminette Includes
+      run: norminette includes 
 
     - name: Norminette Source
       run: norminette src
 
     - name: Norminette Libft
       run: norminette libft
-
-    - name: Norminette Tests
-      run: norminette tests
