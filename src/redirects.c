@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 18:54:10 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:17:47 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int	open_file(const char *filename, int flags, int *fd)
 	return (EXIT_SUCCESS);
 }
 
-int	redir_to_fd(const t_token *token, t_cmd *cmd, t_list *env_list, int *status)
+int	redir_to_fd(const t_token *token, t_cmd *cmd, t_evars *evars)
 {
 	if (token->type == R_IN)
 		open_file(token->value, O_RDONLY, &cmd->fd_in);
 	else if (token->type == R_HEREDOC || token->type == R_QUOTEDOC)
-		here_doc(token, &cmd->fd_in, env_list, *status);
+		here_doc(token, &cmd->fd_in, evars);
 	else if (token->type == R_OUT)
 		open_file(token->value, O_WRONLY | O_CREAT | O_TRUNC, &cmd->fd_out);
 	else if (token->type == R_APPEND)
@@ -38,7 +38,7 @@ int	redir_to_fd(const t_token *token, t_cmd *cmd, t_list *env_list, int *status)
 	return (EXIT_SUCCESS);
 }
 
-int	redirs_to_fds(t_list *cmd_list, t_list *env_list, int *status)
+int	redirs_to_fds(t_list *cmd_list, t_evars *evars)
 {
 	t_list	*current_cmd;
 	t_list	*current_tkn;
@@ -51,8 +51,7 @@ int	redirs_to_fds(t_list *cmd_list, t_list *env_list, int *status)
 		current_tkn = cmd->redirects;
 		while (current_tkn != NULL)
 		{
-			if (redir_to_fd((t_token *)current_tkn->content, cmd, env_list,
-					status) == EXIT_FAILURE)
+			if (redir_to_fd((t_token *)current_tkn->content, cmd, evars) == EXIT_FAILURE)
 			{
 				cmd->status = 1;
 				break ;

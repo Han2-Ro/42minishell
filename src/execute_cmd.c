@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/24 20:55:19 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:23:07 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,21 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst, int status)
 	return (EXIT_FAILURE);
 }
 
-int	exec_cmd_list(t_list *cmd_list, t_list **envp, int *status)
+int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 {
 	t_list	*current_cmd;
 
-	if (setup_pipes(cmd_list) != EXIT_SUCCESS || redirs_to_fds(cmd_list, *envp,
-			status) != EXIT_SUCCESS)
+	if (setup_pipes(cmd_list) != EXIT_SUCCESS || redirs_to_fds(cmd_list, evars) != EXIT_SUCCESS)
 		return (ft_lstclear(&cmd_list, free_cmd), EXIT_FAILURE);
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
-		exec_cmd((t_cmd *)current_cmd->content, cmd_list, envp, *status);
+		exec_cmd((t_cmd *)current_cmd->content, cmd_list, &(evars->envp), evars->status);
 		current_cmd = current_cmd->next;
 	}
 	ft_lstiter(cmd_list, close_fds);
 	wait_pids(cmd_list);
-	*status = ((t_cmd *)ft_lstlast(cmd_list)->content)->status;
+	evars->status = ((t_cmd *)ft_lstlast(cmd_list)->content)->status;
 	ft_lstclear(&cmd_list, free_cmd);
 	return (EXIT_SUCCESS);
 }
