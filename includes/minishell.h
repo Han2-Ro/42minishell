@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/29 20:12:28 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 19:24:37 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -99,6 +99,13 @@ typedef struct s_expand_info
 	int				status;
 }					t_expand_info;
 
+typedef struct s_evars
+{
+	t_list			*envp;
+	int				status;
+	int				tty;
+}					t_evars;
+
 /**
  * @brief A command to be executed
  * @param bin the actual command.
@@ -118,28 +125,7 @@ typedef struct s_cmd
 	int				status;
 }					t_cmd;
 
-int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *status);
-
-// builtins
-int					builtin_export(const t_cmd *cmd, t_list **envp);
-int					builtin_unset(const t_cmd *cmd, t_list **envp);
-int					builtin_env(const t_cmd *cmd, t_list **envp);
-int					builtin_cd(const t_cmd *cmd, t_list **envp);
-int					builtin_pwd(const t_cmd *cmd, t_list **envp);
-int					builtin_exit(const t_cmd *cmd, int status);
-int					builtin_echo(const t_cmd *cmd);
-int					is_builtin(const t_cmd *cmd);
-int					exec_builtin(t_cmd *cmd, t_list **envp, int status);
-
-char				**get_paths(char **envp);
-char				*path_to_bin(char *cmd, t_list *envp);
-
-// redirects.c
-int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
-						int *status);
-
-int					here_doc(const t_token *token, int *fd, t_list *env_list,
-						int status);
+int					exec_cmd_list(t_list *cmd_list, t_evars *evars);
 
 // lexer.c
 t_list				*lexer(const char *line);
@@ -211,16 +197,14 @@ void				free_nullterm_str_arr(char **strs);
 int					is_space(char c);
 void				pass(void *content);
 int					is_space(char c);
+int					ft_strcmp(const char *s1, const char *s2);
 
 // loop.c
-char				*ft_readline(char *prompt);
-int					shell_loop(t_list *envp);
+char				*ft_readline(char *prompt, int tty);
+int					shell_loop(t_list *envp, int tty);
 
 // signals.c
 int					register_signals(void);
-
-// utils.c
-int					ft_strcmp(const char *s1, const char *s2);
 
 t_list				*parse(t_list *tokens);
 

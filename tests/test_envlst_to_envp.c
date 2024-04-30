@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test_envlst_to_envp.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/03/31 16:14:36 by hannes           ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 #include "utils/run_test.c"
 
 int	test_envlst_to_envp(char **envp)
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test envlst_to_envp", test_envlst_to_envp, envp , true);
+	result |= run_test("test envlst_to_envp", test_envlst_to_envp, envp, true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);
