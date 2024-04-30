@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:55:03 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:57:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	handle_dollar(char **str, int i, t_list *env_list, int status)
 	free(*str);
 	*str = new_value;
 	if (!new_value)
-		return (-1);
+		return (FAILURE);
 	return (expand_len);
 }
 
@@ -75,7 +75,7 @@ int	split_token(t_list *list, int from, int to)
 
 	token = (t_token *)list->content;
 	if (token->type != CMD && token->type != ARG)
-		return (EXIT_SUCCESS);
+		return (SUCCESS);
 	next = list->next;
 	i = from;
 	from = 0;
@@ -87,7 +87,7 @@ int	split_token(t_list *list, int from, int to)
 			token->value = ft_substr(str, from, i - from);
 			token = malloc(sizeof(t_token));
 			if (!token)
-				return (EXIT_FAILURE);
+				return (FAILURE);
 			token->type = ARG;
 			list->next = ft_lstnew(token);
 			list = list->next;
@@ -100,7 +100,7 @@ int	split_token(t_list *list, int from, int to)
 	token->value = ft_substr(str, from, ft_strlen(str) - from);
 	list->next = next;
 	free(str);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 int	expand_token(t_list *list, t_list *env_list, int status)
@@ -118,21 +118,22 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	{
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
 			handle_quote(&i, &token->value, &quote);
-		else if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC && token->type != R_QUOTEDOC)
+		else if (token->value[i] == '$' && quote != 1
+			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
 			expand_len = handle_dollar(&token->value, i, env_list, status);
-			if (quote == 0)
+			if (quote == 0 && expand_len > 1)
 				split_token(list, i, i + expand_len);
 			i += expand_len;
 		}
 		else
 			i++;
 		if (token->value == NULL)
-			return (EXIT_FAILURE);
+			return (FAILURE);
 	}
 	if (quote != 0)
-		return (log_msg(ERROR, "Syntax Error: Quote not closed"), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return (log_msg(ERROR, "Syntax Error: Quote not closed"), FAILURE);
+	return (SUCCESS);
 }
 
 int	expand_heredoc(char **str, t_list *env_list, int status)
@@ -151,7 +152,7 @@ int	expand_heredoc(char **str, t_list *env_list, int status)
 		else
 			i++;
 	}
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
@@ -160,7 +161,7 @@ int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 	t_token *token;
 	int ret;
 
-	ret = EXIT_SUCCESS;
+	ret = SUCCESS;
 	current = token_lst;
 	while (current)
 	{
