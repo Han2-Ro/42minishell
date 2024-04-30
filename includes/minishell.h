@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:13:43 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:23:30 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,6 @@ typedef struct s_cmd
 
 int					exec_cmd_list(t_list *cmd_list, t_list **envp, int *status);
 
-// builtins
-int					is_builtin(const t_cmd *cmd);
-int					exec_builtin(t_cmd *cmd, t_list **envp, int status);
-
-// redirects.c
-int					redirs_to_fds(t_list *cmd_list, t_list *env_list,
-						int *status);
-
-int					here_doc(const t_token *token, int *fd, t_list *env_list,
-						int status);
-
 // lexer.c
 t_list				*lexer(const char *line);
 
@@ -201,6 +190,7 @@ void				free_nullterm_str_arr(char **strs);
 int					is_space(char c);
 void				pass(void *content);
 int					is_space(char c);
+int					ft_strcmp(const char *s1, const char *s2);
 
 // loop.c
 char				*ft_readline(char *prompt);
@@ -208,9 +198,6 @@ int					shell_loop(t_list *envp);
 
 // signals.c
 int					register_signals(void);
-
-// utils.c
-int					ft_strcmp(const char *s1, const char *s2);
 
 t_list				*parse(t_list *tokens);
 
