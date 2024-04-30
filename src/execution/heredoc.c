@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:52:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
-int	read_until_delimiter(int fd, const t_token *token, t_list *env_list, int status)
+int	read_until_delimiter(int fd, const t_token *token, t_list *env_list,
+		int status)
 {
 	char	*line;
 

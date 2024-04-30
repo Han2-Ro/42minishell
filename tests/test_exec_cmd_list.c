@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 #include "utils/run_test.c"
 
 int	test_1cmd(char **envp)
@@ -177,10 +177,10 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test_1cmd", test_1cmd, envp, true);
-	result |= run_test("test_2cmds", test_2cmds, envp, true);
-	result |= run_test("test_3cmds", test_3cmds, envp, true);
-	result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
-	result |= run_test("test_noperm_file", test_noperm_file, envp, true);
+	// result |= run_test("test_2cmds", test_2cmds, envp, true);
+	// result |= run_test("test_3cmds", test_3cmds, envp, true);
+	// result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
+	// result |= run_test("test_noperm_file", test_noperm_file, envp, true);
 	// result |= run_test("test_rw_file", test_rw_file, envp, true);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");

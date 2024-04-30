@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/25 19:55:03 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 char	*expand_status(char *str, int i, int status, int *expand_len)
 {
@@ -118,7 +118,8 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	{
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
 			handle_quote(&i, &token->value, &quote);
-		else if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC && token->type != R_QUOTEDOC)
+		else if (token->value[i] == '$' && quote != 1
+			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
 			expand_len = handle_dollar(&token->value, i, env_list, status);
 			if (quote == 0)

@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:17:44 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/14 14:09:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
 // TODO: consider using own envp list instead of getcwd
 int	builtin_pwd(const t_cmd *cmd, t_list **envp)
