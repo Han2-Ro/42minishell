@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:20:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:57:44 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	test_expander(char *line, t_list *expected, char **envp)
 	new = ft_lstnew(new_env(ft_strdup("ll"), ft_strdup("ls -l -a")));
 	ft_lstadd_back(&evars.envp, new);
 	token_lst = lexer(line);
-	result = expand_tokens_new(token_lst, evars);
+	result = expand_token_list(token_lst, evars);
 	ft_lstiter(token_lst, print_token_new);
 	printf("Result: %i\n", result);
 	result |= compare_token_list(token_lst, expected);

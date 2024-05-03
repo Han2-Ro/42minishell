@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:17:30 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:57:44 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!evars.envp)
 		return (1);
 	token_lst = lexer(line);
-	expand_tokens_new(token_lst, evars);
+	expand_token_list(token_lst, evars);
 	ft_lstiter(token_lst, print_token);
 	if (token_lst)
 	{
