@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 21:09:12 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/03 21:21:20 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ int	expand_token(t_list *list, const t_evars evars)
 	{
 		increment_by = 1;
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
-			handle_quote(&i, &token->value, &quote);
-		if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC
+			increment_by = handle_quote(i, &token->value, &quote);
+		else if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC
 			&& token->type != R_QUOTEDOC)
 		{
 			increment_by = handle_dollar(&token->value, i, evars);

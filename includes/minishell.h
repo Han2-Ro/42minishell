@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 20:17:05 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/03 21:19:18 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
 int					get_quote(int quote, const char c);
-void				handle_quote(unsigned int *i, char **str, int *quote);
+int				handle_quote(unsigned int i, char **str, int *quote);
 char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
