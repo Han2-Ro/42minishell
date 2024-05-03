@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/30 19:22:49 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:32:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ char	*ft_readline(char *prompt, int tty)
 	return (line);
 }
 
+void	handle_sig(int sig)
+{
+	log_msg(INFO, "SIG:%i\n", sig);
+}
+
 int	process_line(char *line, t_evars *evars)
 {
 	t_list	*token_lst;
@@ -45,8 +50,7 @@ int	process_line(char *line, t_evars *evars)
 		return (1);
 	}
 	ft_lstiter(cmd_lst, print_cmd);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	active_signals();
 	exec_cmd_list(cmd_lst, evars);
 	log_msg(DEBUG, "status: %i", evars->status);
 	ft_lstclear(&token_lst, free_token);
@@ -65,7 +69,7 @@ int	shell_loop(t_list *env_list, int tty)
 	
 	while (1)
 	{
-		register_signals();
+		idle_signals();
 		line = ft_readline(PROMPT, tty);
 		if (!line)
 			break ;

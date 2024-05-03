@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 19:24:37 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:31:59 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,8 @@ char				*ft_readline(char *prompt, int tty);
 int					shell_loop(t_list *envp, int tty);
 
 // signals.c
-int					register_signals(void);
+int					idle_signals(void);
+int					active_signals(void);
 
 t_list				*parse(t_list *tokens);
 
