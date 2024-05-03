@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:20:23 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,28 @@ int	compare_token_list(t_list *actual, t_list *expected)
 int	test_expander(char *line, t_list *expected, char **envp)
 {
 	t_list	*token_lst;
-	t_list	*envp_lst;
 	t_list	*new;
-	int		status;
 	int		result;
+	t_evars	evars;
 
-	status = 0;
-	envp_lst = envp_to_list(envp);
-	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("numbers"),
+	evars.status = 0;
+	evars.envp = envp_to_list(envp);
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("numbers"),
 				ft_strdup("123456"))));
-	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("empty"),
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("empty"),
 				ft_strdup(""))));
-	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("double_quote"),
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("double_quote"),
 				ft_strdup("aaa\"bbb"))));
-	ft_lstadd_back(&envp_lst, ft_lstnew(new_env(ft_strdup("single_quote"),
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("single_quote"),
 				ft_strdup("aaa\'bbb"))));
 	new = ft_lstnew(new_env(ft_strdup("ll"), ft_strdup("ls -l -a")));
-	ft_lstadd_back(&envp_lst, new);
+	ft_lstadd_back(&evars.envp, new);
 	token_lst = lexer(line);
-	result = expand_tokens_new(token_lst, envp_lst, status);
+	result = expand_tokens_new(token_lst, evars);
 	ft_lstiter(token_lst, print_token_new);
 	printf("Result: %i\n", result);
 	result |= compare_token_list(token_lst, expected);
-	ft_lstclear(&envp_lst, free_env);
+	ft_lstclear(&evars.envp, free_env);
 	ft_lstclear(&token_lst, free_token);
 	return (result);
 }

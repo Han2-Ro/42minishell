@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 19:46:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:23:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_status(char *str, int i, int status, int *expand_len)
+char	*expand_status(char *str, int i, const int status, int *expand_len)
 {
 	char	*status_str;
 	char	*new_str;
@@ -26,7 +26,8 @@ char	*expand_status(char *str, int i, int status, int *expand_len)
 	return (new_str);
 }
 
-char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
+char	*expand_var_new(char *str, int i, const t_list *env_list,
+		int *expand_len)
 {
 	char	*new_str;
 	char	*env_key;
@@ -46,7 +47,7 @@ char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
 	return (new_str);
 }
 
-int	handle_dollar(char **str, int i, t_list *env_list, int status)
+int	handle_dollar(char **str, int i, const t_evars evars)
 {
 	char	*new_value;
 	int		expand_len;
@@ -56,9 +57,9 @@ int	handle_dollar(char **str, int i, t_list *env_list, int status)
 	if (ft_strchr(WHITESPACE, (*str)[i + 1]) != NULL)
 		return (1);
 	else if ((*str)[i + 1] == '?')
-		new_value = expand_status(*str, i, status, &expand_len);
+		new_value = expand_status(*str, i, evars.status, &expand_len);
 	else
-		new_value = expand_var_new(*str, i, env_list, &expand_len);
+		new_value = expand_var_new(*str, i, evars.envp, &expand_len);
 	free(*str);
 	*str = new_value;
 	if (!new_value)
@@ -103,14 +104,13 @@ int	split_token(t_list *list, int from, int to)
 	return (SUCCESS);
 }
 
-int	expand_token(t_list *list, t_list *env_list, int status)
+int	expand_token(t_list *list, const t_evars evars)
 {
 	t_token			*token;
 	int				quote;
 	unsigned int	i;
 	int				expand_len;
 
-	print_token_new(list->content);
 	i = 0;
 	quote = 0;
 	token = (t_token *)list->content;
@@ -121,7 +121,7 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 		else if (token->value[i] == '$' && quote != 1
 			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
-			expand_len = handle_dollar(&token->value, i, env_list, status);
+			expand_len = handle_dollar(&token->value, i, evars);
 			if (quote == 0 && expand_len > 1)
 				split_token(list, i, i + expand_len);
 			i += expand_len;
@@ -136,7 +136,7 @@ int	expand_token(t_list *list, t_list *env_list, int status)
 	return (SUCCESS);
 }
 
-int	expand_heredoc(char **str, t_list *env_list, int status)
+int	expand_heredoc(char **str, t_evars evars)
 {
 	unsigned int	i;
 	int				expand_len;
@@ -146,7 +146,7 @@ int	expand_heredoc(char **str, t_list *env_list, int status)
 	{
 		if ((*str)[i] == '$')
 		{
-			expand_len = handle_dollar(str, i, env_list, status);
+			expand_len = handle_dollar(str, i, evars);
 			i += expand_len;
 		}
 		else
@@ -155,7 +155,7 @@ int	expand_heredoc(char **str, t_list *env_list, int status)
 	return (SUCCESS);
 }
 
-int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
+int	expand_tokens_new(t_list *token_lst, const t_evars evars)
 {
 	t_list *current;
 	t_token *token;
@@ -168,7 +168,7 @@ int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
 		token = (t_token *)current->content;
 		if (token->type != PIPE)
 		{
-			ret |= expand_token(current, env_list, status);
+			ret |= expand_token(current, evars);
 		}
 		current = current->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/30 19:22:49 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:16:01 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	process_line(char *line, t_evars *evars)
 	t_list	*cmd_lst;
 
 	token_lst = lexer(line);
-	expand_tokens_new(token_lst, evars->envp, evars->status);
+	expand_tokens_new(token_lst, *evars);
 	if (!token_lst)
 		log_msg(DEBUG, "Lex: token list null");
 	cmd_lst = parse(token_lst);
@@ -56,13 +56,11 @@ int	process_line(char *line, t_evars *evars)
 int	shell_loop(t_list *env_list, int tty)
 {
 	char	*line;
-	t_evars evars;
+	t_evars	evars;
 
-	
 	evars.status = 0;
 	evars.tty = tty;
 	evars.envp = env_list;
-	
 	while (1)
 	{
 		register_signals();

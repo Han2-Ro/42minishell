@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 19:24:37 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:24:01 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
-char				*ft_getenv(t_list *envlst, char *key);
+char				*ft_getenv(const t_list *envlst, const char *key);
 /**
 	* @brief Get the value from a string like "key=value"
 	* @param arg The string to extract the value from
@@ -175,9 +175,8 @@ char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
-int					expand_tokens_new(t_list *token_lst, t_list *env_list,
-						int status);
-int					expand_heredoc(char **str, t_list *env_list, int status);
+int					expand_tokens_new(t_list *token_lst, const t_evars evars);
+int					expand_heredoc(char **str, const t_evars evars);
 
 // print_structs.c
 void				print_cmd(void *command);

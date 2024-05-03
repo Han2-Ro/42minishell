@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:13:58 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*get_key(const char *arg)
 	return (ft_substr(arg, 0, i));
 }
 
-char	*ft_getenv(t_list *envlst, char *key)
+char	*ft_getenv(const t_list *envlst, const char *key)
 {
 	t_env	*env;
 	int		len_key;
