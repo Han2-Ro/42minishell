@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:23:33 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 15:56:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,35 +104,36 @@ int	split_token(t_list *list, int from, int to)
 	return (SUCCESS);
 }
 
+/**
+ * @brief Expands the token in the list.
+ * @return quote status at end of string or -1 on error.
+ */
 int	expand_token(t_list *list, const t_evars evars)
 {
 	t_token			*token;
 	int				quote;
 	unsigned int	i;
-	int				expand_len;
+	int				increment_by;
 
 	i = 0;
 	quote = 0;
 	token = (t_token *)list->content;
 	while (token->value[i] != '\0')
 	{
+		increment_by = 1;
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
 			handle_quote(&i, &token->value, &quote);
-		else if (token->value[i] == '$' && quote != 1
-			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
+		if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC
+			&& token->type != R_QUOTEDOC)
 		{
-			expand_len = handle_dollar(&token->value, i, evars);
-			if (quote == 0 && expand_len > 1)
-				split_token(list, i, i + expand_len);
-			i += expand_len;
+			increment_by = handle_dollar(&token->value, i, evars);
+			if (quote == 0 && increment_by > 1)
+				split_token(list, i, i + increment_by);
 		}
-		else
-			i++;
+		i += increment_by;
 		if (token->value == NULL)
 			return (FAILURE);
 	}
-	if (quote != 0)
-		return (log_msg(ERROR, "Syntax Error: Quote not closed"), FAILURE);
 	return (SUCCESS);
 }
 
@@ -159,6 +160,7 @@ int	expand_tokens_new(t_list *token_lst, const t_evars evars)
 {
 	t_list *current;
 	t_token *token;
+	int quote;
 	int ret;
 
 	ret = SUCCESS;
@@ -168,7 +170,10 @@ int	expand_tokens_new(t_list *token_lst, const t_evars evars)
 		token = (t_token *)current->content;
 		if (token->type != PIPE)
 		{
-			ret |= expand_token(current, evars);
+			quote = expand_token(current, evars);
+			if (quote != 0)
+				log_msg(ERROR, "Syntax Error: Quote not closed");
+			ret |= quote;
 		}
 		current = current->next;
 	}
