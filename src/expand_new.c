@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 16:49:55 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 21:09:12 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	handle_dollar(char **str, int i, const t_evars evars)
 	return (expand_len);
 }
 
-int	split_token_here(t_list *list, int i)
+t_list	*split_token_here(t_list *list, int *i)
 {
 	t_token	*token;
 	char	*str;
@@ -76,41 +76,42 @@ int	split_token_here(t_list *list, int i)
 	next = list->next;
 	token = (t_token *)list->content;
 	str = token->value;
-	token->value = ft_substr(str, 0, i);
+	token->value = ft_substr(str, 0, *i);
+	while (ft_strchr(WHITESPACE, str[*i]) != NULL)
+		(*i)++;
+	if (str[*i] == '\0')
+		return (free(str), NULL);
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return (free(str), FAILURE);
-	while (ft_strchr(WHITESPACE, str[i]) != NULL)
-		i++;
+		return (free(str), NULL);
 	token->type = ARG;
-	token->value = ft_substr(str, i, ft_strlen(str) - i);
+	token->value = ft_substr(str, *i, ft_strlen(str) - *i);
 	free(str);
 	list->next = ft_lstnew(token);
 	list = list->next;
 	list->next = next;
-	return (SUCCESS);
+	return (list);
 }
 
 int	split_token(t_list *list, int from, int to)
 {
 	t_token	*token;
 	int		i;
-	char	*str;
 
 	token = (t_token *)list->content;
 	if (token->type != CMD && token->type != ARG)
 		return (SUCCESS);
 	i = from;
-	from = 0;
-	str = token->value;
-	while (i < to)
+	while (i < to && list != NULL)
 	{
-		if (ft_strchr(WHITESPACE, str[i]) != NULL)
-			split_token_here(list, i);
+		if (ft_strchr(WHITESPACE, token->value[i]) != NULL)
+		{
+			list = split_token_here(list, &i);
+			to -= i;
+			i = 0;
+		}
 		i++;
 	}
-	token->value = ft_substr(str, from, ft_strlen(str) - from);
-	free(str);
 	return (SUCCESS);
 }
 

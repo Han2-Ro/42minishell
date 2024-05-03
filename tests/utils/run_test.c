@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_test.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 14:49:40 by hannes            #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/03 20:37:30 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	run_test(char *name, int (*test)(char **), char **envp, bool run_in_child)
 	int result;
 	int pid;
 
+	run_in_child=false;
 	printf("\n------%s------\n", name);
 	pid = 0;
 	if (run_in_child)
