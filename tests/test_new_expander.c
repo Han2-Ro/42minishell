@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_new_expander.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:57:44 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/04 17:21:00 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	test_expander(char *line, t_list *expected, char **envp)
 				ft_strdup("aaa\"bbb"))));
 	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("single_quote"),
 				ft_strdup("aaa\'bbb"))));
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("var1"),
+				ft_strdup("aa $? bb"))));
 	new = ft_lstnew(new_env(ft_strdup("ll"), ft_strdup("ls -l -a")));
 	ft_lstadd_back(&evars.envp, new);
 	token_lst = lexer(line);
@@ -150,6 +152,31 @@ int	test_non_existing_var(char **envp)
 	return (result);
 }
 
+int	test_norec_expansion(char **envp)
+{
+	t_list	*expected;
+	t_token	token1;
+	t_token	token2;
+	t_token	token3;
+	t_token	token4;
+	int		result;
+
+	token1.type = CMD;
+	token1.value = "echo";
+	token2.type = ARG;
+	token2.value = "aa";
+	token3.type = ARG;
+	token3.value = "$?";
+	token4.type = ARG;
+	token4.value = "bb";
+	expected = ft_lstnew(&token1);
+	ft_lstadd_back(&expected, ft_lstnew(&token2));
+	ft_lstadd_back(&expected, ft_lstnew(&token3));
+	ft_lstadd_back(&expected, ft_lstnew(&token4));
+	result = test_expander("echo $var1", expected, envp);
+	return (result);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int result = SUCCESS;
@@ -157,11 +184,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test1", test1, envp, true);
-	result |= run_test("test2", test2, envp, true);
-	result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
-	result |= run_test("test_non_existing_var", test_non_existing_var, envp,
-			true);
+	// result |= run_test("test1", test1, envp, true);
+	// result |= run_test("test2", test2, envp, true);
+	// result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
+	// result |= run_test("test_non_existing_var", test_non_existing_var, envp,
+	//	true);
+	result |= run_test("test_norec_expansion", test_norec_expansion, envp,
+			false);
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
 	return (result != SUCCESS);

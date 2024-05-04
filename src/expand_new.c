@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 21:21:20 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/04 17:32:13 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ char	*expand_var_new(char *str, int i, const t_list *env_list,
 	return (new_str);
 }
 
-int	handle_dollar(char **str, int i, const t_evars evars)
+int	replace_dollar(char **str, int i, const t_evars evars)
 {
 	char	*new_value;
 	int		expand_len;
 
-	log_msg(DEBUG, "handle_dollar: '%s' at %i", *str, i);
+	log_msg(DEBUG, "replace_dollar: '%s' at %i", *str, i);
 	expand_len = 1;
 	if (ft_strchr(WHITESPACE, (*str)[i + 1]) != NULL)
 		return (1);
@@ -77,17 +77,19 @@ t_list	*split_token_here(t_list *list, int *i)
 	token = (t_token *)list->content;
 	str = token->value;
 	token->value = ft_substr(str, 0, *i);
-	while (ft_strchr(WHITESPACE, str[*i]) != NULL)
+	while (str[*i] && ft_strchr(WHITESPACE, str[*i]) != NULL)
 		(*i)++;
 	if (str[*i] == '\0')
-		return (free(str), NULL);
+		return (free(str), list);
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (free(str), NULL);
 	token->type = ARG;
 	token->value = ft_substr(str, *i, ft_strlen(str) - *i);
+	// substr malloc prot
 	free(str);
 	list->next = ft_lstnew(token);
+	// lstnew malloc prot
 	list = list->next;
 	list->next = next;
 	return (list);
@@ -115,34 +117,58 @@ int	split_token(t_list *list, int from, int to)
 	return (SUCCESS);
 }
 
+t_list	*handle_dollar(t_list *list, int *i, const t_evars evars,
+		const int quote)
+{
+	t_token	*token;
+	int		end;
+
+	token = (t_token *)list->content;
+	end = *i + replace_dollar(&token->value, *i, evars);
+	if (quote != 0 || end < *i + 2 || (token->type != CMD
+			&& token->type != ARG))
+		return (*i = end, list);
+	while (*i < end && list != NULL)
+	{
+		token = (t_token *)list->content;
+		if (ft_strchr(WHITESPACE, token->value[*i]) != NULL)
+		{
+			list = split_token_here(list, i);
+			end -= *i;
+			*i = 0;
+		}
+		else
+			(*i)++;
+	}
+	return (list);
+}
+
 /**
  * @brief Expands the token in the list.
  * @return quote status at end of string or -1 on error.
  */
-int	expand_token(t_list *list, const t_evars evars)
+int	expand_token(t_list **list, const t_evars evars)
 {
-	t_token			*token;
-	int				quote;
-	unsigned int	i;
-	int				increment_by;
+	t_token	*token;
+	int		quote;
+	int		i;
 
 	i = 0;
 	quote = 0;
-	token = (t_token *)list->content;
+	token = (t_token *)(*list)->content;
 	while (token->value[i] != '\0')
 	{
-		increment_by = 1;
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
-			increment_by = handle_quote(i, &token->value, &quote);
-		else if (token->value[i] == '$' && quote != 1 && token->type != R_HEREDOC
-			&& token->type != R_QUOTEDOC)
+			i += handle_quote(i, &token->value, &quote);
+		else if (token->value[i] == '$' && quote != 1
+			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
-			increment_by = handle_dollar(&token->value, i, evars);
-			if (quote == 0 && increment_by > 1)
-				split_token(list, i, i + increment_by);
+			*list = handle_dollar(*list, &i, evars, quote);
+			token = (t_token *)(*list)->content;
 		}
-		i += increment_by;
-		if (token->value == NULL)
+		else
+			i++;
+		if (*list == NULL || token->value == NULL)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -158,7 +184,7 @@ int	expand_heredoc(char **str, t_evars evars)
 	{
 		if ((*str)[i] == '$')
 		{
-			expand_len = handle_dollar(str, i, evars);
+			expand_len = replace_dollar(str, i, evars);
 			i += expand_len;
 		}
 		else
@@ -181,7 +207,7 @@ int	expand_token_list(t_list *token_lst, const t_evars evars)
 		token = (t_token *)current->content;
 		if (token->type != PIPE)
 		{
-			quote = expand_token(current, evars);
+			quote = expand_token(&current, evars);
 			if (quote != 0)
 				log_msg(ERROR, "Syntax Error: Quote not closed");
 			ret |= quote;
