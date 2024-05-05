@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/04 17:32:13 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/05 13:02:50 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,52 +95,63 @@ t_list	*split_token_here(t_list *list, int *i)
 	return (list);
 }
 
-int	split_token(t_list *list, int from, int to)
+int	seperate_token(t_list **list, char *str, int from, int to)
 {
 	t_token	*token;
+	t_list	*new;
+
+	token = new_token(ARG, ft_substr(str, from, to - from));
+	if (!token || !token->value)
+		return (free(token), FAILURE);
+	new = ft_lstnew(token);
+	if (!new)
+		return (free_token(token), FAILURE);
+	ft_lstadd_back(list, new);
+	return (SUCCESS);
+}
+
+t_list	*split_token(char *str, int from, int to)
+{
+	t_list	*list;
 	int		i;
 
-	token = (t_token *)list->content;
-	if (token->type != CMD && token->type != ARG)
-		return (SUCCESS);
+	list = NULL;
 	i = from;
-	while (i < to && list != NULL)
+	from = 0;
+	while (str[i] && i < to)
 	{
-		if (ft_strchr(WHITESPACE, token->value[i]) != NULL)
+		if (ft_strchr(WHITESPACE, str[i]) != NULL)
 		{
-			list = split_token_here(list, &i);
-			to -= i;
-			i = 0;
+			if (i > 0)
+				seperate_token(&list, str, from, to);
+			while (str[i] && ft_strchr(WHITESPACE, str[i]))
+				i++;
+			from = i;
 		}
 		i++;
 	}
-	return (SUCCESS);
+	if (from != i)
+		seperate_token(&list, str, from, to);
+	return (list);
 }
 
 t_list	*handle_dollar(t_list *list, int *i, const t_evars evars,
 		const int quote)
 {
 	t_token	*token;
-	int		end;
+	int		len;
+	t_list	*new;
 
 	token = (t_token *)list->content;
-	end = *i + replace_dollar(&token->value, *i, evars);
-	if (quote != 0 || end < *i + 2 || (token->type != CMD
-			&& token->type != ARG))
-		return (*i = end, list);
-	while (*i < end && list != NULL)
-	{
-		token = (t_token *)list->content;
-		if (ft_strchr(WHITESPACE, token->value[*i]) != NULL)
-		{
-			list = split_token_here(list, i);
-			end -= *i;
-			*i = 0;
-		}
-		else
-			(*i)++;
-	}
-	return (list);
+	len = replace_dollar(&token->value, *i, evars);
+	if (quote != 0 || len < 2 || (token->type != CMD && token->type != ARG))
+		return (*i += len, list);
+	new = split_token(token->value, *i, *i + len);
+	ft_lstrmvone(&list, list, free_token);
+	if (new == NULL)
+		return (list);
+	ft_lstlast(new)->next = list;
+	return (new);
 }
 
 /**
@@ -164,7 +175,8 @@ int	expand_token(t_list **list, const t_evars evars)
 			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
 			*list = handle_dollar(*list, &i, evars, quote);
-			token = (t_token *)(*list)->content;
+			if (*list != NULL)
+				token = (t_token *)(*list)->content;
 		}
 		else
 			i++;
@@ -208,11 +220,12 @@ int	expand_token_list(t_list *token_lst, const t_evars evars)
 		if (token->type != PIPE)
 		{
 			quote = expand_token(&current, evars);
-			if (quote != 0)
+			if (quote > 0)
 				log_msg(ERROR, "Syntax Error: Quote not closed");
 			ret |= quote;
 		}
-		current = current->next;
+		if (current != NULL)
+			current = current->next;
 	}
 	return (ret);
 }

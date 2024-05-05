@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/04 17:21:00 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/05 12:38:41 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	// result |= run_test("test1", test1, envp, true);
-	// result |= run_test("test2", test2, envp, true);
-	// result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
-	// result |= run_test("test_non_existing_var", test_non_existing_var, envp,
-	//	true);
+	 result |= run_test("test1", test1, envp, true);
+	 result |= run_test("test2", test2, envp, true);
+	 result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
+	 result |= run_test("test_non_existing_var", test_non_existing_var, envp,
+		true);
 	result |= run_test("test_norec_expansion", test_norec_expansion, envp,
 			false);
 	printf("result: %d\n", result != SUCCESS);

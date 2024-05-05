@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:09:35 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	return(ft_strncmp(s1, s2, ft_strlen(s2) + 1));
+	return (ft_strncmp(s1, s2, ft_strlen(s2) + 1));
 }
 
 t_cmd	*new_cmd(char *bin, char **args)
@@ -32,6 +32,18 @@ t_cmd	*new_cmd(char *bin, char **args)
 	cmd->pid = -1;
 	cmd->status = 0;
 	return (cmd);
+}
+
+t_token	*new_token(t_token_type type, char *value)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = type;
+	token->value = value;
+	return (token);
 }
 
 void	free_token(void *content)

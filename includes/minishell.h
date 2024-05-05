@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 21:19:18 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/05 12:30:02 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
 int					get_quote(int quote, const char c);
-int				handle_quote(unsigned int i, char **str, int *quote);
+int					handle_quote(unsigned int i, char **str, int *quote);
 char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
@@ -200,6 +200,7 @@ int					is_space(char c);
 void				pass(void *content);
 int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
+t_token				*new_token(t_token_type type, char *value);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

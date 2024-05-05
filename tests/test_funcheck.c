@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_funcheck.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:57:44 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:44:52 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	evars.status = 0;
-	line = "echo \"$HOME\"|cat -e";
+	line = "echo $HOME";
 	evars.envp = envp_to_list(envp);
 	if (!evars.envp)
 		return (1);
