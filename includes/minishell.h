@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/05 12:30:02 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:25:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -22,6 +21,7 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -178,7 +178,7 @@ char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
-int					expand_token_list(t_list *token_lst, const t_evars evars);
+int					expand_token_list(t_list **token_lst, const t_evars evars);
 int					expand_heredoc(char **str, const t_evars evars);
 
 // print_structs.c

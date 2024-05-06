@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/05 13:02:50 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/06 19:01:37 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,28 @@ int	seperate_token(t_list **list, char *str, int from, int to)
 	return (SUCCESS);
 }
 
-t_list	*split_token(char *str, int from, int to)
+t_list	*split_token(char *str, int *i, int to)
 {
 	t_list	*list;
-	int		i;
+	int		from;
 
 	list = NULL;
-	i = from;
 	from = 0;
-	while (str[i] && i < to)
+	while (str[*i] && *i < to)
 	{
-		if (ft_strchr(WHITESPACE, str[i]) != NULL)
+		if (ft_strchr(WHITESPACE, str[*i]) != NULL)
 		{
-			if (i > 0)
-				seperate_token(&list, str, from, to);
-			while (str[i] && ft_strchr(WHITESPACE, str[i]))
-				i++;
-			from = i;
+			if (*i > 0)
+				seperate_token(&list, str, from, *i);
+			while (str[*i] && ft_strchr(WHITESPACE, str[*i]))
+				(*i)++;
+			from = *i;
 		}
-		i++;
+		(*i)++;
 	}
-	if (from != i)
-		seperate_token(&list, str, from, to);
+	if (from < *i)
+		seperate_token(&list, str, from, ft_strlen(str));
+	*i -= from;
 	return (list);
 }
 
@@ -146,7 +146,7 @@ t_list	*handle_dollar(t_list *list, int *i, const t_evars evars,
 	len = replace_dollar(&token->value, *i, evars);
 	if (quote != 0 || len < 2 || (token->type != CMD && token->type != ARG))
 		return (*i += len, list);
-	new = split_token(token->value, *i, *i + len);
+	new = split_token(token->value, i, *i + len);
 	ft_lstrmvone(&list, list, free_token);
 	if (new == NULL)
 		return (list);
@@ -205,27 +205,27 @@ int	expand_heredoc(char **str, t_evars evars)
 	return (SUCCESS);
 }
 
-int	expand_token_list(t_list *token_lst, const t_evars evars)
+int	expand_token_list(t_list **token_lst, const t_evars evars)
 {
-	t_list	*current;
+	t_list	**current;
 	t_token	*token;
 	int		quote;
 	int		ret;
 
 	ret = SUCCESS;
 	current = token_lst;
-	while (current)
+	while (*current)
 	{
-		token = (t_token *)current->content;
+		token = (t_token *)(*current)->content;
 		if (token->type != PIPE)
 		{
-			quote = expand_token(&current, evars);
+			quote = expand_token(current, evars);
 			if (quote > 0)
 				log_msg(ERROR, "Syntax Error: Quote not closed");
 			ret |= quote;
 		}
 		if (current != NULL)
-			current = current->next;
+			current = &(*current)->next;
 	}
 	return (ret);
 }

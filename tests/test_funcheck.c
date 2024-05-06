@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_funcheck.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/05 12:44:52 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/06 18:58:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	evars.status = 0;
-	line = "echo $HOME";
+	line = "$var";
 	evars.envp = envp_to_list(envp);
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("var"),
+				ft_strdup("echo hi"))));
 	if (!evars.envp)
 		return (1);
 	token_lst = lexer(line);
-	expand_token_list(token_lst, evars);
+	expand_token_list(&token_lst, evars);
 	ft_lstiter(token_lst, print_token);
 	if (token_lst)
 	{
