@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 19:22:33 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:25:15 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	redirs_to_fds(t_list *cmd_list, t_evars *evars)
 		current_tkn = cmd->redirects;
 		while (current_tkn != NULL)
 		{
-			if (redir_to_fd((t_token *)current_tkn->content, cmd, evars) == EXIT_FAILURE)
+			if (redir_to_fd((t_token *)current_tkn->content, cmd,
+					evars) == EXIT_FAILURE)
 			{
 				cmd->status = 1;
 				break ;

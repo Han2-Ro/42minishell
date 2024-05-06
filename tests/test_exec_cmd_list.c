@@ -13,6 +13,64 @@
 #include "../includes/minishell.h"
 #include "utils/run_test.c"
 
+
+//Moved here because these tests still use some of this old code
+/**
+ * @brief Create a new list element
+ * @deprecated use ft_lstnew instead
+ */
+t_list	*ft_lstnew_old(t_cmd *cmd)
+{
+	t_list	*new;
+
+	new = (t_list *)malloc(sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	new->content = cmd;
+	new->next = NULL;
+	return (new);
+}
+
+/**
+ * @deprecated use ft_lstadd_back instead
+ */
+t_list	*ft_lstadd(t_list **lst, t_cmd *cmd)
+{
+	t_list	*new;
+	t_list	*tmp;
+
+	tmp = *lst;
+	new = ft_lstnew_old(cmd);
+	if (new == NULL)
+		return (NULL);
+	if (tmp == NULL)
+	{
+		*lst = new;
+		return (*lst);
+	}
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
+	return (*lst);
+}
+
+/**
+ * @deprecated use ft_lstclear instead
+ */
+void	destroy_list(t_list *lst)
+{
+	t_list	*tmp;
+
+	log_msg(DEBUG, "destroying list");
+	while (lst != NULL)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp->content);
+		free(tmp);
+	}
+}
+
 int	test_1cmd(char **envp)
 {
 	t_list	*cmd_list;
