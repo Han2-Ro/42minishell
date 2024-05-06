@@ -6,11 +6,11 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:59:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 21:22:34 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:29:03 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 #include <stdio.h>
 
 int	ft_lstsize(t_list *lst)

@@ -60,6 +60,7 @@ clean:
 fclean: clean
 	make fclean -C ./libft
 	$(RM) $(NAME)
+	$(RM) $(LIB)
 
 re: fclean all
 

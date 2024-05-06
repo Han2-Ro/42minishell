@@ -13,7 +13,6 @@
 #include "../includes/minishell.h"
 #include "utils/run_test.c"
 
-
 //Moved here because these tests still use some of this old code
 /**
  * @brief Create a new list element
