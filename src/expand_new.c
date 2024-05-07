@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 18:41:10 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:10:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,10 @@ t_list	*split_token(char *str, int *i, int to)
 				(*i)++;
 			from = *i;
 		}
-		(*i)++;
+		else
+			(*i)++;
 	}
-	if (from < *i)
+	if (*i < (int)ft_strlen(str) || from < *i)
 		seperate_token(&list, str, from, ft_strlen(str));
 	*i -= from;
 	return (list);
@@ -145,7 +146,7 @@ void	handle_dollar(t_list ***list, int *i, const t_evars evars,
 
 	token = (t_token *)(**list)->content;
 	len = replace_dollar(&token->value, *i, evars);
-	if (quote != 0 || len < 2 || (token->type != CMD && token->type != ARG))
+	if (quote != 0 || (token->type != CMD && token->type != ARG))
 	{
 		*i += len;
 		return ;
@@ -183,12 +184,12 @@ int	expand_token(t_list ***list, const t_evars evars)
 			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
 			handle_dollar(list, &i, evars, quote);
-			if (*list != NULL)
+			if (**list != NULL)
 				token = (t_token *)(**list)->content;
 		}
 		else
 			i++;
-		if (**list == NULL || token->value == NULL)
+		if (*list == NULL || **list == NULL || token->value == NULL)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -232,7 +233,7 @@ int	expand_token_list(t_list **token_lst, const t_evars evars)
 				log_msg(ERROR, "Syntax Error: Quote not closed");
 			ret |= quote;
 		}
-		if (current != NULL)
+		if (*current != NULL)
 			current = &(*current)->next;
 	}
 	return (ret);
