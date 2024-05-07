@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/03 15:31:59 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 12:52:33 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,6 @@ int					exec_cmd_list(t_list *cmd_list, t_evars *evars);
 t_list				*lexer(const char *line);
 
 // list_utils.c
-t_list				*ft_lstnew_old(t_cmd *cmd);
-t_list				*ft_lstadd(t_list **lst, t_cmd *cmd);
-void				destroy_list(t_list *lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 void				ft_lstclear(t_list **lst, void (*del)(void *));
@@ -198,6 +195,8 @@ int					is_space(char c);
 void				pass(void *content);
 int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
+void				skip_until(const char *str, unsigned int *i,
+						const char *charset, bool val);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

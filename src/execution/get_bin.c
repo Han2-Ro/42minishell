@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/06 21:42:56 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char	*build_path(char *folder, char *cmd)
 
 char	*path_to_bin(char *cmd, t_list *envp)
 {
-	char *path;
-	char **folders;
-	int i;
+	char	*path;
+	char	**folders;
+	int		i;
 
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:15:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:40:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// TODO: dont use forbidden funtions fprintf and vfprintf
+// TODO: add __FILE__, __LINE__ option
+// printing on stderr because stdout could be redirected
 int	log_msg(t_log_level level, char *msg, ...)
 {
 	va_list	args;
 
-	// TODO: dont use forbidden funtions fprintf and vfprintf
-	// TODO: add __FILE__, __LINE__ option
-	// printing on stderr because stdout could be redirected
 	if (level <= LOG_LEVEL)
 	{
 		if (level == ERROR)

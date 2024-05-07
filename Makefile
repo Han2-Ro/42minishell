@@ -7,6 +7,7 @@ OBJ_DIR = obj
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 SRCS += $(wildcard $(SRC_DIR)/execution/*.c)
 SRCS += $(wildcard $(SRC_DIR)/builtins/*.c)
+SRCS += $(wildcard $(SRC_DIR)/utils/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 NAME = minishell
@@ -31,6 +32,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 	mkdir -p $(OBJ_DIR)/builtins
 	mkdir -p $(OBJ_DIR)/execution
+	mkdir -p $(OBJ_DIR)/utils
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -58,6 +60,7 @@ clean:
 fclean: clean
 	make fclean -C ./libft
 	$(RM) $(NAME)
+	$(RM) $(LIB)
 
 re: fclean all
 
