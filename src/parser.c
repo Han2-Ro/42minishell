@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:38:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 18:47:36 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ t_list	*parse(t_list *tokens)
 			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}
-	new_command->bin = new_command->args[0];
 	if (check_cmd(new_command) == FAILURE)
 		return (ft_lstclear(&commands, free_cmd), NULL);
+	new_command->bin = new_command->args[0];
 	return (commands);
 }
