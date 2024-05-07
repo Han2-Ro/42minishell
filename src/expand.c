@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/03 21:20:59 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/07 15:36:34 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdio.h>
-
-static void	skip_until(const char *str, unsigned int *i, const char *charset,
-		bool val)
-{
-	while ((ft_strchr(charset, str[*i]) != 0) != val && str[*i] != '\0')
-		*i += 1;
-}
 
 /**
  * @brief Inserts a string into an existing string
