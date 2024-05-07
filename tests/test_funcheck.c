@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 18:58:33 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 17:07:04 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	evars.status = 0;
-	line = "$var";
+	line = "echo $var";
 	evars.envp = envp_to_list(envp);
-	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("var"),
-				ft_strdup("echo hi"))));
+	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("var"), ft_strdup("aa $? bb"))));
 	if (!evars.envp)
 		return (1);
 	token_lst = lexer(line);

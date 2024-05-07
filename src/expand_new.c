@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 19:01:37 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 18:41:10 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,30 +135,38 @@ t_list	*split_token(char *str, int *i, int to)
 	return (list);
 }
 
-t_list	*handle_dollar(t_list *list, int *i, const t_evars evars,
+void	handle_dollar(t_list ***list, int *i, const t_evars evars,
 		const int quote)
 {
 	t_token	*token;
 	int		len;
 	t_list	*new;
+	t_list	*next;
 
-	token = (t_token *)list->content;
+	token = (t_token *)(**list)->content;
 	len = replace_dollar(&token->value, *i, evars);
 	if (quote != 0 || len < 2 || (token->type != CMD && token->type != ARG))
-		return (*i += len, list);
+	{
+		*i += len;
+		return ;
+	}
 	new = split_token(token->value, i, *i + len);
-	ft_lstrmvone(&list, list, free_token);
+	next = (**list)->next;
+	if (new != NULL)
+		(**list)->next = new;
+	ft_lstrmvone(*list, **list, free_token);
 	if (new == NULL)
-		return (list);
-	ft_lstlast(new)->next = list;
-	return (new);
+		return ;
+	while (ft_lstsize(**list) > 1)
+		*list = &(**list)->next;
+	(**list)->next = next;
 }
 
 /**
  * @brief Expands the token in the list.
  * @return quote status at end of string or -1 on error.
  */
-int	expand_token(t_list **list, const t_evars evars)
+int	expand_token(t_list ***list, const t_evars evars)
 {
 	t_token	*token;
 	int		quote;
@@ -166,7 +174,7 @@ int	expand_token(t_list **list, const t_evars evars)
 
 	i = 0;
 	quote = 0;
-	token = (t_token *)(*list)->content;
+	token = (t_token *)(**list)->content;
 	while (token->value[i] != '\0')
 	{
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
@@ -174,13 +182,13 @@ int	expand_token(t_list **list, const t_evars evars)
 		else if (token->value[i] == '$' && quote != 1
 			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
-			*list = handle_dollar(*list, &i, evars, quote);
+			handle_dollar(list, &i, evars, quote);
 			if (*list != NULL)
-				token = (t_token *)(*list)->content;
+				token = (t_token *)(**list)->content;
 		}
 		else
 			i++;
-		if (*list == NULL || token->value == NULL)
+		if (**list == NULL || token->value == NULL)
 			return (FAILURE);
 	}
 	return (SUCCESS);
@@ -219,7 +227,7 @@ int	expand_token_list(t_list **token_lst, const t_evars evars)
 		token = (t_token *)(*current)->content;
 		if (token->type != PIPE)
 		{
-			quote = expand_token(current, evars);
+			quote = expand_token(&current, evars);
 			if (quote > 0)
 				log_msg(ERROR, "Syntax Error: Quote not closed");
 			ret |= quote;

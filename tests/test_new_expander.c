@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 18:29:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:59:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	test1(char **envp)
 	t_token	token2;
 	int		result;
 
-	token1.type = CMD;
+	token1.type = ARG;
 	token1.value = "echo";
 	token2.type = ARG;
 	token2.value = "123456";
@@ -103,7 +103,7 @@ int	test2(char **envp)
 	t_token	token5;
 	int		result;
 
-	token1.type = CMD;
+	token1.type = ARG;
 	token1.value = "ls";
 	token2.type = ARG;
 	token2.value = "-l";
@@ -111,7 +111,7 @@ int	test2(char **envp)
 	token3.value = "-a";
 	token4.type = PIPE;
 	token4.value = NULL;
-	token5.type = CMD;
+	token5.type = ARG;
 	token5.value = "cat";
 	expected = ft_lstnew(&token1);
 	ft_lstadd_back(&expected, ft_lstnew(&token2));
@@ -129,7 +129,7 @@ int	test_quote_in_var(char **envp)
 	t_token	token2;
 	int		result;
 
-	token1.type = CMD;
+	token1.type = ARG;
 	token1.value = "echo";
 	token2.type = ARG;
 	token2.value = "aaa\'bbb";
@@ -145,7 +145,7 @@ int	test_non_existing_var(char **envp)
 	t_token	token1;
 	int		result;
 
-	token1.type = CMD;
+	token1.type = ARG;
 	token1.value = "aa";
 	expected = ft_lstnew(&token1);
 	result = test_expander("aa$non_existing_var", expected, envp);
@@ -161,7 +161,7 @@ int	test_norec_expansion(char **envp)
 	t_token	token4;
 	int		result;
 
-	token1.type = CMD;
+	token1.type = ARG;
 	token1.value = "echo";
 	token2.type = ARG;
 	token2.value = "aa";
