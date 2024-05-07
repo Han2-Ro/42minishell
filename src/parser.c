@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:35:09 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	add_redirect(t_cmd *cmd, t_token *redirect)
 {
-	t_list *new_node;
+	t_list	*new_node;
 
 	new_node = ft_lstnew(redirect);
 	if (new_node == NULL)
@@ -23,7 +23,7 @@ int	add_redirect(t_cmd *cmd, t_token *redirect)
 	return (SUCCESS);
 }
 
-int check_cmd(const t_cmd *cmd)
+int	check_cmd(const t_cmd *cmd)
 {
 	if (cmd && cmd->bin && cmd->args && cmd->args[0])
 		return (SUCCESS);
@@ -46,7 +46,8 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 		(*i_args)++;
 	}
 	else if (token->type == R_IN || token->type == R_OUT
-		|| token->type == R_APPEND || token->type == R_HEREDOC || token->type == R_QUOTEDOC)
+		|| token->type == R_APPEND || token->type == R_HEREDOC
+		|| token->type == R_QUOTEDOC)
 		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
 	{
@@ -129,7 +130,8 @@ t_list	*parse(t_list *tokens)
 				return (ft_lstclear(&commands, free_cmd), NULL);
 			i_args = 1;
 		}
-		if (process_token((t_token *)current_token->content, &new_command, &i_args) == FAILURE)
+		if (process_token((t_token *)current_token->content, &new_command,
+				&i_args) == FAILURE)
 			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}

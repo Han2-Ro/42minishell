@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:17:24 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 12:52:33 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,8 @@ int					is_space(char c);
 void				pass(void *content);
 int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
+void				skip_until(const char *str, unsigned int *i,
+						const char *charset, bool val);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

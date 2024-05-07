@@ -3,126 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 14:00:24 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/lexer.h"
 #include "../includes/minishell.h"
 #include <stdio.h>
-
-static void	skip_until(const char *str, unsigned int *i, const char *charset,
-		bool val)
-{
-	while ((ft_strchr(charset, str[*i]) != 0) != val && str[*i] != '\0')
-		*i += 1;
-}
-
-t_token	*lex_cmd(const char *line, unsigned int *i)
-{
-	t_token			*token;
-	unsigned int	lex_len;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	lex_len = 0;
-	skip_until(&line[*i], &lex_len, WHITESPACE "|<>", true);
-	token->type = CMD;
-	token->value = ft_substr(line, *i, lex_len);
-	if (!(token->value))
-		return (free(token), NULL);
-	*i += lex_len;
-	return (token);
-}
-
-static unsigned int	arg_len(const char *arg)
-{
-	unsigned int	len;
-
-	len = 0;
-	while (true)
-	{
-		if (arg[len] == '\'')
-		{
-			len++;
-			skip_until(arg, &len, "\'", true);
-			len++;
-		}
-		else if (arg[len] == '\"')
-		{
-			len++;
-			skip_until(arg, &len, "\"", true);
-			len++;
-		}
-		else if (!ft_strchr(WHITESPACE "<>|", arg[len]))
-			skip_until(arg, &len, WHITESPACE "\"\'<>|", true);
-		else
-			return (len);
-	}
-}
-
-t_token	*lex_arg(const char *line, unsigned int *i)
-{
-	t_token			*token;
-	unsigned int	lex_len;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	lex_len = 0;
-	lex_len = arg_len(&line[*i]);
-	token->type = ARG;
-	token->value = ft_substr(line, *i, lex_len);
-	if (!(token->value))
-		return (free(token), NULL);
-	*i += lex_len;
-	return (token);
-}
-
-t_token_type	redirect_type(const char *redir_str, unsigned int *i)
-{
-	if (redir_str[0] == '>' && redir_str[1] == '>' && !ft_strchr("<>",
-			redir_str[2]))
-		return (*i += 2, R_APPEND);
-	else if (redir_str[0] == '>' && !ft_strchr("<>", redir_str[1]))
-		return (*i += 1, R_OUT);
-	else if (redir_str[0] == '<' && redir_str[1] == '<' && !ft_strchr("<>",
-			redir_str[2]))
-		return (*i += 2, R_HEREDOC);
-	else if (redir_str[0] == '<' && !ft_strchr("<>", redir_str[1]))
-		return (*i += 1, R_IN);
-	return (log_msg(ERROR, "Wrong redirect syntax!"), NOTDEF);
-	skip_until(redir_str, i, "<>", false);
-}
-
-t_token	*lex_redirect(const char *line, unsigned int *i)
-{
-	t_token			*token;
-	unsigned int	lex_len;
-	t_token_type	redir_type;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	lex_len = 0;
-	redir_type = redirect_type(&line[*i], i);
-	if (redir_type == NOTDEF)
-		return (free(token), NULL);
-	token->type = redir_type;
-	skip_until(line, i, WHITESPACE, false);
-	//skip_until(&line[*i], &lex_len, WHITESPACE "<>|", true);
-	lex_len = arg_len(&line[*i]);
-	token->value = ft_substr(line, *i, lex_len);
-	if (!(token->value))
-		return (free(token), NULL);
-	if (token->type == R_HEREDOC && (ft_strchr(token->value, '\'') || ft_strchr(token->value, '"')))
-		token->type = R_QUOTEDOC;
-	*i += lex_len;
-	return (token);
-}
 
 t_token	*lex_pipe(const char *line, unsigned int *i)
 {
@@ -163,42 +53,49 @@ int	add_token(t_list **token_lst, const char *line, unsigned int *i,
 	return (EXIT_SUCCESS);
 }
 
+int	lex_next(const char *line, unsigned int *i, bool *capture_args,
+		t_list **token_lst)
+{
+	int	fail;
+
+	fail = 0;
+	if (line[*i] == '|')
+	{
+		fail += add_token(token_lst, line, i, lex_pipe);
+		*capture_args = false;
+	}
+	else if (ft_strchr("<>", line[*i]))
+		fail += add_token(token_lst, line, i, lex_redirect);
+	else if (*capture_args)
+		fail += add_token(token_lst, line, i, lex_arg);
+	else
+	{
+		fail += add_token(token_lst, line, i, lex_cmd);
+		*capture_args = true;
+	}
+	if (fail > 0)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
 t_list	*lexer(const char *line)
 {
 	unsigned int	line_len;
 	unsigned int	i;
 	bool			capture_args;
 	t_list			*token_lst;
-	int				fail;
 
 	token_lst = NULL;
 	line_len = ft_strlen(line);
 	i = 0;
-	fail = 0;
 	capture_args = false;
-	while (i < line_len && !fail)
+	while (i < line_len)
 	{
 		skip_until(line, &i, WHITESPACE, false);
 		if (!line[i])
 			break ;
-		if (line[i] == '|')
-		{
-			fail += add_token(&token_lst, line, &i, lex_pipe);
-			capture_args = false;
-		}
-		else if (ft_strchr("<>", line[i]))
-		{
-			fail += add_token(&token_lst, line, &i, lex_redirect);
-		}
-		else if (capture_args)
-		{
-			fail += add_token(&token_lst, line, &i, lex_arg);
-		}
-		else
-		{
-			fail += add_token(&token_lst, line, &i, lex_cmd);
-			capture_args = true;
-		}
+		if (lex_next(line, &i, &capture_args, &token_lst) == FAILURE)
+			break ;
 	}
 	return (token_lst);
 }
