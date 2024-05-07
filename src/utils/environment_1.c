@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-<<<<<<< HEAD:src/environment.c
-/*   Updated: 2024/05/03 15:13:58 by hrother          ###   ########.fr       */
-=======
-/*   Updated: 2024/05/06 22:08:47 by aprevrha         ###   ########.fr       */
->>>>>>> main:src/utils/environment_1.c
+/*   Updated: 2024/05/07 15:39:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,30 +47,6 @@ char	*get_key(const char *arg)
 	return (ft_substr(arg, 0, i));
 }
 
-<<<<<<< HEAD:src/environment.c
-char	*ft_getenv(const t_list *envlst, const char *key)
-{
-	t_env	*env;
-	int		len_key;
-	int		len_env_key;
-
-	if (key == NULL)
-		return (NULL);
-	len_key = ft_strlen(key);
-	log_msg(DEBUG, "search key: %s", key);
-	while (envlst != NULL)
-	{
-		env = (t_env *)envlst->content;
-		len_env_key = ft_strlen(env->key);
-		if (len_key == len_env_key && ft_strncmp(env->key, key, len_key) == 0)
-			return (env->value);
-		envlst = envlst->next;
-	}
-	return (NULL);
-}
-
-=======
->>>>>>> main:src/utils/environment_1.c
 t_list	*envp_to_list(char **envp)
 {
 	t_list	*lst;

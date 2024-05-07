@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:08:45 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:40:45 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_env(void *content)
 	free(env);
 }
 
-char	*ft_getenv(t_list *envlst, char *key)
+char	*ft_getenv(const t_list *envlst, const char *key)
 {
 	t_env	*env;
 	int		len_key;
