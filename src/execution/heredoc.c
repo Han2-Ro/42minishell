@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 19:22:11 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:15:12 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	read_until_delimiter(int fd, const t_token *token, t_evars *evars)
 			return (SUCCESS);
 		}
 		if (token->type == R_HEREDOC)
-			expand_heredoc(&line, evars->envp, evars->status);
+			expand_heredoc(&line, *evars);
 		if (line == NULL)
 			return (FAILURE);
 		ft_putendl_fd(line, fd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 12:54:21 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:36:34 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,23 +124,25 @@ int	get_quote(int quote, const char c)
 	return (-1);
 }
 
-void	handle_quote(unsigned int *i, char **str, int *quote)
+int	handle_quote(unsigned int i, char **str, int *quote)
 {
 	int		new_quote;
 	char	*temp;
+	int		increment_by;
 
-	new_quote = get_quote(*quote, (*str)[*i]);
+	new_quote = get_quote(*quote, (*str)[i]);
+	increment_by = 1;
 	// if (new_quote == -1)
 	// 	log_msg(ERROR, "Quote Error");
 	if (*quote != new_quote)
 	{
 		temp = *str;
-		*str = str_insert("", (*str), *i, *i + 1);
+		*str = str_insert("", (*str), i, i + 1);
 		free(temp);
+		increment_by = 0;
 	}
-	else
-		(*i)++;
 	*quote = new_quote;
+	return (increment_by);
 }
 /*
 int	expand_loop(t_expand_info *ex)

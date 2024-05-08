@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 12:52:33 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:35:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,13 +141,16 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
+void				ft_lstinsert(t_list *insert_after, t_list *list);
+void				ft_lstrmvone(t_list **head, t_list *node,
+						void (*del)(void *));
 
 // environment.c
 void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
-char				*ft_getenv(t_list *envlst, char *key);
+char				*ft_getenv(const t_list *envlst, const char *key);
 /**
 	* @brief Get the value from a string like "key=value"
 	* @param arg The string to extract the value from
@@ -167,14 +170,13 @@ char				**envlst_to_envp(t_list *envlst);
 
 // expand.c
 int					get_quote(int quote, const char c);
-void				handle_quote(unsigned int *i, char **str, int *quote);
+int					handle_quote(unsigned int i, char **str, int *quote);
 char				*str_insert(char const *i_str, char *o_str,
 						unsigned int from, unsigned int to);
 int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
-int					expand_tokens_new(t_list *token_lst, t_list *env_list,
-						int status);
-int					expand_heredoc(char **str, t_list *env_list, int status);
+int					expand_token_list(t_list **token_lst, const t_evars evars);
+int					expand_heredoc(char **str, const t_evars evars);
 
 // print_structs.c
 void				print_cmd(void *command);
@@ -197,6 +199,7 @@ int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
 void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
+t_token				*new_token(t_token_type type, char *value);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

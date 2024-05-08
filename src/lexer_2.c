@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 13:00:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:58:38 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*lex_cmd(const char *line, unsigned int *i)
 		return (NULL);
 	lex_len = 0;
 	skip_until(&line[*i], &lex_len, WHITESPACE "|<>", true);
-	token->type = CMD;
+	token->type = ARG;
 	token->value = ft_substr(line, *i, lex_len);
 	if (!(token->value))
 		return (free(token), NULL);

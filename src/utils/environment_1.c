@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:08:47 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:39:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

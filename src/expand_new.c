@@ -6,13 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/07 20:10:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_status(char *str, int i, int status, int *expand_len)
+char	*expand_status(char *str, int i, const int status, int *expand_len)
 {
 	char	*status_str;
 	char	*new_str;
@@ -26,7 +26,8 @@ char	*expand_status(char *str, int i, int status, int *expand_len)
 	return (new_str);
 }
 
-char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
+char	*expand_var_new(char *str, int i, const t_list *env_list,
+		int *expand_len)
 {
 	char	*new_str;
 	char	*env_key;
@@ -46,97 +47,155 @@ char	*expand_var_new(char *str, int i, t_list *env_list, int *expand_len)
 	return (new_str);
 }
 
-int	handle_dollar(char **str, int i, t_list *env_list, int status)
+int	replace_dollar(char **str, int i, const t_evars evars)
 {
 	char	*new_value;
 	int		expand_len;
 
-	log_msg(DEBUG, "handle_dollar: '%s' at %i", *str, i);
+	log_msg(DEBUG, "replace_dollar: '%s' at %i", *str, i);
 	expand_len = 1;
 	if (ft_strchr(WHITESPACE, (*str)[i + 1]) != NULL)
 		return (1);
 	else if ((*str)[i + 1] == '?')
-		new_value = expand_status(*str, i, status, &expand_len);
+		new_value = expand_status(*str, i, evars.status, &expand_len);
 	else
-		new_value = expand_var_new(*str, i, env_list, &expand_len);
+		new_value = expand_var_new(*str, i, evars.envp, &expand_len);
 	free(*str);
 	*str = new_value;
 	if (!new_value)
-		return (-1);
+		return (FAILURE);
 	return (expand_len);
 }
 
-int	split_token(t_list *list, int from, int to)
+t_list	*split_token_here(t_list *list, int *i)
 {
 	t_token	*token;
-	int		i;
 	char	*str;
 	t_list	*next;
 
-	token = (t_token *)list->content;
-	if (token->type != CMD && token->type != ARG)
-		return (EXIT_SUCCESS);
 	next = list->next;
-	i = from;
-	from = 0;
+	token = (t_token *)list->content;
 	str = token->value;
-	while (i < to)
-	{
-		if (ft_strchr(WHITESPACE, str[i]) != NULL)
-		{
-			token->value = ft_substr(str, from, i - from);
-			token = malloc(sizeof(t_token));
-			if (!token)
-				return (EXIT_FAILURE);
-			token->type = ARG;
-			list->next = ft_lstnew(token);
-			list = list->next;
-			while (ft_strchr(WHITESPACE, str[i]) != NULL)
-				i++;
-			from = i;
-		}
-		i++;
-	}
-	token->value = ft_substr(str, from, ft_strlen(str) - from);
-	list->next = next;
+	token->value = ft_substr(str, 0, *i);
+	while (str[*i] && ft_strchr(WHITESPACE, str[*i]) != NULL)
+		(*i)++;
+	if (str[*i] == '\0')
+		return (free(str), list);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (free(str), NULL);
+	token->type = ARG;
+	token->value = ft_substr(str, *i, ft_strlen(str) - *i);
+	// substr malloc prot
 	free(str);
-	return (EXIT_SUCCESS);
+	list->next = ft_lstnew(token);
+	// lstnew malloc prot
+	list = list->next;
+	list->next = next;
+	return (list);
 }
 
-int	expand_token(t_list *list, t_list *env_list, int status)
+int	seperate_token(t_list **list, char *str, int from, int to)
 {
-	t_token			*token;
-	int				quote;
-	unsigned int	i;
-	int				expand_len;
+	t_token	*token;
+	t_list	*new;
 
-	print_token_new(list->content);
+	token = new_token(ARG, ft_substr(str, from, to - from));
+	if (!token || !token->value)
+		return (free(token), FAILURE);
+	new = ft_lstnew(token);
+	if (!new)
+		return (free_token(token), FAILURE);
+	ft_lstadd_back(list, new);
+	return (SUCCESS);
+}
+
+t_list	*split_token(char *str, int *i, int to)
+{
+	t_list	*list;
+	int		from;
+
+	list = NULL;
+	from = 0;
+	while (str[*i] && *i < to)
+	{
+		if (ft_strchr(WHITESPACE, str[*i]) != NULL)
+		{
+			if (*i > 0)
+				seperate_token(&list, str, from, *i);
+			while (str[*i] && ft_strchr(WHITESPACE, str[*i]))
+				(*i)++;
+			from = *i;
+		}
+		else
+			(*i)++;
+	}
+	if (*i < (int)ft_strlen(str) || from < *i)
+		seperate_token(&list, str, from, ft_strlen(str));
+	*i -= from;
+	return (list);
+}
+
+void	handle_dollar(t_list ***list, int *i, const t_evars evars,
+		const int quote)
+{
+	t_token	*token;
+	int		len;
+	t_list	*new;
+	t_list	*next;
+
+	token = (t_token *)(**list)->content;
+	len = replace_dollar(&token->value, *i, evars);
+	if (quote != 0 || (token->type != CMD && token->type != ARG))
+	{
+		*i += len;
+		return ;
+	}
+	new = split_token(token->value, i, *i + len);
+	next = (**list)->next;
+	if (new != NULL)
+		(**list)->next = new;
+	ft_lstrmvone(*list, **list, free_token);
+	if (new == NULL)
+		return ;
+	while (ft_lstsize(**list) > 1)
+		*list = &(**list)->next;
+	(**list)->next = next;
+}
+
+/**
+ * @brief Expands the token in the list.
+ * @return quote status at end of string or -1 on error.
+ */
+int	expand_token(t_list ***list, const t_evars evars)
+{
+	t_token	*token;
+	int		quote;
+	int		i;
+
 	i = 0;
 	quote = 0;
-	token = (t_token *)list->content;
+	token = (t_token *)(**list)->content;
 	while (token->value[i] != '\0')
 	{
 		if (ft_strchr("\"\'", token->value[i]) != NULL)
-			handle_quote(&i, &token->value, &quote);
+			i += handle_quote(i, &token->value, &quote);
 		else if (token->value[i] == '$' && quote != 1
 			&& token->type != R_HEREDOC && token->type != R_QUOTEDOC)
 		{
-			expand_len = handle_dollar(&token->value, i, env_list, status);
-			if (quote == 0)
-				split_token(list, i, i + expand_len);
-			i += expand_len;
+			handle_dollar(list, &i, evars, quote);
+			if (**list != NULL)
+				token = (t_token *)(**list)->content;
 		}
 		else
 			i++;
-		if (token->value == NULL)
-			return (EXIT_FAILURE);
+		if (*list == NULL || **list == NULL || token->value == NULL)
+			return (FAILURE);
 	}
-	if (quote != 0)
-		return (log_msg(ERROR, "Syntax Error: Quote not closed"), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
-int	expand_heredoc(char **str, t_list *env_list, int status)
+int	expand_heredoc(char **str, t_evars evars)
 {
 	unsigned int	i;
 	int				expand_len;
@@ -146,31 +205,36 @@ int	expand_heredoc(char **str, t_list *env_list, int status)
 	{
 		if ((*str)[i] == '$')
 		{
-			expand_len = handle_dollar(str, i, env_list, status);
+			expand_len = replace_dollar(str, i, evars);
 			i += expand_len;
 		}
 		else
 			i++;
 	}
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
-int	expand_tokens_new(t_list *token_lst, t_list *env_list, int status)
+int	expand_token_list(t_list **token_lst, const t_evars evars)
 {
-	t_list *current;
-	t_token *token;
-	int ret;
+	t_list	**current;
+	t_token	*token;
+	int		quote;
+	int		ret;
 
-	ret = EXIT_SUCCESS;
+	ret = SUCCESS;
 	current = token_lst;
-	while (current)
+	while (*current)
 	{
-		token = (t_token *)current->content;
+		token = (t_token *)(*current)->content;
 		if (token->type != PIPE)
 		{
-			ret |= expand_token(current, env_list, status);
+			quote = expand_token(&current, evars);
+			if (quote > 0)
+				log_msg(ERROR, "Syntax Error: Quote not closed");
+			ret |= quote;
 		}
-		current = current->next;
+		if (*current != NULL)
+			current = &(*current)->next;
 	}
 	return (ret);
 }
