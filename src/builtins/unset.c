@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:55:25 by hannes            #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 11:49:56 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list	*remove_env(t_list *envlst, const char *key)
 	if (envlst == NULL)
 		return (NULL);
 	envlst->next = remove_env(envlst->next, key);
-	if (ft_strncmp(((t_env *)envlst->content)->key, key, ft_strlen(key)) == 0)
+	if (ft_strcmp(((t_env *)envlst->content)->key, key) == 0)
 	{
 		ret = envlst->next;
 		free_env(envlst->content);

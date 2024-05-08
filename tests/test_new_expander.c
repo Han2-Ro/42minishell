@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 16:59:52 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:17:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,18 @@ int	test2(char **envp)
 	return (result);
 }
 
+int test3(char **envp)
+{
+	t_list	*expected;
+	t_token	token1;
+	int result;
+	token1.type = ARG;
+	token1.value ="echo ";
+	expected = ft_lstnew(&token1);
+	result = test_expander("echo ", expected, envp);
+	return (result);
+}
+
 int	test_quote_in_var(char **envp)
 {
 	t_list	*expected;
@@ -186,6 +198,7 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n-------- %s --------\n", argv[0]);
 	result |= run_test("test1", test1, envp, true);
 	result |= run_test("test2", test2, envp, true);
+	result |= run_test("test3", test3, envp, true);
 	result |= run_test("test_quote_in_var", test_quote_in_var, envp, true);
 	result |= run_test("test_non_existing_var", test_non_existing_var, envp,
 			true);
