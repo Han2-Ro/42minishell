@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:55:50 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 12:58:02 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 13:09:03 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/expander.h"
 
 char	*expand_status(char *str, int i, const int status, int *expand_len)
 {

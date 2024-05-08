@@ -1,5 +1,5 @@
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef LEXER_H
+# define LEXER_H
 
 # include "minishell.h"
 
