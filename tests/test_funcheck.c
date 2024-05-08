@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 19:59:06 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:22:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	evars.status = 0;
-	line = "echo $a 12$a\"34\"";
+	line = "\"echo \"";
 	evars.envp = envp_to_list(envp);
 	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("a"), ft_strdup("  "))));
 	if (!evars.envp)

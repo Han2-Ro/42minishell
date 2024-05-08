@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:19:38 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 12:17:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:23:37 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	test_expander(char *line, t_list *expected, char **envp)
 				ft_strdup("aa $? bb"))));
 	new = ft_lstnew(new_env(ft_strdup("ll"), ft_strdup("ls -l -a")));
 	ft_lstadd_back(&evars.envp, new);
+	log_msg(INFO, "line: '%s'", line);
 	token_lst = lexer(line);
 	result = expand_token_list(&token_lst, evars);
 	ft_lstiter(token_lst, print_token_new);
@@ -130,7 +131,7 @@ int test3(char **envp)
 	token1.type = ARG;
 	token1.value ="echo ";
 	expected = ft_lstnew(&token1);
-	result = test_expander("echo ", expected, envp);
+	result = test_expander("\"echo \"", expected, envp);
 	return (result);
 }
 
