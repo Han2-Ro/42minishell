@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:35:52 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:59:21 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,10 @@ int					expand_tokens(t_list *token_lst, t_list *envp, int status);
 char				*expand(char *string, t_list *envp, int status);
 int					expand_token_list(t_list **token_lst, const t_evars evars);
 int					expand_heredoc(char **str, const t_evars evars);
+t_list				*split_token(char *str, int *i, int to);
+int					replace_dollar(char **str, int i, const t_evars evars);
+void				handle_dollar(t_list ***list, int *i, const t_evars evars,
+						const int quote);
 
 // print_structs.c
 void				print_cmd(void *command);
