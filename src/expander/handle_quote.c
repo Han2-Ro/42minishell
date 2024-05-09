@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/08 13:09:08 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/09 12:11:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	handle_quote(unsigned int i, char **str, int *quote)
 
 	new_quote = get_quote(*quote, (*str)[i]);
 	increment_by = 1;
-	// if (new_quote == -1)
-	// 	log_msg(ERROR, "Quote Error");
 	if (*quote != new_quote)
 	{
 		temp = *str;
