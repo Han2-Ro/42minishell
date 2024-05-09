@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 16:33:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/05 12:39:37 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/09 12:56:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	test_1cmd(char **envp)
 	(void)envp;
 	result = SUCCESS;
 	tokens = NULL;
-	token[0] = (t_token){.type = CMD, .value = "echo"};
+	token[0] = (t_token){.type = ARG, .value = "echo"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
 	token[1] = (t_token){.type = ARG, .value = "Hello"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[1]));
@@ -85,7 +85,7 @@ int	test_3cmd(char **envp)
 
 	(void)envp;
 	tokens = NULL;
-	token[0] = (t_token){.type = CMD, .value = "echo"};
+	token[0] = (t_token){.type = ARG, .value = "echo"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[0]));
 	token[1] = (t_token){.type = ARG, .value = "Hello"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[1]));
@@ -93,7 +93,7 @@ int	test_3cmd(char **envp)
 	ft_lstadd_back(&tokens, ft_lstnew(&token[2]));
 	token[3] = (t_token){.type = PIPE, .value = NULL};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[3]));
-	token[4] = (t_token){.type = CMD, .value = "ls"};
+	token[4] = (t_token){.type = ARG, .value = "ls"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[4]));
 	token[5] = (t_token){.type = ARG, .value = "-l"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[5]));
@@ -103,7 +103,7 @@ int	test_3cmd(char **envp)
 	ft_lstadd_back(&tokens, ft_lstnew(&token[7]));
 	token[8] = (t_token){.type = R_OUT, .value = "out1.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[8]));
-	token[9] = (t_token){.type = CMD, .value = "cat"};
+	token[9] = (t_token){.type = ARG, .value = "cat"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[9]));
 	token[10] = (t_token){.type = R_OUT, .value = "out2.txt"};
 	ft_lstadd_back(&tokens, ft_lstnew(&token[10]));
@@ -177,9 +177,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_1cmd", test_1cmd, envp , true);
-	result |= run_test("test_3cmd", test_3cmd, envp , true);
-	result |= run_test("test_null", test_null, envp , true);
+	result |= run_test("test_1cmd", test_1cmd, envp , false);
+	result |= run_test("test_3cmd", test_3cmd, envp , false);
+	result |= run_test("test_null", test_null, envp , false);
 	// TODO: test heredoc and append
 	printf("result: %d\n", result != SUCCESS);
 	printf("------------ done ------------\n");
