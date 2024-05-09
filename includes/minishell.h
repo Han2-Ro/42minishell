@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:35:52 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/08 13:10:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,15 +168,9 @@ char				*get_key(const char *arg);
 t_list				*envp_to_list(char **envp);
 char				**envlst_to_envp(t_list *envlst);
 
-// expand.c
-int					get_quote(int quote, const char c);
-int					handle_quote(unsigned int i, char **str, int *quote);
-char				*str_insert(char const *i_str, char *o_str,
-						unsigned int from, unsigned int to);
-int					expand_tokens(t_list *token_lst, t_list *envp, int status);
-char				*expand(char *string, t_list *envp, int status);
-int					expand_token_list(t_list **token_lst, const t_evars evars);
+// expander.c
 int					expand_heredoc(char **str, const t_evars evars);
+int					expand_token_list(t_list **token_lst, const t_evars evars);
 
 // print_structs.c
 void				print_cmd(void *command);
