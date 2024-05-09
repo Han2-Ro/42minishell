@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:29:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:13:44 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ bool	key_is_valid(char *key)
 			return (false);
 		i++;
 	}
-	return (true);
+	if (i > 0)
+		return (true);
+	return (false);
 }
 
 // stupid 25line
@@ -94,7 +96,8 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 		while (cmd->args[i])
 		{
 			if (export_var(cmd->args[i], envp) == FAILURE)
-				log_msg(ERROR, "Failed to export '%s'", cmd->args[i]);
+				return (log_msg(ERROR, "Failed to export '%s'", cmd->args[i]),
+					1);
 			i++;
 		}
 	}
