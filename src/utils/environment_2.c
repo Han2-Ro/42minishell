@@ -6,19 +6,25 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:40:45 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/09 13:50:20 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+ * @brief Create a new env object
+ * @param key allocated string (will be freed if this function fails)
+ * @param value allocated string (will be freed if this function fails)
+ * @return new env object or NULL if malloc failed
+*/
 t_env	*new_env(char *key, char *value)
 {
 	t_env	*env;
 
 	env = (t_env *)malloc(sizeof(t_env));
 	if (env == NULL)
-		return (NULL);
+		return (free(key), free(value), NULL);
 	env->key = key;
 	env->value = value;
 	return (env);
