@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 18:47:36 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/09 13:30:27 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,18 @@ int	add_redirect(t_cmd *cmd, t_token *redirect)
 	return (SUCCESS);
 }
 
-int	check_cmd(const t_cmd *cmd)
+int	process_token(t_token *token, t_cmd **cmd)
 {
-	if (cmd && cmd->args)
-		return (SUCCESS);
-	log_msg(ERROR, "Syntax Error");
-	return (FAILURE);
-}
+	int	i;
 
-int	process_token(t_token *token, t_cmd **cmd, int *i_args)
-{
 	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
 		token->value);
 	if (token->type == ARG || token->type == CMD)
 	{
-		(*cmd)->args[*i_args] = token->value;
-		(*i_args)++;
+		i = 0;
+		while ((*cmd)->args[i] != NULL)
+			i++;
+		(*cmd)->args[i] = token->value;
 	}
 	else if (token->type == R_IN || token->type == R_OUT
 		|| token->type == R_APPEND || token->type == R_HEREDOC
@@ -47,8 +43,8 @@ int	process_token(t_token *token, t_cmd **cmd, int *i_args)
 	else if (token->type == PIPE)
 	{
 		(*cmd)->bin = (*cmd)->args[0];
-		if (check_cmd(*cmd) == FAILURE)
-			return (FAILURE);
+		if ((*cmd) == NULL || (*cmd)->args == NULL)
+			return (log_msg(ERROR, "Syntax Error"), FAILURE);
 		*cmd = NULL;
 	}
 	return (SUCCESS);
@@ -81,11 +77,13 @@ int	count_args(t_list *tokens)
 	return (count);
 }
 
-t_cmd	*start_new_command(t_list **commands, int n_args)
+t_cmd	*start_new_command(t_list **commands, t_list *current_token)
 {
 	t_cmd	*new_command;
 	t_list	*new_node;
+	int		n_args;
 
+	n_args = count_args(current_token);
 	log_msg(DEBUG, "Starting new command with %i args", n_args);
 	new_command = new_cmd(NULL, NULL);
 	if (new_command == NULL)
@@ -97,7 +95,7 @@ t_cmd	*start_new_command(t_list **commands, int n_args)
 	new_command->args = (char **)malloc(sizeof(char *) * (n_args + 1));
 	if (new_command->args == NULL)
 		return (log_msg(ERROR, "malloc failed"), NULL);
-	new_command->args[n_args] = NULL;
+	ft_bzero(new_command->args, (sizeof(char *)) * (n_args + 1));
 	return (new_command);
 }
 
@@ -111,8 +109,6 @@ t_list	*parse(t_list *tokens)
 	t_list	*commands;
 	t_list	*current_token;
 	t_cmd	*new_command;
-	int		n_args;
-	int		i_args;
 
 	commands = NULL;
 	new_command = NULL;
@@ -121,19 +117,18 @@ t_list	*parse(t_list *tokens)
 	{
 		if (new_command == NULL)
 		{
-			n_args = count_args(current_token);
-			new_command = start_new_command(&commands, n_args);
+			new_command = start_new_command(&commands, current_token);
 			if (new_command == NULL)
 				return (ft_lstclear(&commands, free_cmd), NULL);
-			i_args = 0;
 		}
-		if (process_token((t_token *)current_token->content, &new_command,
-				&i_args) == FAILURE)
+		if (process_token((t_token *)current_token->content,
+				&new_command) == FAILURE)
 			return (ft_lstclear(&commands, free_cmd), NULL);
 		current_token = current_token->next;
 	}
-	if (check_cmd(new_command) == FAILURE)
-		return (ft_lstclear(&commands, free_cmd), NULL);
+	if (new_command == NULL || new_command->args == NULL)
+		return (ft_lstclear(&commands, free_cmd), log_msg(ERROR,
+				"Syntax Error"), NULL);
 	new_command->bin = new_command->args[0];
 	return (commands);
 }
