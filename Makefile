@@ -1,5 +1,5 @@
-CC=cc
-CFLAGS = -Wall -Wextra -Werror -g
+CC=clang
+CFLAGS = -g -fsanitize=address,fuzzer
 RM = rm -rf
 
 SRC_DIR = src
@@ -22,7 +22,7 @@ TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJS)
-	make -C ./libft
+	make -C ./libft CFLAGS="$(CFLAGS)" CC="$(CC)"
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L. -L./libft -lft -lreadline
 
 $(LIB): $(OBJ_DIR) $(OBJS)
