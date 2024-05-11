@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 16:58:38 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:29:50 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_token	*lex_arg(const char *line, unsigned int *i)
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-	lex_len = 0;
 	lex_len = arg_len(&line[*i]);
 	token->type = ARG;
 	token->value = ft_substr(line, *i, lex_len);

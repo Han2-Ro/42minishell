@@ -6,6 +6,7 @@ int	LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
 	t_evars	evars;
 	char	line[Size + 1];
 
+	log_msg(ERROR, "Size: %zu", Size);
 	evars.tty = 0;
 	evars.status = 0;
 	evars.envp = ft_lstnew(new_env(ft_strdup("PATH"),
@@ -13,9 +14,9 @@ int	LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size)
 	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("HOME"),
 				ft_strdup("/home/user"))));
 	ft_lstiter(evars.envp, &print_env);
-	if (Size == 0)
-		return (0);
-	ft_strlcpy(line, (char *)Data, Size + 1);
+	ft_memcpy(line, Data, Size);
+	line[Size] = '\0';
+	log_msg(ERROR, "line: %s", line);
 	process_line(line, &evars);
 	ft_lstclear(&evars.envp, free_env);
 	return (0);

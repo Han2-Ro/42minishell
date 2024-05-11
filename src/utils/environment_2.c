@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:40:45 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 13:38:44 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_env(void *content)
 	t_env	*env;
 
 	env = (t_env *)content;
-	log_msg(DEBUG, "%s=%s", env->key, env->value);
+	log_msg(ERROR, "%s=%s", env->key, env->value);
 }
 
 void	free_env(void *content)
