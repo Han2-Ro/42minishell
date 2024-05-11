@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 15:38:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 15:49:34 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	process_line(char *line, t_evars *evars)
 	{
 		log_msg(ERROR, "PARSE error");
 		ft_lstclear(&token_lst, free_token);
-		return (1);
+		return (2);
 	}
 	ft_lstiter(cmd_lst, print_cmd);
 	active_signals();
