@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:29:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:26:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,24 @@ bool	key_is_valid(char *key)
 // stupid 25line
 int	export_var2(t_list **envp, char *key, char *value)
 {
-	t_list	*current;
-	t_env	*env;
+	const t_list	*current;
+	t_env			*env;
+	t_list			*new;
 
-	current = *envp;
-	while (current)
-	{
-		env = (t_env *)current->content;
-		if (ft_strcmp(env->key, key) == 0)
-			break ;
-		current = current->next;
-	}
+	current = find_env(*envp, key);
 	if (current == NULL)
 	{
 		env = new_env(key, value);
 		if (env == NULL)
 			return (log_msg(ERROR, "malloc failed"), FAILURE);
-		ft_lstadd_back(envp, ft_lstnew(env));
+		new = ft_lstnew(env);
+		if (env == NULL || new == NULL)
+			return (free_env(env), log_msg(ERROR, "malloc failed"), FAILURE);
+		ft_lstadd_back(envp, new);
 	}
 	else if (value != NULL)
 	{
+		env = (t_env *)current->content;
 		free(env->value);
 		env->value = value;
 	}

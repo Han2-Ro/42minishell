@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:20:21 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 12:22:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/09 13:45:06 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*token_lst;
 	t_list	*cmd_lst;
 	char	*line;
+	t_env *env;
 	t_evars	evars;
+	char *key;
+	char *value;
 
 	cmd_lst = NULL;
 	(void)argc;
@@ -25,9 +28,14 @@ int	main(int argc, char **argv, char **envp)
 	evars.status = 0;
 	line = "\"echo \"";
 	evars.envp = envp_to_list(envp);
-	ft_lstadd_back(&evars.envp, ft_lstnew(new_env(ft_strdup("a"), ft_strdup("  "))));
 	if (!evars.envp)
 		return (1);
+	key =ft_strdup("a");
+	value =  ft_strdup("  ");
+	env = new_env(key, value);
+	if (env == NULL)
+		return (ft_lstclear(&evars.envp, free_env), 1);
+	ft_lstadd_back(&evars.envp, ft_lstnew(env));
 	token_lst = lexer(line);
 	expand_token_list(&token_lst, evars);
 	ft_lstiter(token_lst, print_token_new);

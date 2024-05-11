@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 13:10:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:24:52 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,8 @@ void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
-char				*ft_getenv(const t_list *envlst, const char *key);
+const t_list				*find_env(const t_list *list, const char *key);
+char				*get_envvalue(const t_list *envlst, const char *key);
 /**
 	* @brief Get the value from a string like "key=value"
 	* @param arg The string to extract the value from
