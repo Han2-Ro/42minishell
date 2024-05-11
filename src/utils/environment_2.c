@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 17:13:24 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/09 13:50:20 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:26:09 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param key allocated string (will be freed if this function fails)
  * @param value allocated string (will be freed if this function fails)
  * @return new env object or NULL if malloc failed
-*/
+ */
 t_env	*new_env(char *key, char *value)
 {
 	t_env	*env;
@@ -43,28 +43,40 @@ void	free_env(void *content)
 	t_env	*env;
 
 	env = (t_env *)content;
+	if (env == NULL)
+		return ;
 	free(env->key);
 	free(env->value);
 	free(env);
 }
 
-char	*ft_getenv(const t_list *envlst, const char *key)
+const t_list	*find_env(const t_list *list, const char *key)
 {
-	t_env	*env;
-	int		len_key;
-	int		len_env_key;
+	t_env			*env;
+	const t_list	*finding;
 
+	log_msg(DEBUG, "search key: %s", key);
 	if (key == NULL)
 		return (NULL);
-	len_key = ft_strlen(key);
-	log_msg(DEBUG, "search key: %s", key);
-	while (envlst != NULL)
+	finding = list;
+	while (finding)
 	{
-		env = (t_env *)envlst->content;
-		len_env_key = ft_strlen(env->key);
-		if (len_key == len_env_key && ft_strncmp(env->key, key, len_key) == 0)
-			return (env->value);
-		envlst = envlst->next;
+		env = (t_env *)finding->content;
+		if (ft_strcmp(env->key, key) == 0)
+			break ;
+		finding = finding->next;
 	}
-	return (NULL);
+	return (finding);
+}
+
+char	*get_envvalue(const t_list *envlst, const char *key)
+{
+	t_env			*env;
+	const t_list	*finding;
+
+	finding = find_env(envlst, key);
+	if (finding == NULL)
+		return (NULL);
+	env = (t_env *)finding->content;
+	return (env->value);
 }
