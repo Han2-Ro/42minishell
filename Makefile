@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS = -g -fsanitize=address,fuzzer
+CFLAGS = -Werror -Wall -Wextra -g -fsanitize=address,fuzzer
 RM = rm -rf
 
 SRC_DIR = src
