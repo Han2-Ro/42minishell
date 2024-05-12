@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 16:03:55 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/12 16:53:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 	while (current_cmd != NULL)
 	{
 		exec_cmd((t_cmd *)current_cmd->content, cmd_list, evars);
+		if (((t_cmd *)current_cmd->content)->pid == 0)
+			break ;
+		if (current_cmd->next == NULL)
+			break ;
 		current_cmd = current_cmd->next;
 	}
 	ft_lstiter(cmd_list, close_fds);
 	wait_pids(cmd_list);
-	evars->status = ((t_cmd *)ft_lstlast(cmd_list)->content)->status;
+	evars->status = ((t_cmd *)current_cmd->content)->status;
 	ft_lstclear(&cmd_list, free_cmd);
 	return (EXIT_SUCCESS);
 }
