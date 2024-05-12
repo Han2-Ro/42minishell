@@ -3,22 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/06 20:40:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:13:55 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <sys/ioctl.h>
 
-int		g_sig = 0;
-
 // log_msg(INFO, "I S: %i", sig_num);
 void	idle_signal_handler(int sig_num)
 {
-	g_sig = sig_num;
 	if (sig_num == SIGINT)
 	{
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
@@ -30,7 +27,6 @@ void	idle_signal_handler(int sig_num)
 // log_msg(INFO, "A S: %i", sig_num);
 void	active_signal_handler(int sig_num)
 {
-	g_sig = sig_num;
 	ft_putchar_fd('\n', STDIN_FILENO);
 }
 

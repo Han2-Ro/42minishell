@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 22:26:23 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/12 23:14:01 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -22,6 +21,7 @@
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -46,9 +46,6 @@
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
 # endif
-
-// Global var for signals
-extern int			g_sig;
 
 typedef enum token_type
 {
@@ -150,7 +147,7 @@ void				free_env(void *content);
 void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
-const t_list				*find_env(const t_list *list, const char *key);
+const t_list		*find_env(const t_list *list, const char *key);
 char				*get_envvalue(const t_list *envlst, const char *key);
 /**
 	* @brief Get the value from a string like "key=value"

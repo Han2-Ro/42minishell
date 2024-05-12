@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 22:36:24 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/12 23:15:06 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	try_exec_path(t_cmd *cmd, char **envp_array)
 	if (cmd->bin && access(cmd->bin, X_OK) == 0)
 	{
 		execve(cmd->bin, cmd->args, envp_array);
-		log_msg(ERROR, "%s: %s, %s:%s", cmd->bin, strerror(errno), __FILE__, __LINE__);
+		log_msg(ERROR, "%s: %s", cmd->bin, strerror(errno));
 		return (EXIT_MASK | 126);
 	}
 	return (EXIT_MASK | 127);

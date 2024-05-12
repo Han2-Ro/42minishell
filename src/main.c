@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 22:51:06 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/12 23:14:13 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@ int	main(int argc, char const *argv[], char *envp[])
 		return (FAILURE);
 	exit_status = shell_loop(envp_lst, tty);
 	ft_lstclear(&envp_lst, free_env);
-	//if (!tty)
-		//clear_gnl_buf();
 	return (exit_status);
 }
