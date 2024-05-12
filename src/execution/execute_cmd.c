@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 11:37:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:30:06 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/execution.h"
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 void	close_fds(void *content)
 {
@@ -39,6 +45,27 @@ int	setup_cmd(t_cmd *cmd, t_list **envlst, char ***envp_array)
 	return (EXIT_SUCCESS);
 }
 
+int	try_exec_path(t_cmd *cmd, char **envp_array)
+{
+	struct stat	s_pstat;
+
+	if (stat(cmd->bin, &s_pstat) == -1)
+		log_msg(ERROR, strerror(errno));
+	else if (S_ISDIR(s_pstat.st_mode))
+	{
+		log_msg(ERROR, "Is a Directory");
+		exit(126);
+	}
+	if (cmd->bin && access(cmd->bin, X_OK) == 0)
+	{
+		execve(cmd->bin, cmd->args, envp_array);
+		log_msg(ERROR, "%s: %s", cmd->bin, strerror(errno));
+		exit(126);
+	}
+	exit(127);
+	return (0);
+}
+
 int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst, int status)
 {
 	char	**envp_array;
@@ -58,8 +85,6 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst, int status)
 	setup_cmd(cmd, envlst, &envp_array);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(DEBUG, "executing %s", cmd->bin);
-	if (cmd->bin && access(cmd->bin, X_OK) == 0)
-		execve(cmd->bin, cmd->args, envp_array);
-	exit(127);
+	try_exec_path(cmd, envp_array);
 	return (EXIT_FAILURE);
 }
