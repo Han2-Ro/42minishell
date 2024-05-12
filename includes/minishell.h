@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 23:04:34 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/12 23:14:01 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
 # endif
-
-// Global var for signals
-extern int			g_sig;
 
 typedef enum token_type
 {
