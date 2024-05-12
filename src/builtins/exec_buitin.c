@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:14:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/12 17:36:19 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	is_builtin(const t_cmd *cmd)
 
 int	exec_builtin(t_cmd *cmd, t_list **envp, int status)
 {
-	cmd->pid = 0;
 	if (ft_strncmp(cmd->bin, "pwd", 5) == 0)
 		return (builtin_pwd(cmd, envp));
 	if (ft_strncmp(cmd->bin, "cd", 5) == 0)

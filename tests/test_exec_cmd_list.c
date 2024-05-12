@@ -254,7 +254,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	printf("\n-------- %s --------\n", argv[0]);
-	result |= run_test("test_1cmd", test_1cmd, envp, true);
+	result |= run_test("test_1cmd", test_1cmd, envp, false);
 	// result |= run_test("test_2cmds", test_2cmds, envp, true);
 	// result |= run_test("test_3cmds", test_3cmds, envp, true);
 	// result |= run_test("test_invalid_cmd", test_invalid_cmd, envp, true);
