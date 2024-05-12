@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:55:50 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 13:09:03 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/11 16:21:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*expand_var(char *str, int i, const t_list *env_list, int *expand_len)
 	while (ft_strchr(SPECIAL_CHARS WHITESPACE, str[j]) == NULL)
 		j++;
 	env_key = ft_substr(str, i + 1, j - i - 1);
-	env_val = ft_getenv(env_list, env_key);
+	env_val = get_envvalue(env_list, env_key);
 	free(env_key);
 	if (!env_val)
 		env_val = "";

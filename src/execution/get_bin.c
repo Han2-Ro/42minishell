@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 21:42:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:14:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ char	*path_to_bin(char *cmd, t_list *envp)
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	i = 0;
-	folders = ft_split(ft_getenv(envp, "PATH"), ':');
+	folders = ft_split(get_envvalue(envp, "PATH"), ':');
 	while (folders && folders[i])
 	{
 		path = build_path(folders[i], cmd);
 		if (access(path, X_OK) == 0)
-			return (path);
+			return (free_nullterm_str_arr(folders), path);
 		free(path);
 		i++;
 	}
