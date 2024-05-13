@@ -47,9 +47,6 @@
 #  define LOG_LEVEL INFO
 # endif
 
-// Global var for signals
-extern int			g_sig;
-
 typedef enum token_type
 {
 	NOTDEF,

@@ -4,20 +4,43 @@ RM = rm -rf
 
 SRC_DIR = src
 OBJ_DIR = obj
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-SRCS += $(wildcard $(SRC_DIR)/execution/*.c)
-SRCS += $(wildcard $(SRC_DIR)/builtins/*.c)
-SRCS += $(wildcard $(SRC_DIR)/utils/*.c)
-SRCS += $(wildcard $(SRC_DIR)/expander/*.c)
+SRCS = src/lexer_1.c \
+src/lexer_2.c \
+src/log.c \
+src/loop.c \
+src/main.c \
+src/parser.c \
+src/print_structs.c \
+src/signal.c \
+src/builtins/cd.c \
+src/builtins/echo.c \
+src/builtins/env.c \
+src/builtins/exec_buitin.c \
+src/builtins/exit.c \
+src/builtins/export_1.c \
+src/builtins/export_2.c \
+src/builtins/pwd.c \
+src/builtins/unset.c \
+src/execution/execute_cmd.c \
+src/execution/execute_cmd_list.c \
+src/execution/get_bin.c \
+src/execution/heredoc.c \
+src/execution/redirects.c \
+src/expander/expander.c \
+src/expander/handle_dollar.c \
+src/expander/handle_quote.c \
+src/expander/split_token.c \
+src/utils/environment_1.c \
+src/utils/environment_2.c \
+src/utils/free_utils.c \
+src/utils/list_utils_1.c \
+src/utils/list_utils_2.c \
+src/utils/list_utils_3.c \
+src/utils/utils.c
+
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 NAME = minishell
-LIB = libminishell.a
-
-TEST_DIR = tests
-TESTS = $(wildcard $(TEST_DIR)/test_*.c)
-TESTBINS = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/bin/test_%, $(TESTS))
-TEST_UTILS = $(wildcard $(TEST_DIR)/utils/*.c)
 
 all: $(NAME)
 
@@ -25,9 +48,6 @@ $(NAME): $(OBJ_DIR) $(OBJS)
 	make -C ./libft
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -L. -L./libft -lft -lreadline
 
-$(LIB): $(OBJ_DIR) $(OBJS)
-	make -C ./libft
-	ar rcs $@ $(OBJS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -45,16 +65,6 @@ $(TEST_DIR)/bin:
 $(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
 	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
 
-test: CFLAGS += -DLOG_LEVEL=DEBUG
-test: $(TESTBINS)
-	./$(TEST_DIR)/setup.sh; \
-	exit_code=0; \
-	for test in $(TESTBINS); do \
-		$$test || exit_code=1; \
-	done; \
-	./$(TEST_DIR)/test_against_bash.sh || exit_code=1;\
-	exit $$exit_code
-
 clean:
 	make clean -C ./libft
 	$(RM) $(OBJ_DIR)
@@ -62,7 +72,6 @@ clean:
 fclean: clean
 	make fclean -C ./libft
 	$(RM) $(NAME)
-	$(RM) $(LIB)
 
 re: fclean all
 

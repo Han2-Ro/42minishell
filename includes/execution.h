@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 18:05:16 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 22:19:25 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:13:20 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-int		exec_cmd(t_cmd *cmd, t_list *cmd_list, t_list **envlst, int status);
+int		exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars);
 void	close_fds(void *content);
 char	*path_to_bin(char *cmd, t_list *envp);
 
