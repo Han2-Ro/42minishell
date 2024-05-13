@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/12 23:13:55 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/13 14:25:29 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	idle_signal_handler(int sig_num)
 // log_msg(INFO, "A S: %i", sig_num);
 void	active_signal_handler(int sig_num)
 {
+	(void)sig_num;
 	ft_putchar_fd('\n', STDIN_FILENO);
 }
 
