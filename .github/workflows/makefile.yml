@@ -13,10 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: checkout main repo
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ github.repository }}
+        path: minishell
 
     - name: compile
-      run: make CFLAGS+="-DGITHUB_ACTIONS -DLOG_LEVEL=ERROR" all
+      run: make -C ./minishell/ CFLAGS+="-DGITHUB_ACTIONS -DLOG_LEVEL=ERROR" all
+
+    - name: checkout test repo
+      uses: actions/checkout@v3
+      with:
+        repository: Han2-Ro/42minishell-test
+        path: minishell-test
 
     - name: test
-      run: make CFLAGS+="-DGITHUB_ACTIONS" test
+      run: make -C ./minishell-test CFLAGS+="-DGITHUB_ACTIONS" test
