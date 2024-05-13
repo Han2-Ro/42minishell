@@ -25,8 +25,8 @@ jobs:
     - name: checkout test repo
       uses: actions/checkout@v3
       with:
-        repository: Han2-Ro/42minishell-test
-        path: minishell-test
+        repository: Han2-Ro/42minishell-tests
+        path: minishell-tests
 
     - name: test
       run: make -C ./minishell-test CFLAGS+="-DGITHUB_ACTIONS" test
