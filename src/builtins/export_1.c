@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/13 17:00:32 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:07:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int	export_var(const char *key_val_pair, t_list **envp)
 	if (split_key_val(key_val_pair, &key, &value) == FAILURE)
 		return (FAILURE);
 	if (!key_is_valid(key))
-		return (free(key), free(value), log_msg(ERROR, "invalid key '%s'", key), FAILURE);
+		return (free(key), free(value), log_msg(ERROR, "invalid key '%s'", key),
+			FAILURE);
 	return (export_var2(envp, key, value));
 }
 
