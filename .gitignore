@@ -9,4 +9,8 @@ minishell
 .nfs*
 temp
 minishell_tester
+<<<<<<< HEAD
 ms-tests
+=======
+ms-tests
+>>>>>>> main

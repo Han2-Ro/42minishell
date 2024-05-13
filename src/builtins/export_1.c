@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/13 17:07:58 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:12:06 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ bool	key_is_valid(char *key)
 	return (false);
 }
 
-// stupid 25line
-int	export_var2(t_list **envp, char *key, char *value)
+int	export_env_var(t_list **envp, char *key, char *value)
 {
 	const t_list	*current;
 	t_env			*env;
@@ -69,7 +68,7 @@ int	export_var2(t_list **envp, char *key, char *value)
 	return (SUCCESS);
 }
 
-int	export_var(const char *key_val_pair, t_list **envp)
+int	export_key_val_pair(const char *key_val_pair, t_list **envp)
 {
 	char	*key;
 	char	*value;
@@ -79,7 +78,7 @@ int	export_var(const char *key_val_pair, t_list **envp)
 	if (!key_is_valid(key))
 		return (free(key), free(value), log_msg(ERROR, "invalid key '%s'", key),
 			FAILURE);
-	return (export_var2(envp, key, value));
+	return (export_env_var(envp, key, value));
 }
 
 int	builtin_export(const t_cmd *cmd, t_list **envp)
@@ -95,7 +94,7 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 		i = 1;
 		while (cmd->args[i])
 		{
-			if (export_var(cmd->args[i], envp) == FAILURE)
+			if (export_key_val_pair(cmd->args[i], envp) == FAILURE)
 				return (log_msg(ERROR, "Failed to export '%s'", cmd->args[i]),
 					1);
 			i++;

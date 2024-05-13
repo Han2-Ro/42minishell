@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 23:14:01 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/12 18:05:26 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ int					shell_loop(t_list *envp, int tty);
 // signals.c
 int					idle_signals(void);
 int					active_signals(void);
+
+int					export_env_var(t_list **envp, char *key, char *value);
 
 t_list				*parse(t_list *tokens);
 
