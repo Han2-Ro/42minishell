@@ -20,7 +20,7 @@ jobs:
         path: minishell
 
     - name: compile
-      run: make -C ./minishell/ CFLAGS+="-DGITHUB_ACTIONS -DLOG_LEVEL=DEBUG" all
+      run: make -C ./minishell/ CFLAGS+="-DGITHUB_ACTIONS -DLOG_LEVEL=ERROR" all
 
     - name: checkout test repo
       uses: actions/checkout@v3
