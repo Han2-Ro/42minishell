@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 16:39:01 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:12:06 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	export_env_var(t_list **envp, char *key, char *value)
 	else if (value != NULL)
 	{
 		env = (t_env *)current->content;
+		free(key);
 		free(env->value);
 		env->value = value;
 	}
@@ -75,7 +76,8 @@ int	export_key_val_pair(const char *key_val_pair, t_list **envp)
 	if (split_key_val(key_val_pair, &key, &value) == FAILURE)
 		return (FAILURE);
 	if (!key_is_valid(key))
-		return (log_msg(ERROR, "invalid key '%s'", key), FAILURE);
+		return (free(key), free(value), log_msg(ERROR, "invalid key '%s'", key),
+			FAILURE);
 	return (export_env_var(envp, key, value));
 }
 

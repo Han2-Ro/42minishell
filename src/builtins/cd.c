@@ -6,11 +6,35 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 17:07:47 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:34:39 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	update_pwd_oldpwd(t_list **envp, char *new_cwd, char *old_cwd)
+{
+	char	*pwd;
+	char	*oldpwd;
+
+	pwd = ft_strdup("PWD");
+	if (!pwd)
+	{
+		free(new_cwd);
+		free(old_cwd);
+		return ;
+	}
+	oldpwd = ft_strdup("OLDPWD");
+	if (!oldpwd)
+	{
+		free(new_cwd);
+		free(old_cwd);
+		free(pwd);
+		return ;
+	}
+	export_env_var(envp, pwd, new_cwd);
+	export_env_var(envp, oldpwd, old_cwd);
+}
 
 int	builtin_cd(const t_cmd *cmd, t_list **envp)
 {
@@ -32,7 +56,6 @@ int	builtin_cd(const t_cmd *cmd, t_list **envp)
 	if (!new_cwd)
 		return (log_msg(ERROR, "cd: %s", strerror(errno)), free(old_cwd),
 			EXIT_FAILURE);
-	export_env_var(envp, "PWD", new_cwd);
-	export_env_var(envp, "OLDPWD", old_cwd);
+	update_pwd_oldpwd(envp, new_cwd, old_cwd);
 	return (EXIT_SUCCESS);
 }
