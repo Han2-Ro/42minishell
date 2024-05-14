@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/08 12:35:15 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 15:05:52 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
 #include "../includes/minishell.h"
+#include "../includes/errprintf.h"
 #include <stdio.h>
 
 t_token	*lex_pipe(const char *line, unsigned int *i)
