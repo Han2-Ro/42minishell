@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/13 17:12:06 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:02:50 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	export_env_var(t_list **envp, char *key, char *value)
 		if (env == NULL)
 			return (log_msg(ERROR, "malloc failed"), FAILURE);
 		new = ft_lstnew(env);
-		if (env == NULL || new == NULL)
+		if (new == NULL)
 			return (free_env(env), log_msg(ERROR, "malloc failed"), FAILURE);
 		ft_lstadd_back(envp, new);
 	}
@@ -65,6 +65,8 @@ int	export_env_var(t_list **envp, char *key, char *value)
 		free(env->value);
 		env->value = value;
 	}
+	else
+		free(key);
 	return (SUCCESS);
 }
 
