@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 23:15:06 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/14 16:43:55 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ void	close_fds(void *content)
 		close(cmd->fd_out);
 }
 
-int	setup_cmd(t_cmd *cmd, t_list **envlst, char ***envp_array)
+int	setup_fds(t_cmd *cmd)
 {
+	bool	success;
+
+	success = true;
 	if (cmd->fd_in > 2)
-		dup2(cmd->fd_in, STDIN_FILENO);
+		success = dup2(cmd->fd_in, STDIN_FILENO) >= 0;
 	if (cmd->fd_out > 2)
-		dup2(cmd->fd_out, STDOUT_FILENO);
-	cmd->bin = path_to_bin(cmd->bin, *envlst);
-	*envp_array = envlst_to_envp(*envlst);
-	if (cmd->bin == NULL)
-		(free_nullterm_str_arr(*envp_array), cmd->status = 127);
-	if (*envp_array == NULL)
-		(free(cmd->bin), cmd->status = 1);
-	return (EXIT_SUCCESS);
+		success &= dup2(cmd->fd_out, STDOUT_FILENO) >= 0;
+	if (success)
+		return (EXIT_SUCCESS);
+	log_msg(ERROR, "dup2: %s", strerror(errno));
+	return (EXIT_FAILURE);
 }
 
 int	try_exec_path(t_cmd *cmd, char **envp_array)
@@ -66,23 +66,24 @@ int	try_exec_path(t_cmd *cmd, char **envp_array)
 	return (EXIT_MASK | 127);
 }
 
-int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars)
+int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 {
-	char	**envp_array;
-
-	if (cmd->fd_in < 0 || cmd->fd_out < 0 || cmd->bin == NULL)
+	if (cmd->fd_in < 0 || cmd->fd_out < 0 || cmd->args[0] == NULL)
 		return (EXIT_FAILURE);
 	if (is_builtin(cmd))
 	{
-		cmd->status = exec_builtin(cmd, &evars->envp, evars->status);
+		cmd->status = exec_builtin(cmd, &evars->envl, evars->status);
 		return (cmd->status);
 	}
+	cmd->bin = path_to_bin(cmd->args[0], evars->envl);
+	if (cmd->bin == NULL)
+		(cmd->status = 127);
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		return (log_msg(ERROR, "fork: %s", strerror(errno)), EXIT_FAILURE);
 	if (cmd->pid > 0)
 		return (EXIT_SUCCESS);
-	setup_cmd(cmd, &evars->envp, &envp_array);
+	setup_fds(cmd);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(DEBUG, "executing %s", cmd->bin);
 	cmd->status = try_exec_path(cmd, envp_array);

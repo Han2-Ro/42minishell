@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/14 14:14:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:05:31 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	shell_loop(t_list *env_list, int tty)
 
 	evars.status = 0;
 	evars.tty = tty;
-	evars.envp = env_list;
+	evars.envl = env_list;
 	while (1)
 	{
 		idle_signals();
