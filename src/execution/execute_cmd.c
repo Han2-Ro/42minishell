@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 16:43:55 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:31:47 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,49 +44,48 @@ int	setup_fds(t_cmd *cmd)
 	return (EXIT_FAILURE);
 }
 
-int	try_exec_path(t_cmd *cmd, char **envp_array)
+int	check_bin(char *bin)
 {
 	struct stat	s_pstat;
 
-	if (cmd->bin == NULL)
-		return (EXIT_MASK | 127);
-	if (stat(cmd->bin, &s_pstat) == -1)
+	if (bin == NULL)
+		return (127);
+	if (stat(bin, &s_pstat) == -1)
+	{
 		log_msg(ERROR, strerror(errno));
+		return (FAILURE);
+	}
 	else if (S_ISDIR(s_pstat.st_mode))
 	{
 		log_msg(ERROR, "Is a Directory");
-		return (EXIT_MASK | 126);
+		return (126);
 	}
-	if (cmd->bin && access(cmd->bin, X_OK) == 0)
-	{
-		execve(cmd->bin, cmd->args, envp_array);
-		log_msg(ERROR, "%s: %s", cmd->bin, strerror(errno));
-		return (EXIT_MASK | 126);
-	}
-	return (EXIT_MASK | 127);
+	return (SUCCESS);
 }
 
 int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 {
 	if (cmd->fd_in < 0 || cmd->fd_out < 0 || cmd->args[0] == NULL)
-		return (EXIT_FAILURE);
+		return (FAILURE);
 	if (is_builtin(cmd))
 	{
 		cmd->status = exec_builtin(cmd, &evars->envl, evars->status);
 		return (cmd->status);
 	}
 	cmd->bin = path_to_bin(cmd->args[0], evars->envl);
-	if (cmd->bin == NULL)
-		(cmd->status = 127);
+	cmd->status = check_bin(cmd->bin);
+	if (cmd->status != SUCCESS)
+		return (cmd->status);
 	cmd->pid = fork();
 	if (cmd->pid < 0)
-		return (log_msg(ERROR, "fork: %s", strerror(errno)), EXIT_FAILURE);
+		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
 	if (cmd->pid > 0)
-		return (EXIT_SUCCESS);
+		return (SUCCESS);
 	setup_fds(cmd);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(DEBUG, "executing %s", cmd->bin);
-	cmd->status = try_exec_path(cmd, envp_array);
-	cmd->status = EXIT_MASK | cmd->status;
-	return (EXIT_FAILURE);
+	execve(cmd->bin, cmd->args, envp_array);
+	log_msg(ERROR, "execve: %s: %s", cmd->bin, strerror(errno));
+	cmd->status = EXIT_MASK | 1;
+	return (FAILURE);
 }
