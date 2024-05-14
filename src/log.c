@@ -6,12 +6,12 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:15:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 15:58:33 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 00:02:38 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
 #include "../includes/errprintf.h"
+#include "../includes/minishell.h"
 
 // printing on stderr because stdout could be redirected
 int	log_msg(t_log_level level, char *msg, ...)
@@ -21,7 +21,7 @@ int	log_msg(t_log_level level, char *msg, ...)
 	if (level <= LOG_LEVEL)
 	{
 		if (PRINT_LOG_LEVEL)
-		{	
+		{
 			if (level == ERROR)
 				errprintf("\033[41;37m ERORR \033[0m ");
 			else if (level == WARNING)

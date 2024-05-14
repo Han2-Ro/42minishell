@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 23:46:24 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 00:02:53 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	process_token(t_token *token, t_cmd **cmd)
 	else if (token->type == PIPE)
 	{
 		if ((*cmd) == NULL || (*cmd)->args == NULL)
-			return (log_msg(ERROR, "Syntax Error cmd or args is null"), FAILURE);
+			return (log_msg(ERROR, "Syntax Error cmd or args is null"),
+				FAILURE);
 		*cmd = NULL;
 	}
 	return (SUCCESS);

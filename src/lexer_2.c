@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/14 23:37:06 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 00:03:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ t_token	*lex_arg(const char *line, unsigned int *i)
 	return (token);
 }
 
-
 static t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 {
 	int	j;
 
 	j = 0;
-	while(redir_str[j] == redir_str[0] && j < 2)
+	while (redir_str[j] == redir_str[0] && j < 2)
 		j++;
 	if (redir_str[0] == '>' && redir_str[1] == '>' && !ft_strchr("<>",
 			redir_str[2]))
