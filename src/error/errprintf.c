@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:38:56 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 15:05:29 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:44:39 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ int	errprintf(const char *str, ...)
 	return (c_count);
 }
 
-
 int	verrprintf(const char *str, va_list args)
 {
-	int		c_count;
+	int	c_count;
 
 	if (!str)
 		return (-1);

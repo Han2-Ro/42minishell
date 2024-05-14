@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 17:26:07 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 15:01:03 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:44:57 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 
 int		errprintf(const char *str, ...);
-int     verrprintf(const char *str, va_list args);
+int		verrprintf(const char *str, va_list args);
 
 int		errprint_c(char c);
 int		errprint_s(char *s);
