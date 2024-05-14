@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/05/14 23:49:27 by aprevrha         ###   ########.fr       */
+/*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
+/*   Updated: 2024/05/15 00:10:17 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -46,7 +45,6 @@
 
 # define MSG_WRONG_ARGC "wrong number of arguments"
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
-
 
 # ifndef PRINT_LOG_LEVEL
 #  define PRINT_LOG_LEVEL true
