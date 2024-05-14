@@ -36,7 +36,11 @@ src/utils/free_utils.c \
 src/utils/list_utils_1.c \
 src/utils/list_utils_2.c \
 src/utils/list_utils_3.c \
-src/utils/utils.c
+src/utils/utils.c \
+src/error/errprintf.c \
+src/error/errprint_c.c \
+src/error/errprint_i.c \
+src/error/errprint_s.c 
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
@@ -55,6 +59,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/execution
 	mkdir -p $(OBJ_DIR)/utils
 	mkdir -p $(OBJ_DIR)/expander
+	mkdir -p $(OBJ_DIR)/error
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
