@@ -60,12 +60,6 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(TEST_DIR)/bin:
-	mkdir $@
-
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
-
 clean:
 	make clean -C ./libft
 	$(RM) $(OBJ_DIR)
