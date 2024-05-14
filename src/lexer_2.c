@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 16:58:38 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/15 00:03:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ t_token	*lex_arg(const char *line, unsigned int *i)
 
 static t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 {
+	int	j;
+
+	j = 0;
+	while (redir_str[j] == redir_str[0] && j < 2)
+		j++;
 	if (redir_str[0] == '>' && redir_str[1] == '>' && !ft_strchr("<>",
 			redir_str[2]))
 		return (*i += 2, R_APPEND);
@@ -86,7 +91,7 @@ static t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 		return (*i += 2, R_HEREDOC);
 	else if (redir_str[0] == '<' && !ft_strchr("<>", redir_str[1]))
 		return (*i += 1, R_IN);
-	return (log_msg(ERROR, "Wrong redirect syntax!"), NOTDEF);
+	return (log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, redir_str[j]), NOTDEF);
 	skip_until(redir_str, i, "<>", false);
 }
 

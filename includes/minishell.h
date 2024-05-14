@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 22:11:41 by hrother          ###   ########.fr       */
+/*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
+/*   Updated: 2024/05/15 00:10:17 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@
 # define EXIT_MASK 0x00000100
 
 # define MSG_WRONG_ARGC "wrong number of arguments"
+# define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
+
+# ifndef PRINT_LOG_LEVEL
+#  define PRINT_LOG_LEVEL true
+# endif
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
@@ -117,7 +122,7 @@ typedef struct s_cmd
 int					exec_cmd_list(t_list *cmd_list, t_evars *evars);
 
 // lexer.c
-t_list				*lexer(const char *line);
+t_list				*lexer(const char *line, int *status);
 
 // list_utils.c
 void				ft_lstadd_back(t_list **lst, t_list *new);

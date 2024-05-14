@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/14 15:05:52 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 23:33:00 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	add_token(t_list **token_lst, const char *line, unsigned int *i,
 	token = lex(line, i);
 	if (!token)
 	{
-		log_msg(ERROR, "Error lexing token %s:%i", __FILE__, __LINE__);
 		ft_lstclear(token_lst, free_token);
 		return (EXIT_FAILURE);
 	}
@@ -73,7 +72,7 @@ int	lex_next(const char *line, unsigned int *i,
 	return (SUCCESS);
 }
 
-t_list	*lexer(const char *line)
+t_list	*lexer(const char *line, int *status)
 {
 	unsigned int	line_len;
 	unsigned int	i;
@@ -88,7 +87,7 @@ t_list	*lexer(const char *line)
 		if (!line[i])
 			break ;
 		if (lex_next(line, &i, &token_lst) == FAILURE)
-			break ;
+			return (*status = 2, NULL);
 	}
 	return (token_lst);
 }
