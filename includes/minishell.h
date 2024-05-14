@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 18:05:26 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:21:03 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
 t_token				*new_token(t_token_type type, char *value);
+char				*read_next_line(int fd);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

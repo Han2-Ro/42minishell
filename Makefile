@@ -36,6 +36,7 @@ src/utils/free_utils.c \
 src/utils/list_utils_1.c \
 src/utils/list_utils_2.c \
 src/utils/list_utils_3.c \
+src/utils/read_next_line.c \
 src/utils/utils.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
@@ -58,12 +59,6 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
-
-$(TEST_DIR)/bin:
-	mkdir $@
-
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
 
 clean:
 	make clean -C ./libft
