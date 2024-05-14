@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/09 13:30:27 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:38:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	process_token(t_token *token, t_cmd **cmd)
 		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
 	{
-		(*cmd)->bin = (*cmd)->args[0];
 		if ((*cmd) == NULL || (*cmd)->args == NULL)
 			return (log_msg(ERROR, "Syntax Error"), FAILURE);
 		*cmd = NULL;
@@ -129,6 +128,5 @@ t_list	*parse(t_list *tokens)
 	if (new_command == NULL || new_command->args == NULL)
 		return (ft_lstclear(&commands, free_cmd), log_msg(ERROR,
 				"Syntax Error"), NULL);
-	new_command->bin = new_command->args[0];
 	return (commands);
 }

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:55:50 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/11 16:21:05 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:05:31 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	replace_dollar(char **str, int i, const t_evars evars)
 	else if ((*str)[i + 1] == '?')
 		new_value = expand_status(*str, i, evars.status, &expand_len);
 	else
-		new_value = expand_var(*str, i, evars.envp, &expand_len);
+		new_value = expand_var(*str, i, evars.envl, &expand_len);
 	free(*str);
 	*str = new_value;
 	if (!new_value)

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 14:21:03 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:05:58 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,9 @@ typedef struct s_env
 	char			*value;
 }					t_env;
 
-typedef struct s_expand_info
-{
-	char			*str;
-	unsigned int	i;
-	unsigned int	var_idx;
-	int				quote;
-	t_list			*envp;
-	int				status;
-}					t_expand_info;
-
 typedef struct s_evars
 {
-	t_list			*envp;
+	t_list			*envl;
 	int				status;
 	int				tty;
 }					t_evars;

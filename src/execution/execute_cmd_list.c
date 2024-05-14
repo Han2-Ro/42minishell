@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 16:53:48 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:51:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,25 @@ int	wait_pids(t_list *cmd_list)
 	return (SUCCESS);
 }
 
+void	free_exec_cmd_list(char **envp_array, t_list **cmd_list)
+{
+	free_nullterm_str_arr(envp_array);
+	ft_lstclear(cmd_list, free_cmd);
+}
+
 int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 {
 	t_list	*current_cmd;
+	char	**envp_array;
 
+	envp_array = envlst_to_envp(evars->envl);
 	if (setup_pipes(cmd_list) != EXIT_SUCCESS || redirs_to_fds(cmd_list,
 			evars) != EXIT_SUCCESS)
-		return (ft_lstclear(&cmd_list, free_cmd), EXIT_FAILURE);
+		return (free_exec_cmd_list(envp_array, &cmd_list), EXIT_FAILURE);
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
-		exec_cmd((t_cmd *)current_cmd->content, cmd_list, evars);
+		exec_cmd((t_cmd *)current_cmd->content, cmd_list, evars, envp_array);
 		if (((t_cmd *)current_cmd->content)->pid == 0)
 			break ;
 		if (current_cmd->next == NULL)
@@ -69,6 +77,6 @@ int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 	ft_lstiter(cmd_list, close_fds);
 	wait_pids(cmd_list);
 	evars->status = ((t_cmd *)current_cmd->content)->status;
-	ft_lstclear(&cmd_list, free_cmd);
+	free_exec_cmd_list(envp_array, &cmd_list);
 	return (EXIT_SUCCESS);
 }
