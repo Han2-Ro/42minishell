@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 14:51:55 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 21:42:56 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ char	*path_to_bin(char *cmd, t_list *envp)
 	while (folders && folders[i])
 	{
 		path = build_path(folders[i], cmd);
-		log_msg(DEBUG, "Checking path: %s", path);
-		if (access(path, X_OK) == 0)
+		if (path && access(path, X_OK) == 0)
 			return (free_nullterm_str_arr(folders), path);
 		free(path);
 		i++;
