@@ -40,7 +40,8 @@ src/utils/utils.c \
 src/error/errprintf.c \
 src/error/errprint_c.c \
 src/error/errprint_i.c \
-src/error/errprint_s.c 
+src/error/errprint_s.c \
+src/utils/read_next_line.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
@@ -63,12 +64,6 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
-
-$(TEST_DIR)/bin:
-	mkdir $@
-
-$(TEST_DIR)/bin/%: $(TEST_DIR)/%.c $(LIB) $(TEST_DIR)/bin
-	$(CC) $(CFLAGS) $< -o $@ -L. -lminishell -lreadline -L./libft -lft
 
 clean:
 	make clean -C ./libft

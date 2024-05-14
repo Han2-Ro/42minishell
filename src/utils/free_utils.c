@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/06 21:24:31 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:53:32 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_nullterm_str_arr(char **strs)
 {
 	int	i;
 
+	if (!strs)
+		return ;
 	i = 0;
 	while (strs[i] != NULL)
 	{
