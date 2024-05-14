@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/14 16:05:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 23:28:32 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	process_line(char *line, t_evars *evars)
 	t_list	*token_lst;
 	t_list	*cmd_lst;
 
-	token_lst = lexer(line);
+	token_lst = lexer(line, &(evars->status));
+	if (!token_lst)
+		return (evars->status);
 	expand_token_list(&token_lst, *evars);
 	if (!token_lst)
 		log_msg(DEBUG, "Lex: token list null");
