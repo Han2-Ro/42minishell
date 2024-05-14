@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:00:29 by hrother           #+#    #+#             */
-/*   Updated: 2024/04/30 18:03:22 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:12:01 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ int	builtin_env(const t_cmd *cmd, t_list **envp)
 {
 	t_env	*env;
 	t_list	*current;
+	int		argc;
 
-	(void)cmd;
+	argc = 0;
+	while (cmd->args[argc] != NULL)
+		argc++;
+	if (argc > 1)
+	{
+		log_msg(ERROR, "env: " MSG_WRONG_ARGC);
+		return (1);
+	}
 	current = *envp;
 	while (current != NULL)
 	{

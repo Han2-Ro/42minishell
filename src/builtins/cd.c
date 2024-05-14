@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/13 17:34:39 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/14 22:11:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	builtin_cd(const t_cmd *cmd, t_list **envp)
 
 	if (!cmd->args || !cmd->args[0] || !cmd->args[1] || cmd->args[2])
 	{
-		log_msg(ERROR, "cd: wrong usage");
+		log_msg(ERROR, "cd: " MSG_WRONG_ARGC);
 		return (EXIT_FAILURE);
 	}
 	old_cwd = getcwd(NULL, 0);

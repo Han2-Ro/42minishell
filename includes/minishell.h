@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:13:22 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 16:05:58 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:11:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 
 # define STATUS_MASK 0x000000ff
 # define EXIT_MASK 0x00000100
+
+# define MSG_WRONG_ARGC "wrong number of arguments"
 
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
