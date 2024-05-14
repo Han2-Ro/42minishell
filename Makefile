@@ -36,6 +36,7 @@ src/utils/free_utils.c \
 src/utils/list_utils_1.c \
 src/utils/list_utils_2.c \
 src/utils/list_utils_3.c \
+src/utils/read_next_line.c \
 src/utils/utils.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
