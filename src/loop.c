@@ -42,7 +42,6 @@ int	process_line(char *line, t_evars *evars)
 	cmd_lst = parse(token_lst);
 	if (!cmd_lst)
 	{
-		log_msg(ERROR, "PARSE error");
 		ft_lstclear(&token_lst, free_token);
 		return (2);
 	}
