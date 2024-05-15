@@ -37,6 +37,7 @@ src/utils/list_utils_1.c \
 src/utils/list_utils_2.c \
 src/utils/list_utils_3.c \
 src/utils/utils.c \
+src/utils/vstrjoin.c \
 src/error/errprintf.c \
 src/error/errprint_c.c \
 src/error/errprint_i.c \
