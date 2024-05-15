@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/14 23:28:32 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 17:41:32 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	process_line(char *line, t_evars *evars)
 	cmd_lst = parse(token_lst);
 	if (!cmd_lst)
 	{
-		log_msg(ERROR, "PARSE error");
 		ft_lstclear(&token_lst, free_token);
 		return (2);
 	}
