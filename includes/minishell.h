@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 00:10:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:36:33 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
 t_token				*new_token(t_token_type type, char *value);
 char				*read_next_line(int fd);
+char				*vstrjoin(int nbr_of_strs, ...);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

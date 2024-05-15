@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 16:33:20 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/15 21:03:11 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	free_token(void *content)
 	token = (t_token *)content;
 	free(token->value);
 	free(token);
+}
+
+/**
+ * @brief This function does nothing: Useful for ft_lstclear
+ */
+void	pass(void *content)
+{
+	(void)content;
 }
 
 void	free_cmd(void *content)
