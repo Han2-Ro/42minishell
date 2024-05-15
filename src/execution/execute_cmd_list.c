@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 21:51:53 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/14 22:32:06 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 	char	**envp_array;
 
 	envp_array = envlst_to_envp(evars->envl);
-	if (setup_pipes(cmd_list) != EXIT_SUCCESS || redirs_to_fds(cmd_list,
-			evars) != EXIT_SUCCESS)
-		return (free_exec_cmd_list(envp_array, &cmd_list), EXIT_FAILURE);
+	if (setup_pipes(cmd_list) != SUCCESS || redirs_to_fds(cmd_list,
+			evars) != SUCCESS)
+		return (free_exec_cmd_list(envp_array, &cmd_list), FAILURE);
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
@@ -78,5 +78,5 @@ int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 	wait_pids(cmd_list);
 	evars->status = ((t_cmd *)current_cmd->content)->status;
 	free_exec_cmd_list(envp_array, &cmd_list);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
