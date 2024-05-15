@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/15 00:02:53 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/15 17:39:43 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	process_token(t_token *token, t_cmd **cmd)
 		return (add_redirect(*cmd, token));
 	else if (token->type == PIPE)
 	{
-		if ((*cmd) == NULL || (*cmd)->args == NULL)
-			return (log_msg(ERROR, "Syntax Error cmd or args is null"),
+		if ((*cmd)->args[0] == NULL && (*cmd)->redirects == NULL)
+			return (log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, '|'),
 				FAILURE);
 		*cmd = NULL;
 	}
