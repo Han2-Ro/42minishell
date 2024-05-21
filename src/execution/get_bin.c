@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/21 12:43:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/21 13:17:18 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*path_to_bin(char *cmd, t_list *envp)
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
 		else
-			return (NULL);
+			return (log_msg(ERROR, "%s: no such file or directory", cmd), NULL);
 	}
 	folders = get_envpath(envp);
 	i = 0;
