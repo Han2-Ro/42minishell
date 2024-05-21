@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/15 17:39:43 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:50:00 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	process_token(t_token *token, t_cmd **cmd)
 	else if (token->type == PIPE)
 	{
 		if ((*cmd)->args[0] == NULL && (*cmd)->redirects == NULL)
-			return (log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, '|'),
-				FAILURE);
+			return (log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, '|'), FAILURE);
 		*cmd = NULL;
 	}
 	return (SUCCESS);
@@ -129,5 +128,6 @@ t_list	*parse(t_list *tokens)
 	if (new_command == NULL || new_command->args == NULL)
 		return (ft_lstclear(&commands, free_cmd), log_msg(ERROR,
 				"Syntax Error"), NULL);
+	set_is_pipeline(commands);
 	return (commands);
 }

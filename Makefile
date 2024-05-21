@@ -42,6 +42,7 @@ src/error/errprintf.c \
 src/error/errprint_c.c \
 src/error/errprint_i.c \
 src/error/errprint_s.c \
+src/utils/utils_2.c \
 src/utils/read_next_line.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
