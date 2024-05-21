@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/13 18:02:50 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 	}
 	else
 	{
+		if (dont_run(cmd))
+			return (SUCCESS);
 		i = 1;
 		while (cmd->args[i])
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/15 19:50:48 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,9 @@ static int	get_exit_status(const char *nptr)
 	return (2);
 }
 
-// TODO: check if the argument is a 8-bit number
-// TODO: free everthing before exit
 int	builtin_exit(const t_cmd *cmd, int status)
 {
-	if (cmd->fd_in > 2 || cmd->fd_out > 2)
+	if (dont_run(cmd))
 		return (0);
 	ft_putendl_fd("exit", STDERR_FILENO);
 	log_msg(DEBUG, "executing builtin_exit");

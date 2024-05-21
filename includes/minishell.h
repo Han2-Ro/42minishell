@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 19:36:33 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:16:47 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
 
 # ifndef PRINT_LOG_LEVEL
-#  define PRINT_LOG_LEVEL true
+#  define PRINT_LOG_LEVEL false
 # endif
 
 # ifndef LOG_LEVEL
@@ -116,6 +116,7 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				pid;
+	int				is_pipeline;
 	int				status;
 }					t_cmd;
 
@@ -176,6 +177,7 @@ void				print_token_new(void *p_tkn);
 int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
+bool				fd_is_pipe(int fd);
 t_cmd				*new_cmd(char *bin, char **args);
 void				free_token(void *content);
 void				free_cmd(void *content);
@@ -191,6 +193,8 @@ void				skip_until(const char *str, unsigned int *i,
 t_token				*new_token(t_token_type type, char *value);
 char				*read_next_line(int fd);
 char				*vstrjoin(int nbr_of_strs, ...);
+void				set_is_pipeline(t_list *cmds);
+bool				dont_run(const t_cmd *cmd);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);
