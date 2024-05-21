@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 21:08:07 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/22 01:32:38 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,6 @@ int	process_line(char *line, t_evars *evars)
 	return (evars->status);
 }
 
-char	*get_prompt(t_evars *evars)
-{
-	char	*prompt;
-	char	*temp;
-	char	*pwd;
-	char	*home;
-	char	*end;
-
-	end = "\033[32m > \033[0m";
-	if (evars->status != 0)
-		end = "\033[31m > \033[0m";
-	prompt = NULL;
-	pwd = get_envvalue(evars->envl, "PWD");
-	home = get_envvalue(evars->envl, "HOME");
-	temp = pwd;
-	if (!ft_strncmp(home, pwd, ft_strlen(home)))
-	{
-		temp += ft_strlen(home);
-		prompt = vstrjoin(3, "\033[36m~", temp, end);
-	}
-	else
-		prompt = vstrjoin(3, "\033[36m", temp, end);
-	return (prompt);
-}
-
 char	*get_line(t_evars *evars)
 {
 	char	*line;
@@ -106,8 +81,8 @@ int	shell_loop(t_list *env_list, int tty)
 	evars.envl = env_list;
 	while (1)
 	{
-		line = get_line(&evars);
 		idle_signals();
+		line = get_line(&evars);
 		if (!line)
 			break ;
 		if (!*line)
