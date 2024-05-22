@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:46:16 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	builtin_exit(const t_cmd *cmd, int status)
 {
 	if (dont_run(cmd))
 		return (0);
-	ft_putendl_fd("exit", STDERR_FILENO);
 	log_msg(DEBUG, "executing builtin_exit");
 	if (cmd->args[1] != NULL && cmd->args[2] != NULL)
 	{

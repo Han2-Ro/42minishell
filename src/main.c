@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/12 23:14:13 by hannes           ###   ########.fr       */
+/*   Updated: 2024/05/22 14:46:39 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int	main(int argc, char const *argv[], char *envp[])
 		return (FAILURE);
 	exit_status = shell_loop(envp_lst, tty);
 	ft_lstclear(&envp_lst, free_env);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	return (exit_status);
 }
