@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:55:25 by hannes            #+#    #+#             */
-/*   Updated: 2024/05/08 11:49:56 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	builtin_unset(const t_cmd *cmd, t_list **envp)
 {
 	int	i;
 
+	if (dont_run(cmd))
+		return (SUCCESS);
 	i = 1;
 	while (cmd->args[i] != NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 00:10:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:18:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@
 
 # define MSG_WRONG_ARGC "wrong number of arguments"
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
+# define MSG_EOF "warning: here-document delimited by end-of-file (wanted `%s')"
 
 # ifndef PRINT_LOG_LEVEL
-#  define PRINT_LOG_LEVEL true
+#  define PRINT_LOG_LEVEL false
 # endif
 
 # ifndef LOG_LEVEL
@@ -116,6 +117,7 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				pid;
+	int				is_pipeline;
 	int				status;
 }					t_cmd;
 
@@ -176,6 +178,7 @@ void				print_token_new(void *p_tkn);
 int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
+bool				fd_is_pipe(int fd);
 t_cmd				*new_cmd(char *bin, char **args);
 void				free_token(void *content);
 void				free_cmd(void *content);
@@ -190,6 +193,11 @@ void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
 t_token				*new_token(t_token_type type, char *value);
 char				*read_next_line(int fd);
+char				*vstrjoin(int nbr_of_strs, ...);
+void				set_is_pipeline(t_list *cmds);
+bool				dont_run(const t_cmd *cmd);
+
+char				*get_prompt(t_evars *evars);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);

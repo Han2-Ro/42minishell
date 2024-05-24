@@ -37,11 +37,14 @@ src/utils/list_utils_1.c \
 src/utils/list_utils_2.c \
 src/utils/list_utils_3.c \
 src/utils/utils.c \
+src/utils/utils_2.c \
+src/utils/read_next_line.c \
+src/utils/prompt_utils.c \
+src/utils/vstrjoin.c \
 src/error/errprintf.c \
 src/error/errprint_c.c \
 src/error/errprint_i.c \
-src/error/errprint_s.c \
-src/utils/read_next_line.c
+src/error/errprint_s.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 

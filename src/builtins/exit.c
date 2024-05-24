@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/11 16:37:45 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	ft_isspace(int c)
 {
-	if ((c == ' ') || (c == '\f') || (c == '\n')
-		|| (c == '\r') || (c == '\t') || (c == '\v'))
+	if ((c == ' ') || (c == '\f') || (c == '\n') || (c == '\r') || (c == '\t')
+		|| (c == '\v'))
 		return (1);
 	else
 		return (0);
@@ -64,13 +64,11 @@ static int	get_exit_status(const char *nptr)
 	return (2);
 }
 
-// TODO: check if the argument is a 8-bit number
-// TODO: free everthing before exit
 int	builtin_exit(const t_cmd *cmd, int status)
 {
-	if (cmd->fd_in > 2 || cmd->fd_out > 2)
+	if (dont_run(cmd))
 		return (0);
-	printf("exit\n");
+	ft_putendl_fd("exit", STDERR_FILENO);
 	log_msg(DEBUG, "executing builtin_exit");
 	if (cmd->args[1] != NULL && cmd->args[2] != NULL)
 	{
