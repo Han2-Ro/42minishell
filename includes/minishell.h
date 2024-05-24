@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 15:37:44 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/24 19:18:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@
 
 # define MSG_WRONG_ARGC "wrong number of arguments"
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
-# define MSG_HEREDOC_EOF                 \
-	"warning: here-document delimited " \
-	"by end-of-file (wanted `%s')"
+# define MSG_EOF "warning: here-document delimited by end-of-file (wanted `%s')"
 
 # ifndef PRINT_LOG_LEVEL
 #  define PRINT_LOG_LEVEL false
