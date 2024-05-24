@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/24 19:18:48 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/24 20:04:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ char				*get_prompt(t_evars *evars);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);
-int					shell_loop(t_list *envp, int tty);
+int					shell_loop(t_evars *evars);
 
 // signals.c
 int					idle_signals(void);
