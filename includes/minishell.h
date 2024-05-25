@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/24 19:18:48 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/25 10:46:28 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ char				*vstrjoin(int nbr_of_strs, ...);
 void				set_is_pipeline(t_list *cmds);
 bool				dont_run(const t_cmd *cmd);
 
-char				*get_prompt(t_evars *evars);
+int					get_prompt(t_evars *evars, char *buf, size_t len);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);
