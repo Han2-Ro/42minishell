@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/25 19:10:32 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:20:34 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char const *argv[], char *envp[])
 		return (1);
 	exit_status = shell_loop(&evars);
 	ft_lstclear(&evars.envl, free_env);
-	ft_putendl_fd("exit", STDERR_FILENO);
+    if (evars.tty)
+	    ft_putendl_fd("exit", STDERR_FILENO);
 	return (exit_status);
 }
