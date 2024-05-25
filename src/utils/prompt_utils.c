@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 01:11:27 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 10:45:49 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_prompt(t_evars *evars)
+int	get_prompt(t_evars *evars, char *buf, size_t len)
 {
-	char	*prompt;
 	char	*temp;
 	char	*pwd;
 	char	*home;
@@ -23,18 +22,20 @@ char	*get_prompt(t_evars *evars)
 	end = "\033[32m > \033[0m";
 	if (evars->status != 0)
 		end = "\033[31m > \033[0m";
-	prompt = NULL;
+	ft_bzero(buf, len);
 	pwd = get_envvalue(evars->envl, "PWD");
 	home = get_envvalue(evars->envl, "HOME");
 	temp = pwd;
+	ft_strlcat(buf, "\033[36m~", len);
 	if (home && pwd && !ft_strncmp(home, pwd, ft_strlen(home)))
 	{
 		temp += ft_strlen(home);
-		prompt = vstrjoin(3, "\033[36m~", temp, end);
+		ft_strlcat(buf, temp, len);
 	}
 	else if (pwd)
-		prompt = vstrjoin(3, "\033[36m", pwd, end);
+		ft_strlcat(buf, pwd, len);
 	else
-		prompt = vstrjoin(3, "\033[1;36m", "爪丨几丨丂卄乇ㄥㄥ\33[22m", end);
-	return (prompt);
+		ft_strlcat(buf, "爪丨几丨丂卄乇ㄥㄥ\33[22m", len);
+	ft_strlcat(buf, end, len);
+	return (SUCCESS);
 }

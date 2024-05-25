@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 15:24:07 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/25 10:48:48 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,13 @@ int	process_line(char *line, t_evars *evars)
 char	*get_line(t_evars *evars)
 {
 	char	*line;
-	char	*prompt;
+	char	prompt[1024];
 
-	prompt = NULL;
 	if (evars->tty)
-		prompt = get_prompt(evars);
-	if (prompt)
+		get_prompt(evars, prompt, 1024);
+	if (prompt[0])
 	{
 		line = ft_readline(prompt, evars->tty);
-		free(prompt);
 	}
 	else
 		line = ft_readline(PROMPT, evars->tty);
