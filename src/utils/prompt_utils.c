@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 01:11:27 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:35:39 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ char	*get_prompt(t_evars *evars)
 	char	*home;
 	char	*end;
 
-	end = "\033[32m > \033[0m";
+	end = "\001\033[32m\002 > \001\033[0m\002";
 	if (evars->status != 0)
-		end = "\033[31m > \033[0m";
+		end = "\001\033[31m\002 > \001\033[0m\002";
 	prompt = NULL;
 	pwd = get_envvalue(evars->envl, "PWD");
 	home = get_envvalue(evars->envl, "HOME");
@@ -30,11 +30,11 @@ char	*get_prompt(t_evars *evars)
 	if (home && pwd && !ft_strncmp(home, pwd, ft_strlen(home)))
 	{
 		temp += ft_strlen(home);
-		prompt = vstrjoin(3, "\033[36m~", temp, end);
+		prompt = vstrjoin(3, "\001\033[36m\002~", temp, end);
 	}
 	else if (pwd)
-		prompt = vstrjoin(3, "\033[36m", pwd, end);
+		prompt = vstrjoin(3, "\001\033[36m\002", pwd, end);
 	else
-		prompt = vstrjoin(3, "\033[1;36m", "爪丨几丨丂卄乇ㄥㄥ\33[22m", end);
+		prompt = vstrjoin(3, "\001\033[1;36m\002", "爪丨几丨丂卄乇ㄥㄥ\001\33[22m\002", end);
 	return (prompt);
 }
