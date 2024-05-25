@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/22 14:46:39 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 19:10:32 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ void	clear_gnl_buf(void)
 
 int	main(int argc, char const *argv[], char *envp[])
 {
-	t_list	*envp_lst;
 	int		exit_status;
-	int		tty;
+	t_evars	evars;
 
 	(void)argc;
 	(void)argv;
-	tty = isatty(STDIN_FILENO);
-	if (tty == -1)
+	evars.status = 0;
+	evars.tty = isatty(STDIN_FILENO);
+	if (evars.tty == -1)
 		return (1);
-	envp_lst = envp_to_list(envp);
-	if (!envp_lst)
-		return (FAILURE);
-	exit_status = shell_loop(envp_lst, tty);
-	ft_lstclear(&envp_lst, free_env);
+	evars.envl = envp_to_list(envp);
+	if (!evars.envl)
+		return (1);
+	exit_status = shell_loop(&evars);
+	ft_lstclear(&evars.envl, free_env);
 	ft_putendl_fd("exit", STDERR_FILENO);
 	return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 00:48:55 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:04:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 
 # define MSG_WRONG_ARGC "wrong number of arguments"
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
+# define MSG_EOF "warning: here-document delimited by end-of-file (wanted `%s')"
 
 # ifndef PRINT_LOG_LEVEL
 #  define PRINT_LOG_LEVEL false
@@ -200,7 +201,7 @@ char				*get_prompt(t_evars *evars);
 
 // loop.c
 char				*ft_readline(char *prompt, int tty);
-int					shell_loop(t_list *envp, int tty);
+int					shell_loop(t_evars *evars);
 
 // signals.c
 int					idle_signals(void);
