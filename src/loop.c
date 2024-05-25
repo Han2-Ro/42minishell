@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 15:24:07 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/25 18:46:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,25 @@ char	*get_line(t_evars *evars)
 	return (line);
 }
 
-int	shell_loop(t_list *env_list, int tty)
+int	shell_loop(t_evars *evars)
 {
 	char	*line;
-	t_evars	evars;
 
-	evars.status = 0;
-	evars.tty = tty;
-	evars.envl = env_list;
 	while (1)
 	{
 		idle_signals();
-		line = get_line(&evars);
+		line = get_line(evars);
 		if (!line)
 			break ;
 		if (!*line)
 			continue ;
-		if (tty)
+		if (evars->tty)
 			add_history(line);
-		evars.status = process_line(line, &evars);
+		evars->status = process_line(line, evars);
 		free(line);
-		if (evars.status & EXIT_MASK)
+		if (evars->status & EXIT_MASK)
 			break ;
 	}
 	rl_clear_history();
-	return (evars.status & STATUS_MASK);
+	return (evars->status & STATUS_MASK);
 }
