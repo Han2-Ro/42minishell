@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/24 20:04:42 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 18:46:36 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*get_line(t_evars *evars)
 int	shell_loop(t_evars *evars)
 {
 	char	*line;
+
 	while (1)
 	{
 		idle_signals();
