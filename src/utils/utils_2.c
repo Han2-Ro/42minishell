@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/21 15:50:15 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:50:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	fd_is_pipe(int fd)
 }
 
 /**
- * @brief This is only used in exit,
+ * @brief This is only used in exit, cd,
 	export and unset to see if we should not run a command
  */
 bool	dont_run(const t_cmd *cmd)
