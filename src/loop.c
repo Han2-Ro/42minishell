@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/26 17:08:47 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:32:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	process_line(char *line, t_evars *evars)
 	if (!cmd_lst)
 		return (ft_lstclear(&token_lst, free_token), 2);
 	ft_lstiter(cmd_lst, print_cmd);
-	active_signals();
 	exec_cmd_list(cmd_lst, evars);
 	log_msg(DEBUG, "status: %i", evars->status);
 	ft_lstclear(&token_lst, free_token);
@@ -79,10 +78,11 @@ int	shell_loop(t_evars *evars)
 		line = get_line(evars);
 		if (!line)
 			break ;
-		if (!*line)
-			continue ;
-		if (evars->tty)
+		if (evars->tty && *line)
 			add_history(line);
+		if (g_signal)
+			evars->status = g_signal + 128;
+		g_signal = 0;
 		evars->status = process_line(line, evars);
 		free(line);
 		if (evars->status & EXIT_MASK)

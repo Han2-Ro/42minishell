@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/26 17:12:03 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:32:43 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <sys/ioctl.h>
+
+int		g_signal;
 
 // log_msg(INFO, "I S: %i", sig_num);
 void	idle_signal_handler(int sig_num)
@@ -23,6 +25,7 @@ void	idle_signal_handler(int sig_num)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
+	g_signal = sig_num;
 }
 
 int	idle_signals(void)

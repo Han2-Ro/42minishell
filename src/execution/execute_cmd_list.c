@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/26 17:08:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:31:59 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	wait_pids(t_list *cmd_list)
 {
 	t_list	*tmp;
 	t_cmd	*cmd;
+	int		stat;
 
 	tmp = cmd_list;
 	while (tmp != NULL)
@@ -41,8 +42,11 @@ int	wait_pids(t_list *cmd_list)
 		log_msg(DEBUG, "waiting for pid: %d", cmd->pid);
 		if (((t_cmd *)tmp->content)->pid > 0)
 		{
-			waitpid(cmd->pid, &((t_cmd *)tmp->content)->status, 0);
-			cmd->status = WEXITSTATUS(((t_cmd *)tmp->content)->status);
+			waitpid(cmd->pid, &stat, 0);
+			if (WIFEXITED(stat))
+				cmd->status = WEXITSTATUS(stat);
+			else if (WIFSIGNALED(stat))
+				cmd->status = 128 + WTERMSIG(stat);
 		}
 		tmp = tmp->next;
 	}
@@ -64,6 +68,7 @@ int	exec_cmd_list(t_list *cmd_list, t_evars *evars)
 	if (setup_pipes(cmd_list) != SUCCESS || redirs_to_fds(cmd_list, evars,
 			0) != SUCCESS || redirs_to_fds(cmd_list, evars, 1) != SUCCESS)
 		return (free_exec_cmd_list(envp_array, &cmd_list), FAILURE);
+	active_signals();
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
