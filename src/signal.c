@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/26 16:16:08 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 17:07:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	idle_signal_handler(int sig_num)
 void	active_signal_handler(int sig_num)
 {
 	(void)sig_num;
-	log_msg(DEBUG, "signal recived by active_signal_handler");
+	// log_msg(DEBUG, "signal recived by active_signal_handler");
 	// ft_putchar_fd('\n', STDIN_FILENO);
 }
 
@@ -85,7 +85,7 @@ int	active_signals(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = active_signal_handler;
+	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) == -1)
