@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/21 15:17:54 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:14:50 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	*new_token(t_token_type type, char *value)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);
+		return (free(value), NULL);
 	token->type = type;
 	token->value = value;
 	return (token);

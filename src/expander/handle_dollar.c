@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:55:50 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 16:05:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 14:09:09 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	handle_dollar(t_list ***list, int *i, const t_evars evars,
 
 	token = (t_token *)(**list)->content;
 	len = replace_dollar(&token->value, *i, evars);
-	if (quote != 0 || (token->type != CMD && token->type != ARG))
+	if (quote != 0 || len < 0 || (token->type != CMD && token->type != ARG))
 	{
 		*i += len;
 		return ;

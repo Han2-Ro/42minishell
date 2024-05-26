@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 15:56:30 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/21 15:15:29 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:00:53 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ int	export_key_val_pair(const char *key_val_pair, t_list **envp)
 	if (split_key_val(key_val_pair, &key, &value) == FAILURE)
 		return (FAILURE);
 	if (!key_is_valid(key))
-		return (free(key), free(value), log_msg(ERROR, "invalid key '%s'", key),
-			FAILURE);
+		return (free(key), free(value), FAILURE);
 	return (export_env_var(envp, key, value));
 }
 
@@ -99,8 +98,8 @@ int	builtin_export(const t_cmd *cmd, t_list **envp)
 		while (cmd->args[i])
 		{
 			if (export_key_val_pair(cmd->args[i], envp) == FAILURE)
-				return (log_msg(ERROR, "Failed to export '%s'", cmd->args[i]),
-					1);
+				return (log_msg(ERROR, "export: `%s': not a valid identifier",
+						cmd->args[i]), 1);
 			i++;
 		}
 	}
