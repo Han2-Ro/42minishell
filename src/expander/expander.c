@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:49:00 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/22 15:20:23 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:51:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	expand_token(t_list ***list, const t_evars evars)
 		else
 			i++;
 		if (*list == NULL || **list == NULL || token->value == NULL)
-			return (FAILURE);
+			return (SUCCESS);
 	}
 	return (quote);
 }
