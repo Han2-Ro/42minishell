@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/22 01:31:49 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:16:08 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 // log_msg(INFO, "I S: %i", sig_num);
 void	idle_signal_handler(int sig_num)
 {
+	log_msg(DEBUG, "signal recived by idle_signal_handler");
 	if (sig_num == SIGINT)
 	{
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
@@ -28,7 +29,8 @@ void	idle_signal_handler(int sig_num)
 void	active_signal_handler(int sig_num)
 {
 	(void)sig_num;
-	ft_putchar_fd('\n', STDIN_FILENO);
+	log_msg(DEBUG, "signal recived by active_signal_handler");
+	// ft_putchar_fd('\n', STDIN_FILENO);
 }
 
 int	idle_signals(void)
@@ -52,6 +54,28 @@ int	idle_signals(void)
 	{
 		perror("sigaction");
 		log_msg(ERROR, "failed to register signal SIGQUIT");
+		return (1);
+	}
+	return (0);
+}
+
+int	reset_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		log_msg(ERROR, "failed to register signal SIGINT");
+		return (1);
+	}
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		log_msg(ERROR, "failed to register signal SIGINT");
 		return (1);
 	}
 	return (0);
