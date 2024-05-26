@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/22 15:02:43 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:14:00 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
 	if (cmd->pid > 0)
 		return (SUCCESS);
+	reset_signals();
 	setup_fds(cmd);
 	ft_lstiter(cmd_list, close_fds);
 	log_msg(DEBUG, "executing %s", cmd->bin);
