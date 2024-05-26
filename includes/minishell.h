@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/26 16:13:36 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:33:25 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@
 # define MSG_SYNTAX_ERR_NEAR "syntax error near unexpected token `%c'"
 # define MSG_EOF "warning: here-document delimited by end-of-file (wanted `%s')"
 
+# define INVALID_FILE 1
+# define HEREDOC_CANCLED 2
+
 # ifndef PRINT_LOG_LEVEL
 #  define PRINT_LOG_LEVEL false
 # endif
@@ -54,6 +57,8 @@
 # ifndef LOG_LEVEL
 #  define LOG_LEVEL INFO
 # endif
+
+extern int			g_signal;
 
 typedef enum token_type
 {

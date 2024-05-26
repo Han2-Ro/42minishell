@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/24 20:24:45 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/26 18:32:10 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,43 @@ int	redir_to_fd(const t_token *token, t_cmd *cmd, t_evars *evars, int fd)
 		open_file(token->value, O_RDONLY, &cmd->fd_in);
 	else if ((token->type == R_HEREDOC || token->type == R_QUOTEDOC)
 		&& fd == STDIN_FILENO)
-		here_doc(token, &cmd->fd_in, evars);
+	{
+		if (here_doc(token, &cmd->fd_in, evars) != SUCCESS)
+			return (HEREDOC_CANCLED);
+	}
 	else if (token->type == R_OUT && fd == STDOUT_FILENO)
 		open_file(token->value, O_WRONLY | O_CREAT | O_TRUNC, &cmd->fd_out);
 	else if (token->type == R_APPEND && fd == STDOUT_FILENO)
 		open_file(token->value, O_WRONLY | O_CREAT | O_APPEND, &cmd->fd_out);
 	if (cmd->fd_in < 0 || cmd->fd_out < 0)
-		return (FAILURE);
+		return (INVALID_FILE);
 	return (SUCCESS);
 }
 
 int	redirs_to_fds(t_list *cmd_list, t_evars *evars, int fd)
 {
-	t_list	*current_cmd;
 	t_list	*current_tkn;
 	t_cmd	*cmd;
+	int		redir_status;
 
-	current_cmd = cmd_list;
-	while (current_cmd != NULL)
+	while (cmd_list != NULL)
 	{
-		cmd = (t_cmd *)current_cmd->content;
+		cmd = (t_cmd *)(cmd_list->content);
 		current_tkn = cmd->redirects;
 		while (current_tkn != NULL)
 		{
-			if (redir_to_fd((t_token *)current_tkn->content, cmd, evars,
-					fd) != SUCCESS)
+			redir_status = redir_to_fd((t_token *)current_tkn->content, cmd,
+					evars, fd);
+			if (redir_status == INVALID_FILE)
 			{
 				cmd->status = 1;
 				break ;
 			}
+			if (redir_status == HEREDOC_CANCLED)
+				return (HEREDOC_CANCLED);
 			current_tkn = current_tkn->next;
 		}
-		current_cmd = current_cmd->next;
+		cmd_list = cmd_list->next;
 	}
 	return (SUCCESS);
 }
