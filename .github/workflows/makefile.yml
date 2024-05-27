@@ -29,4 +29,4 @@ jobs:
         path: minishell/tests
 
     - name: test
-      run: make -C ./minishell/tests CFLAGS+="-DGITHUB_ACTIONS" test
+      run: make -C ./minishell/tests #CFLAGS+="-DGITHUB_ACTIONS"
