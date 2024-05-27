@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:36:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 16:42:59 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:03:32 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/builtins.h"
+#include "builtins.h"
 
 int	is_builtin(const t_cmd *cmd)
 {

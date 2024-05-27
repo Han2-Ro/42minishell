@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vstrjoin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:41:35 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/15 21:07:46 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void	vstrjoin_2(int nbr_of_strs, int size, char *result, va_list args)
 {

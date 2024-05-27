@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 00:03:36 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:13:54 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 t_token	*lex_cmd(const char *line, unsigned int *i)
 {

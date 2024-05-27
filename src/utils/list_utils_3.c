@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:58:34 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/09 13:17:05 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @brief Insert a list into another list
@@ -29,7 +29,7 @@ void	ft_lstinsert(t_list *insert_after, t_list *list)
 /**
  * @brief Seemlessly delete one node of a list
 
-	* @brief Will not del anything if the the node to delete is 
+	* @brief Will not del anything if the the node to delete is
 	not within the list (head)
  */
 void	ft_lstrmvone(t_list **head, t_list *node, void (*del)(void *))

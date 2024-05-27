@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/26 16:14:00 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:16 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execution.h"
+#include "execution.h"
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>

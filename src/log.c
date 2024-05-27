@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 22:15:49 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/15 00:02:38 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:02:51 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/errprintf.h"
-#include "../includes/minishell.h"
+#include "errprintf.h"
+#include "minishell.h"
 
 // printing on stderr because stdout could be redirected
 int	log_msg(t_log_level level, char *msg, ...)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errprintf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 15:38:56 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 15:44:39 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:13 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/errprintf.h"
+#include "errprintf.h"
 
 int	ft_convert(const char *str, va_list args)
 {

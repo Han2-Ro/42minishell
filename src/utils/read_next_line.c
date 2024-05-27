@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 15:21:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 14:20:46 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	*read_next_line(int fd)
 {

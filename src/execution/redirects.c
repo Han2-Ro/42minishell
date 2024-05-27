@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 20:05:28 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/26 18:32:10 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:20 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/execution.h"
+#include "execution.h"
 
 int	open_file(const char *filename, int flags, int *fd)
 {

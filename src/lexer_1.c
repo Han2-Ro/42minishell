@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:59:26 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/15 17:27:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:01:49 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/lexer.h"
-#include "../includes/minishell.h"
-#include "../includes/errprintf.h"
+#include "errprintf.h"
+#include "lexer.h"
 #include <stdio.h>
 
 t_token	*lex_pipe(const char *line, unsigned int *i)
@@ -53,8 +52,7 @@ int	add_token(t_list **token_lst, const char *line, unsigned int *i,
 	return (EXIT_SUCCESS);
 }
 
-int	lex_next(const char *line, unsigned int *i,
-		t_list **token_lst)
+int	lex_next(const char *line, unsigned int *i, t_list **token_lst)
 {
 	int	fail;
 

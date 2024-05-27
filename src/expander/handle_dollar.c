@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:55:50 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/26 18:33:21 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:22 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/expander.h"
+#include "expander.h"
 
 char	*expand_status(char *str, int i, const int status, int *expand_len)
 {

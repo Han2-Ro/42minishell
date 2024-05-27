@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/21 13:17:18 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	**get_paths(char **envp)
 {
