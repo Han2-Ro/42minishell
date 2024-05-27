@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:41 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:30:42 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ static int	get_exit_status(const char *nptr)
 
 int	builtin_exit(const t_cmd *cmd, int status)
 {
-	if (dont_run(cmd))
-		return (0);
 	log_msg(DEBUG, "executing builtin_exit");
 	if (cmd->args[1] != NULL && cmd->args[2] != NULL)
 	{
@@ -78,5 +76,5 @@ int	builtin_exit(const t_cmd *cmd, int status)
 	{
 		status = get_exit_status(cmd->args[1]);
 	}
-	return (status | EXIT_MASK);
+	return ((status & STATUS_MASK) | EXIT_MASK);
 }

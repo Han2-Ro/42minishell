@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:16 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:39:32 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,45 @@ int	check_bin(char *bin)
 	return (SUCCESS);
 }
 
+int	exec_child(t_cmd *cmd, t_list *cmd_list, char **envp_array, t_evars *evars)
+{
+	evars->is_child = true;
+	reset_signals();
+	setup_fds(cmd);
+	ft_lstiter(cmd_list, close_fds);
+	if (is_builtin(cmd))
+	{
+		cmd->fd_in = STDIN_FILENO;
+		cmd->fd_out = STDOUT_FILENO;
+		cmd->status = exec_builtin(cmd, &evars->envl, evars->status);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		return (cmd->status);
+	}
+	log_msg(DEBUG, "executing %s", cmd->bin);
+	execve(cmd->bin, cmd->args, envp_array);
+	log_msg(ERROR, "execve: %s: %s", cmd->bin, strerror(errno));
+	cmd->status = EXIT_MASK | 1;
+	return (FAILURE);
+}
+
 int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 {
 	if (cmd->fd_in < 0 || cmd->fd_out < 0 || cmd->args[0] == NULL)
 		return (FAILURE);
 	if (is_builtin(cmd))
 	{
-		cmd->status = exec_builtin(cmd, &evars->envl, evars->status);
-		return (cmd->status);
+		if (cmd->is_pipeline == 0)
+		{
+			cmd->status = exec_builtin(cmd, &evars->envl, evars->status);
+			return (cmd->status);
+		}
 	}
-	cmd->bin = path_to_bin(cmd->args[0], evars->envl);
-	cmd->status = check_bin(cmd->bin);
+	else
+	{
+		cmd->bin = path_to_bin(cmd->args[0], evars->envl);
+		cmd->status = check_bin(cmd->bin);
+	}
 	if (cmd->status != SUCCESS)
 		return (cmd->status);
 	cmd->pid = fork();
@@ -81,12 +109,5 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
 	if (cmd->pid > 0)
 		return (SUCCESS);
-	reset_signals();
-	setup_fds(cmd);
-	ft_lstiter(cmd_list, close_fds);
-	log_msg(DEBUG, "executing %s", cmd->bin);
-	execve(cmd->bin, cmd->args, envp_array);
-	log_msg(ERROR, "execve: %s: %s", cmd->bin, strerror(errno));
-	cmd->status = EXIT_MASK | 1;
-	return (FAILURE);
+	return (exec_child(cmd, cmd_list, envp_array, evars));
 }

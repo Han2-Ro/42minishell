@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:49:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	wait_pids(t_list *cmd_list)
 		log_msg(DEBUG, "waiting for pid: %d", cmd->pid);
 		if (((t_cmd *)tmp->content)->pid > 0)
 		{
+			stat = 0;
 			waitpid(cmd->pid, &stat, 0);
 			if (WIFEXITED(stat))
 				cmd->status = WEXITSTATUS(stat);

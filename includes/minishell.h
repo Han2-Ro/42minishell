@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 20:40:39 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:26:17 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_evars
 	t_list			*envl;
 	int				status;
 	int				tty;
+	bool			is_child;
 }					t_evars;
 
 /**
