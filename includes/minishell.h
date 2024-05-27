@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:09:05 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 20:40:39 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ void				print_token_new(void *p_tkn);
 int					log_msg(t_log_level level, char *msg, ...);
 
 // utils.c
-bool				fd_is_pipe(int fd);
 t_cmd				*new_cmd(char *bin, char **args);
 void				free_token(void *content);
 void				free_cmd(void *content);
