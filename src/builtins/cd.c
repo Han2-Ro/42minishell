@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/25 16:51:38 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 16:58:59 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void	update_pwd_oldpwd(t_list **envp, char *new_cwd, char *old_cwd)
 {

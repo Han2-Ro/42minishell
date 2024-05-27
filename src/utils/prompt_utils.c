@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/25 19:42:10 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	*get_prompt(t_evars *evars)
 {
@@ -35,7 +35,7 @@ char	*get_prompt(t_evars *evars)
 	else if (pwd)
 		prompt = vstrjoin(3, "\001\033[36m\002", pwd, end);
 	else
-		prompt = vstrjoin(3, "\001\033[1;36m\002",
-				"爪丨几丨丂卄乇ㄥㄥ\001\33[22m\002", end);
+		prompt = vstrjoin(3, "\001\033[1;36m\002", "爪丨几丨丂卄乇ㄥㄥ\001\33[22m\002",
+				end);
 	return (prompt);
 }

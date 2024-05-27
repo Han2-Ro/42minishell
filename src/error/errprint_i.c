@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errprint_i.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 17:05:17 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 13:49:46 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:04:09 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/errprintf.h"
+#include "errprintf.h"
 
 int	errprint_i(int n)
 {

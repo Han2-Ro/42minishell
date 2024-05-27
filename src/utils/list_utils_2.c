@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 21:59:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/07 15:58:46 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	ft_lstsize(t_list *lst)
 {

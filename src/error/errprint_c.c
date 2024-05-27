@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errprint_c.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 14:01:18 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/14 14:04:21 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:04:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/errprintf.h"
+#include "errprintf.h"
 
 int	errprint_c(char c)
 {

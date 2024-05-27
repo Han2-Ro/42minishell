@@ -6,11 +6,11 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 12:53:14 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/08 13:09:14 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:05:24 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	seperate_token(t_list **list, char *str, int from, int to)
 {
