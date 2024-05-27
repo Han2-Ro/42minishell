@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:09:05 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ int					expand_token_list(t_list **token_lst, const t_evars evars);
 
 // print_structs.c
 void				print_cmd(void *command);
-void				print_token(void *token);
 void				print_token_new(void *p_tkn);
 
 // log.c

@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:09 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 17:09:11 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,7 @@ void	print_cmd(void *command)
 		i++;
 	}
 	log_msg(level, "fd_in: %d, fd_out: %d", cmd->fd_in, cmd->fd_out);
-	ft_lstiter(cmd->redirects, print_token);
-}
-
-void	print_token(void *token)
-{
-	t_token	*tkn;
-
-	tkn = (t_token *)token;
-	log_msg(DEBUG, "type: %i value: %s", tkn->type, tkn->value);
+	ft_lstiter(cmd->redirects, print_token_new);
 }
 
 void	print_token_new(void *p_tkn)
