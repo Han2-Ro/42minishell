@@ -6,25 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:33 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 20:40:46 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/stat.h>
 #include <sys/types.h>
-
-// TODO: Do we even need this anymore?
-bool	fd_is_pipe(int fd)
-{
-	struct stat	buf;
-
-	fstat(fd, &buf);
-	if (S_ISFIFO(buf.st_mode))
-		return (true);
-	else
-		return (false);
-}
 
 /**
  * @brief This is only used in exit, cd,
