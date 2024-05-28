@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 21:39:32 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/28 17:48:18 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	exec_child(t_cmd *cmd, t_list *cmd_list, char **envp_array, t_evars *evars)
 	evars->is_child = true;
 	reset_signals();
 	setup_fds(cmd);
+	(void)cmd_list;
 	ft_lstiter(cmd_list, close_fds);
 	if (is_builtin(cmd))
 	{
@@ -78,6 +79,9 @@ int	exec_child(t_cmd *cmd, t_list *cmd_list, char **envp_array, t_evars *evars)
 		close(STDOUT_FILENO);
 		return (cmd->status);
 	}
+	cmd->status = check_bin(cmd->bin);
+	if (cmd->status != SUCCESS)
+		return (cmd->status);
 	log_msg(DEBUG, "executing %s", cmd->bin);
 	execve(cmd->bin, cmd->args, envp_array);
 	log_msg(ERROR, "execve: %s: %s", cmd->bin, strerror(errno));
@@ -100,10 +104,7 @@ int	exec_cmd(t_cmd *cmd, t_list *cmd_list, t_evars *evars, char **envp_array)
 	else
 	{
 		cmd->bin = path_to_bin(cmd->args[0], evars->envl);
-		cmd->status = check_bin(cmd->bin);
 	}
-	if (cmd->status != SUCCESS)
-		return (cmd->status);
 	cmd->pid = fork();
 	if (cmd->pid < 0)
 		return (log_msg(ERROR, "fork: %s", strerror(errno)), FAILURE);
