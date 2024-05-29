@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/29 12:45:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:55:46 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_token	*lex_redirect(const char *line, unsigned int *i)
 	if (!(token->value))
 		return (free(token), NULL);
 	if (token->type == R_HEREDOC && (ft_strchr(token->value, '\'')
-				|| ft_strchr(token->value, '"')))
+			|| ft_strchr(token->value, '"')))
 		token->type = R_QUOTEDOC;
 	*i += lex_len;
 	return (token);
