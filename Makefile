@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS = -Wall -Wextra -Werror -I./includes -g
+CFLAGS = -Wall -Wextra -Werror -I./includes
 RM = rm -rf
 
 SRC_DIR = src
