@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 13:37:52 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/29 13:01:31 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 13:05:43 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	builtin_cd(const t_cmd *cmd, t_list **envp)
 		log_msg(ERROR, "cd: " MSG_WRONG_ARGC);
 		return (EXIT_FAILURE);
 	}
-	if (dont_run(cmd))
-		return (EXIT_SUCCESS);
 	old_cwd = getcwd(NULL, 0);
 	if (chdir(cmd->args[1]) != EXIT_SUCCESS)
 		return (log_msg(ERROR, "cd: %s", strerror(errno)), free(old_cwd),
