@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/28 17:48:18 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:32:49 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_bin(char *bin)
 
 int	exec_child(t_cmd *cmd, t_list *cmd_list, char **envp_array, t_evars *evars)
 {
-	evars->is_child = true;
+	evars->state = CHILD;
 	reset_signals();
 	setup_fds(cmd);
 	(void)cmd_list;

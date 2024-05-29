@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 21:26:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:50:06 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ typedef enum token_type
 	R_QUOTEDOC
 }					t_token_type;
 
+typedef enum state
+{
+	DEFAULT,
+	CHILD,
+	EXIT
+}					t_state;
+
 typedef enum log_level
 {
 	ERROR,
@@ -104,7 +111,7 @@ typedef struct s_evars
 	t_list			*envl;
 	int				status;
 	int				tty;
-	bool			is_child;
+	t_state			state;
 }					t_evars;
 
 /**

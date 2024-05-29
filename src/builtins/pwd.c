@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:17:44 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:51 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:39:09 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_pwd(const t_cmd *cmd, t_list **envp)
+int	builtin_pwd(const t_cmd *cmd)
 {
 	char	*cwd;
 
-	(void)envp;
 	log_msg(DEBUG, "executing builtin_pwd");
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
