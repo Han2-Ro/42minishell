@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 17:59:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/29 11:50:40 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/29 23:31:01 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	builtin_exit(const t_cmd *cmd, t_evars *evars)
 	if (cmd->args[1] != NULL)
 	{
 		evars->status = get_exit_status(cmd->args[1]);
-		if (evars->state != CHILD)
-			evars->state = EXIT;
 	}
+	if (evars->state != CHILD)
+		evars->state = EXIT;
 	return (evars->status);
 }
