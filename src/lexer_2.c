@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:13:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 12:55:46 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,6 @@ static t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 {
 	int	j;
 
-	j = 0;
-	while (redir_str[j] == redir_str[0] && j < 2)
-		j++;
 	if (redir_str[0] == '>' && redir_str[1] == '>' && !ft_strchr("<>",
 			redir_str[2]))
 		return (*i += 2, R_APPEND);
@@ -91,8 +88,10 @@ static t_token_type	redirect_type(const char *redir_str, unsigned int *i)
 		return (*i += 2, R_HEREDOC);
 	else if (redir_str[0] == '<' && !ft_strchr("<>", redir_str[1]))
 		return (*i += 1, R_IN);
+	j = 0;
+	while (redir_str[j] == redir_str[0] && j < 2)
+		j++;
 	return (log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, redir_str[j]), NOTDEF);
-	skip_until(redir_str, i, "<>", false);
 }
 
 t_token	*lex_redirect(const char *line, unsigned int *i)
@@ -111,6 +110,9 @@ t_token	*lex_redirect(const char *line, unsigned int *i)
 	token->type = redir_type;
 	skip_until(line, i, WHITESPACE, false);
 	lex_len = arg_len(&line[*i]);
+	if (lex_len == 0)
+		return (free(token), log_msg(ERROR, MSG_SYNTAX_ERR_NEAR, line[*i]),
+			NULL);
 	token->value = ft_substr(line, *i, lex_len);
 	if (!(token->value))
 		return (free(token), NULL);
