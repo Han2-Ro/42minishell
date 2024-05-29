@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 15:55:25 by hannes            #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:54 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:30:49 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	builtin_unset(const t_cmd *cmd, t_list **envp)
 {
 	int	i;
 
-	if (dont_run(cmd))
-		return (SUCCESS);
 	i = 1;
 	while (cmd->args[i] != NULL)
 	{

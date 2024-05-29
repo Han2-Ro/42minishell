@@ -6,25 +6,13 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:45:46 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 20:40:46 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/27 21:30:28 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/stat.h>
 #include <sys/types.h>
-
-/**
- * @brief This is only used in exit, cd,
-	export and unset to see if we should not run a command
- */
-bool	dont_run(const t_cmd *cmd)
-{
-	if (cmd->is_pipeline)
-		return (true);
-	else
-		return (false);
-}
 
 void	set_is_pipeline(t_list *cmds)
 {

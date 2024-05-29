@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:02:55 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/29 11:59:56 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	shell_loop(t_evars *evars)
 		g_signal = 0;
 		evars->status = process_line(line, evars);
 		free(line);
-		if (evars->status & EXIT_MASK)
+		if (evars->state == EXIT || evars->state == CHILD)
 			break ;
 	}
 	rl_clear_history();
-	return (evars->status & STATUS_MASK);
+	return (evars->status);
 }
