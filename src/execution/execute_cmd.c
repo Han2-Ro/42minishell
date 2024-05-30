@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 16:21:59 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/29 11:32:49 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:49:07 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	exec_child(t_cmd *cmd, t_list *cmd_list, char **envp_array, t_evars *evars)
 	log_msg(DEBUG, "executing %s", cmd->bin);
 	execve(cmd->bin, cmd->args, envp_array);
 	log_msg(ERROR, "execve: %s: %s", cmd->bin, strerror(errno));
-	cmd->status = EXIT_MASK | 1;
 	return (FAILURE);
 }
 
