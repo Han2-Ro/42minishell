@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_bin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 13:46:04 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/30 17:49:52 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*path_to_bin(char *cmd, t_list *envp)
 	}
 	folders = get_envpath(envp);
 	i = 0;
-	while (folders && folders[i])
+	while (*cmd && folders && folders[i])
 	{
 		path = build_path(folders[i], cmd);
 		if (path && access(path, X_OK) == 0)
