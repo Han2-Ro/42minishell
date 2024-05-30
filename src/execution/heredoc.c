@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:53:19 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:05:18 by hrother          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:58:41 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	read_until_delimiter(int fd, const t_token *token, t_evars *evars)
 		if (line == NULL)
 		{
 			log_msg(ERROR, MSG_EOF, token->value);
-			return (FAILURE);
+			return (SUCCESS);
 		}
 		if (ft_strcmp(line, token->value) == 0)
 		{
@@ -34,7 +34,7 @@ int	read_until_delimiter(int fd, const t_token *token, t_evars *evars)
 		if (token->type == R_HEREDOC)
 			expand_heredoc(&line, *evars);
 		if (line == NULL)
-			return (SUCCESS);
+			return (FAILURE);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
