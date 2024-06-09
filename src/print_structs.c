@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_structs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 22:12:46 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:09:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/06/09 11:07:20 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,15 @@ void	print_token_new(void *p_tkn)
 	char	*names[9];
 
 	names[0] = "NOTDEF		";
-	names[1] = "CMD			";
-	names[2] = "ARG			";
-	names[3] = "R_IN		";
-	names[4] = "R_OUT		";
-	names[5] = "R_APPEND	";
-	names[6] = "R_HEREDOC	";
-	names[7] = "PIPE		";
-	names[8] = "R_QUOTEDOC	";
+	names[1] = "ARG			";
+	names[2] = "R_IN		";
+	names[3] = "R_OUT		";
+	names[4] = "R_APPEND	";
+	names[5] = "R_HEREDOC	";
+	names[6] = "PIPE		";
+	names[7] = "R_QUOTEDOC	";
 	token = ((t_token *)p_tkn);
-	if (token->type < 0 || token->type > 8)
+	if (token->type < 0 || token->type > 7)
 		log_msg(WARNING, "type = %i: Type out of range!\n", token->type);
 	log_msg(DEBUG, "%i:%s [%s]", token->type, names[token->type], token->value);
 }

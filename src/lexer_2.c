@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/29 12:55:46 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:23:34 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token	*lex_cmd(const char *line, unsigned int *i)
-{
-	t_token			*token;
-	unsigned int	lex_len;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	lex_len = 0;
-	skip_until(&line[*i], &lex_len, WHITESPACE "|<>", true);
-	token->type = ARG;
-	token->value = ft_substr(line, *i, lex_len);
-	if (!(token->value))
-		return (free(token), NULL);
-	*i += lex_len;
-	return (token);
-}
 
 static unsigned int	arg_len(const char *arg)
 {
