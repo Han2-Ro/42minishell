@@ -20,7 +20,8 @@ int	read_until_delimiter(int fd, const t_token *token, t_evars *evars)
 	{
 		line = ft_readline("> ", evars->tty);
 		if (g_signal == SIGINT)
-			return (free(line), g_signal = 0, FAILURE);
+			return (free(line), evars->status = 128 + g_signal, g_signal = 0,
+				FAILURE);
 		if (line == NULL)
 		{
 			log_msg(ERROR, MSG_EOF, token->value);
