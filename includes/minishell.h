@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/09 11:35:56 by hannes           ###   ########.fr       */
+/*   Updated: 2024/06/09 11:42:04 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,7 @@ void				free_cmd(void *content);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
-int					is_space(char c);
 void				pass(void *content);
-int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
 void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
@@ -205,7 +203,6 @@ t_token				*new_token(t_token_type type, char *value);
 char				*read_next_line(int fd);
 char				*vstrjoin(int nbr_of_strs, ...);
 void				set_is_pipeline(t_list *cmds);
-bool				dont_run(const t_cmd *cmd);
 
 char				*get_prompt(t_evars *evars);
 
