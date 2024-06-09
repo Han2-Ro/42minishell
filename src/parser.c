@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:58:13 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:04 by hrother          ###   ########.fr       */
+/*   Updated: 2024/06/07 19:31:30 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	process_token(t_token *token, t_cmd **cmd)
 
 	log_msg(DEBUG, "Processing token: type:%i value:%s", token->type,
 		token->value);
-	if (token->type == ARG || token->type == CMD)
+	if (token->type == ARG)
 	{
 		i = 0;
 		while ((*cmd)->args[i] != NULL)
@@ -66,8 +66,7 @@ int	count_args(t_list *tokens)
 	current = tokens;
 	while (current != NULL)
 	{
-		if (((t_token *)current->content)->type == ARG
-			|| ((t_token *)current->content)->type == CMD)
+		if (((t_token *)current->content)->type == ARG)
 			count++;
 		if (((t_token *)current->content)->type == PIPE)
 			break ;

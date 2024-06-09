@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 15:06:11 by hrother           #+#    #+#             */
-/*   Updated: 2024/05/29 11:31:11 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:11:02 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	clear_gnl_buf(void)
-{
-	char	*str;
-
-	str = NULL;
-	log_msg(DEBUG, "running gnl until it is NULL");
-	str = get_next_line(STDIN_FILENO);
-	while (str != NULL)
-	{
-		log_msg(DEBUG, "gnl: %s", str);
-		free(str);
-		str = get_next_line(STDIN_FILENO);
-	}
-}
 
 int	main(int argc, char const *argv[], char *envp[])
 {

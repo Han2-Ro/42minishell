@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
+/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/29 11:50:06 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:42:04 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ extern int			g_signal;
 typedef enum token_type
 {
 	NOTDEF,
-	CMD,
 	ARG,
 	R_IN,
 	R_OUT,
@@ -116,7 +115,7 @@ typedef struct s_evars
 
 /**
  * @brief A command to be executed
- * @param bin the actual command.
+ * @param bin The path to the bin. This string is malloced.
  * @param args A list of strings.
  * @param in A list of input redirections
  * @param out A list of output redirections
@@ -156,11 +155,10 @@ void				ft_lstrmvone(t_list **head, t_list *node,
 
 // environment.c
 void				free_env(void *content);
-void				print_env(void *content);
-char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
 const t_list		*find_env(const t_list *list, const char *key);
 char				*get_envvalue(const t_list *envlst, const char *key);
+
 /**
 	* @brief Get the value from a string like "key=value"
 	* @param arg The string to extract the value from
@@ -168,6 +166,7 @@ char				*get_envvalue(const t_list *envlst, const char *key);
 		that must be freed or NULL on error
 	*/
 char				*get_value(const char *arg);
+
 /**
 	* @brief Get the key from a string like "key=value"
 	* @param arg The string to extract the key from
@@ -196,9 +195,7 @@ void				free_cmd(void *content);
 void				free_redir(void *content);
 void				free_str_arr(char **strs, int size);
 void				free_nullterm_str_arr(char **strs);
-int					is_space(char c);
 void				pass(void *content);
-int					is_space(char c);
 int					ft_strcmp(const char *s1, const char *s2);
 void				skip_until(const char *str, unsigned int *i,
 						const char *charset, bool val);
@@ -206,7 +203,6 @@ t_token				*new_token(t_token_type type, char *value);
 char				*read_next_line(int fd);
 char				*vstrjoin(int nbr_of_strs, ...);
 void				set_is_pipeline(t_list *cmds);
-bool				dont_run(const t_cmd *cmd);
 
 char				*get_prompt(t_evars *evars);
 
