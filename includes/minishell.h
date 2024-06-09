@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/07 18:52:49 by hannes           ###   ########.fr       */
+/*   Updated: 2024/06/09 11:27:47 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ typedef struct s_evars
 
 /**
  * @brief A command to be executed
- * @param bin the actual command.
+ * @param bin The path to the bin. This string is malloced.
  * @param args A list of strings.
  * @param in A list of input redirections
  * @param out A list of output redirections
@@ -155,7 +155,6 @@ void				ft_lstrmvone(t_list **head, t_list *node,
 
 // environment.c
 void				free_env(void *content);
-void				print_env(void *content);
 char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
 const t_list		*find_env(const t_list *list, const char *key);
