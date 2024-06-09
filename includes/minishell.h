@@ -6,7 +6,7 @@
 /*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:10:11 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/09 11:27:47 by hannes           ###   ########.fr       */
+/*   Updated: 2024/06/09 11:35:56 by hannes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,10 @@ void				ft_lstrmvone(t_list **head, t_list *node,
 
 // environment.c
 void				free_env(void *content);
-char				*combine_key_value(char *key, char *value);
 t_env				*new_env(char *key, char *value);
 const t_list		*find_env(const t_list *list, const char *key);
 char				*get_envvalue(const t_list *envlst, const char *key);
+
 /**
 	* @brief Get the value from a string like "key=value"
 	* @param arg The string to extract the value from
@@ -166,6 +166,7 @@ char				*get_envvalue(const t_list *envlst, const char *key);
 		that must be freed or NULL on error
 	*/
 char				*get_value(const char *arg);
+
 /**
 	* @brief Get the key from a string like "key=value"
 	* @param arg The string to extract the key from
