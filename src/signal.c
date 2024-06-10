@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/27 17:03:17 by hrother          ###   ########.fr       */
+/*   Updated: 2024/06/10 11:42:57 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	idle_signal_handler(int sig_num)
 	log_msg(DEBUG, "signal recived by idle_signal_handler");
 	if (sig_num == SIGINT)
 	{
-		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		ft_putchar_fd('\n', STDERR_FILENO);
 		rl_replace_line("", 0);
 		rl_on_new_line();
+		rl_redisplay();
 	}
 	g_signal = sig_num;
 }

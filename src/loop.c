@@ -6,7 +6,7 @@
 /*   By: hrother <hrother@student.42vienna.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 15:59:50 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/30 18:08:11 by hrother          ###   ########.fr       */
+/*   Updated: 2024/06/10 11:12:58 by hrother          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	shell_loop(t_evars *evars)
 
 	while (1)
 	{
+		if (evars->status == 130 || evars->status == 131)
+			ft_putchar_fd('\n', STDERR_FILENO);
 		idle_signals();
 		line = get_line(evars);
 		if (!line)
