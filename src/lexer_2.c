@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hannes <hrother@student.42vienna.com>      +#+  +:+       +#+        */
+/*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:46:13 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/09 11:23:34 by hannes           ###   ########.fr       */
+/*   Updated: 2024/06/12 21:13:43 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ static unsigned int	arg_len(const char *arg)
 		{
 			len++;
 			skip_until(arg, &len, "\'", true);
-			len++;
+			if (arg[len])
+				len++;
 		}
 		else if (arg[len] == '\"')
 		{
 			len++;
 			skip_until(arg, &len, "\"", true);
-			len++;
+			if (arg[len])
+				len++;
 		}
 		else if (!ft_strchr(WHITESPACE "<>|", arg[len]))
 			skip_until(arg, &len, WHITESPACE "\"\'<>|", true);
