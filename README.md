@@ -20,4 +20,5 @@ Minishell is a very simple, custom-built shell inspired by bash. This project fo
 - Command history navigation using arrow keys (via termcap).
 
 ## Team
-@aprevrah, @Han2-Ro 
+- [Anton](https://github.com/aprevrah)
+- [Hannes](https://github.com/Han2-Ro) 
