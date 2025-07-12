@@ -9,14 +9,14 @@ Minishell is a very simple, custom-built shell inspired by bash. This project fo
 
 ### Features:
 - Custom command prompt.
-- Execution of commands via absolute, relative paths, or $PATH environment variable.
+- Execution of commands via absolute, relative paths, or `$PATH` environment variable.
 - Built-in commands: echo, cd, pwd, export, unset, env, exit.
 - Quoting with ' and " (single and double quotes).
-- Redirections (<, >, >>).
-- Piping (|).
-- Environment variable expansion ($VARIABLE).
-- Exit status variable ($?).
-- Signal handling (Ctrl-C, Ctrl-D, Ctrl-\).
+- Redirections (`<`, `>`, `>>`).
+- Piping (`|`).
+- Environment variable expansion (`$VARIABLE`).
+- Exit status variable (`$?`).
+- Signal handling (`Ctrl-C`, `Ctrl-D`, `Ctrl-\`).
 - Command history navigation using arrow keys (via termcap).
 
 ## Team
